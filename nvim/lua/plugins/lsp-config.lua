@@ -19,8 +19,8 @@ return {
           "tsserver",
           "pyright",
           "tailwindcss",
+          "clangd"
         },
-        -- return ensure_installed
       })
     end,
   },
@@ -39,6 +39,7 @@ return {
         "tsserver",
         "pyright",
         "tailwindcss",
+        "clangd"
       }
 
       for _, lsp in ipairs(servers) do
@@ -46,9 +47,6 @@ return {
           capabilities = capabilities,
         }
       end
-
-
-
 
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("UserLspConfig", {}),
