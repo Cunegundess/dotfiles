@@ -5,6 +5,7 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       local builtin = require("telescope.builtin")
+      local telescope = require("telescope")
 
       require("telescope").setup({
         defaults = {
@@ -17,6 +18,12 @@ return {
             "--line-number",
             "--column",
             "--smart-case",
+            "--hidden"
+          },
+          pickers = {
+            find_files = {
+              hidden = true
+            }
           },
           prompt_prefix = "   ",
           selection_caret = "  ",
@@ -66,13 +73,16 @@ return {
             fuzzy = true,
             override_generic_sorter = true,
             override_file_sorter = true,
-            case_mode = "smart_case"
-          }
+            case_mode = "smart_case",
+          },
+          file_browser = {
+            -- theme = "dropdown",
+            hijack_netrw = true,
+         }
         },
 
-        extensions_list = { "themes", "terms" },
+        -- extensions_list = { "themes", "terms" },
       })
-
       vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
       vim.keymap.set("n", "<leader>fw", builtin.live_grep, {})
       vim.keymap.set("n", "<leader>fg", builtin.git_files, {})
@@ -82,6 +92,7 @@ return {
       vim.keymap.set("n", "<leader>th", builtin.colorscheme, {})
       vim.keymap.set("n", "<leader>fo", builtin.vim_options, {})
       vim.keymap.set("n", "<leader>fk", builtin.keymaps, {})
+      vim.keymap.set("n", "<leader>fe", telescope.extensions.file_browser.file_browser, {})
     end,
   },
   {
@@ -91,11 +102,18 @@ return {
     end,
   },
   {
-    'nvim-telescope/telescope-fzf-native.nvim',
+    "nvim-telescope/telescope-fzf-native.nvim",
     build =
-    'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
+    "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
     config = function()
       require("telescope").load_extension("fzf")
+    end,
+  },
+  {
+    "nvim-telescope/telescope-file-browser.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+    config = function()
+      require("telescope").load_extension("file_browser")
     end
-  }
+  },
 }
