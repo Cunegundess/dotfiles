@@ -14,7 +14,7 @@ return {
         },
         terminal_colors = true, -- enable terminal colors
       })                    -- calling setup is optional
-      -- vim.cmd([[colorscheme tokyodark]])
+      vim.cmd([[colorscheme tokyodark]])
     end,
   },
   {
