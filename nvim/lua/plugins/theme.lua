@@ -3,17 +3,17 @@ return {
     "tiagovla/tokyodark.nvim",
     config = function()
       require("tokyodark").setup({
-        transparent_background = true, -- set background to transparent
-        gamma = 1.00,                 -- adjust the brightness of the theme
+        transparent_background = false,    -- set background to transparent
+        gamma = 1.00,                      -- adjust the brightness of the theme
         styles = {
-          comments = { italic = true }, -- style for comments
-          keywords = { italic = true }, -- style for keywords
+          comments = { italic = true },    -- style for comments
+          keywords = { italic = true },    -- style for keywords
           identifiers = { italic = true }, -- style for identifiers
-          functions = {},             -- style for functions
-          variables = {},             -- style for variables
+          functions = {},                  -- style for functions
+          variables = {},                  -- style for variables
         },
-        terminal_colors = true, -- enable terminal colors
-      })                    -- calling setup is optional
+        terminal_colors = true,            -- enable terminal colors
+      })                                   -- calling setup is optional
       vim.cmd([[colorscheme tokyodark]])
     end,
   },
@@ -22,14 +22,14 @@ return {
     config = function()
       require("bamboo").setup({
         -- NOTE: to use the light theme, set `vim.o.background = 'light'`
-        style = "vulgaris",                                   -- Choose between 'vulgaris' (regular), 'multiplex' (greener), and 'light'
-        toggle_style_key = nil,                               -- Keybind to toggle theme style. Leave it nil to disable it, or set it to a string, e.g. "<leader>ts"
+        style = "vulgaris",                                       -- Choose between 'vulgaris' (regular), 'multiplex' (greener), and 'light'
+        toggle_style_key = nil,                                   -- Keybind to toggle theme style. Leave it nil to disable it, or set it to a string, e.g. "<leader>ts"
         toggle_style_list = { "vulgaris", "multiplex", "light" }, -- List of styles to toggle between
-        transparent = true,                                  -- Show/hide background
-        dim_inactive = false,                                 -- Dim inactive windows/buffers
-        term_colors = true,                                   -- Change terminal color as per the selected theme style
-        ending_tildes = false,                                -- Show the end-of-buffer tildes. By default they are hidden
-        cmp_itemkind_reverse = false,                         -- reverse item kind highlights in cmp menu
+        transparent = true,                                       -- Show/hide background
+        dim_inactive = false,                                     -- Dim inactive windows/buffers
+        term_colors = true,                                       -- Change terminal color as per the selected theme style
+        ending_tildes = false,                                    -- Show the end-of-buffer tildes. By default they are hidden
+        cmp_itemkind_reverse = false,                             -- reverse item kind highlights in cmp menu
 
         -- Change code style ---
         -- Options are anything that can be passed to the `vim.api.nvim_set_hl` table
@@ -51,13 +51,13 @@ return {
         },
 
         -- Custom Highlights --
-        colors = {}, -- Override default colors
+        colors = {},     -- Override default colors
         highlights = {}, -- Override highlight groups
 
         -- Plugins Config --
         diagnostics = {
-          darker = false, -- darker colors for diagnostic
-          undercurl = true, -- use undercurl instead of underline for diagnostics
+          darker = false,    -- darker colors for diagnostic
+          undercurl = true,  -- use undercurl instead of underline for diagnostics
           background = true, -- use background color for virtual text
         },
       })
@@ -69,15 +69,15 @@ return {
     config = function()
       require("tairiki").setup({
         -- Main options --
-        style = "dark",           -- Default theme style. Choose between 'dark' (more styles on the way)
-        transparent = true,      -- Show/hide background
-        term_colors = true,       -- Change terminal color as per the selected theme style
-        ending_tildes = false,    -- Show the end-of-buffer tildes. By default they are hidden
+        style = "dark",               -- Default theme style. Choose between 'dark' (more styles on the way)
+        transparent = true,           -- Show/hide background
+        term_colors = true,           -- Change terminal color as per the selected theme style
+        ending_tildes = false,        -- Show the end-of-buffer tildes. By default they are hidden
         cmp_itemkind_reverse = false, -- reverse item kind highlights in cmp menu
-        visual_bold = false,      -- bolden visual selections
+        visual_bold = false,          -- bolden visual selections
 
         -- toggle theme style ---
-        toggle_style_key = nil,     -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
+        toggle_style_key = nil,         -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
         toggle_style_list = { "dark" }, -- List of styles to toggle between TODO
 
         -- Change code style ---
@@ -97,13 +97,13 @@ return {
         },
 
         -- Custom Highlights --
-        colors = {}, -- Override default colors
+        colors = {},     -- Override default colors
         highlights = {}, -- Override highlight groups
 
         -- Plugins Config --
         diagnostics = {
-          darker = true, -- darker colors for diagnostic
-          undercurl = true, -- use undercurl instead of underline for diagnostics
+          darker = true,     -- darker colors for diagnostic
+          undercurl = true,  -- use undercurl instead of underline for diagnostics
           background = true, -- use background color for virtual text
         },
       })
@@ -145,22 +145,22 @@ return {
         devicons = true, -- highlight the icons of `nvim-web-devicons`
         styles = {
           comment = { italic = true },
-          keyword = { italic = true },  -- any other keyword
-          type = { italic = true },     -- (preferred) int, long, char, etc
-          storageclass = { italic = true }, -- static, register, volatile, etc
-          structure = { italic = true }, -- struct, union, enum, etc
-          parameter = { italic = true }, -- parameter pass in function
+          keyword = { italic = true },       -- any other keyword
+          type = { italic = true },          -- (preferred) int, long, char, etc
+          storageclass = { italic = true },  -- static, register, volatile, etc
+          structure = { italic = true },     -- struct, union, enum, etc
+          parameter = { italic = true },     -- parameter pass in function
           annotation = { italic = true },
           tag_attribute = { italic = true }, -- attribute of tag in reactjs
         },
-        filter = "pro",                 -- classic | octagon | pro | machine | ristretto | spectrum
+        filter = "pro",                      -- classic | octagon | pro | machine | ristretto | spectrum
         -- Enable this will disable filter option
         day_night = {
-          enable = false,       -- turn off by default
-          day_filter = "pro",   -- classic | octagon | pro | machine | ristretto | spectrum
+          enable = false,            -- turn off by default
+          day_filter = "pro",        -- classic | octagon | pro | machine | ristretto | spectrum
           night_filter = "spectrum", -- classic | octagon | pro | machine | ristretto | spectrum
         },
-        inc_search = "background", -- underline | background
+        inc_search = "background",   -- underline | background
         background_clear = {
           -- "float_win",
           "toggleterm",
@@ -191,4 +191,46 @@ return {
   {
     "ricardoraposo/gruvbox-minor.nvim",
   },
+  {
+    'morhetz/gruvbox',
+    config = function()
+      -- vim.cmd.colorscheme("gruvbox")
+    end
+  },
+  {
+    "nyoom-engineering/oxocarbon.nvim"
+  },
+  {
+    "rebelot/kanagawa.nvim",
+    config = function()
+      -- Default options:
+      require('kanagawa').setup({
+        compile = false,  -- enable compiling the colorscheme
+        undercurl = true, -- enable undercurls
+        commentStyle = { italic = true },
+        functionStyle = {},
+        keywordStyle = { italic = true },
+        statementStyle = { bold = true },
+        typeStyle = {},
+        transparent = false,   -- do not set background color
+        dimInactive = false,   -- dim inactive window `:h hl-NormalNC`
+        terminalColors = true, -- define vim.g.terminal_color_{0,17}
+        colors = {             -- add/modify theme and palette colors
+          palette = {},
+          theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
+        },
+        overrides = function(colors) -- add/modify highlights
+          return {}
+        end,
+        theme = "wave",  -- Load "wave" theme when 'background' option is not set
+        background = {   -- map the value of 'background' option to a theme
+          dark = "wave", -- try "dragon" !
+          light = "lotus"
+        },
+      })
+
+      -- setup must be called before loading
+      -- vim.cmd("colorscheme kanagawa")
+    end
+  }
 }
