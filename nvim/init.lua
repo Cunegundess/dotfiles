@@ -680,26 +680,68 @@ require('lazy').setup({
   },
 
   {
-    {
-      'sho-87/kanagawa-paper.nvim',
-      lazy = false,
-      priority = 1000,
-      opts = {
-        undercurl = true,
-        transparent = true,
-        gutter = false,
-        dimInactive = true, -- disabled when transparent
-        terminalColors = true,
+    'bettervim/yugen.nvim',
+    opts = {
+
+      highlight_groups = {
+
+        ['@string'] = { fg = '#FFBE89' },
+      },
+    },
+    config = function()
+      vim.cmd.colorscheme 'yugen'
+    end,
+  },
+
+  {
+    'rebelot/kanagawa.nvim',
+    config = function()
+      require('kanagawa').setup {
+        compile = false, -- enable compiling the colorscheme
+        undercurl = true, -- enable undercurls
         commentStyle = { italic = true },
-        functionStyle = { italic = false },
-        keywordStyle = { italic = false, bold = false },
-        statementStyle = { italic = false, bold = false },
-        typeStyle = { italic = false },
-        colors = { theme = {}, palette = {} }, -- override default palette and theme colors
-        overrides = function() -- override highlight groups
+        functionStyle = {},
+        keywordStyle = { italic = true },
+        statementStyle = { bold = true },
+        typeStyle = { bold = true },
+        transparent = true, -- do not set background color
+        dimInactive = false, -- dim inactive window `:h hl-NormalNC`
+        terminalColors = true, -- define vim.g.terminal_color_{0,17}
+        colors = { -- add/modify theme and palette colors
+          palette = {},
+          theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
+        },
+        overrides = function(colors) -- add/modify highlights
           return {}
         end,
-      },
+        theme = 'wave', -- Load "wave" theme when 'background' option is not set
+        background = { -- map the value of 'background' option to a theme
+          dark = 'wave', -- try "dragon" !
+          light = 'lotus',
+        },
+      }
+    end,
+  },
+
+  {
+    'sho-87/kanagawa-paper.nvim',
+    lazy = false,
+    priority = 1000,
+    opts = {
+      undercurl = true,
+      transparent = true,
+      gutter = false,
+      dimInactive = true, -- disabled when transparent
+      terminalColors = true,
+      commentStyle = { italic = true, bold = true },
+      functionStyle = { italic = true },
+      keywordStyle = { italic = false, bold = false },
+      statementStyle = { italic = false, bold = false },
+      typeStyle = { italic = true },
+      colors = { theme = {}, palette = {} }, -- override default palette and theme colors
+      overrides = function() -- override highlight groups
+        return {}
+      end,
     },
   },
 
@@ -750,7 +792,7 @@ require('lazy').setup({
           dark_background = true,
         },
       }
-      vim.cmd.colorscheme 'nordic'
+      -- vim.cmd.colorscheme 'nordic'
       vim.cmd [[
             highlight Normal guibg=none
             highlight NonText guibg=none
@@ -794,6 +836,8 @@ require('lazy').setup({
     end,
   },
 
+  { 'christoomey/vim-tmux-navigator' },
+
   {
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     'kvrohit/rasmus.nvim',
@@ -817,6 +861,55 @@ require('lazy').setup({
     end,
   },
 
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = function()
+      local yugen_theme = require 'custom.themes.lualine.yugen'
+
+      require('lualine').setup {
+        options = {
+          icons_enabled = true,
+          theme = yugen_theme,
+          component_separators = { left = '', right = '' },
+          section_separators = { left = '', right = '' },
+          disabled_filetypes = {
+            statusline = {},
+            winbar = {},
+          },
+          ignore_focus = {},
+          always_divide_middle = true,
+          globalstatus = true,
+          refresh = {
+            statusline = 1000,
+            tabline = 1000,
+            winbar = 1000,
+          },
+        },
+        sections = {
+          lualine_a = { 'mode' },
+          lualine_b = { 'branch', 'diff', 'diagnostics' },
+          lualine_c = { 'filename' },
+          lualine_x = { 'encoding', 'fileformat', 'filetype' },
+          lualine_y = { 'progress' },
+          lualine_z = { 'location' },
+        },
+        inactive_sections = {
+          lualine_a = {},
+          lualine_b = {},
+          lualine_c = { 'filename' },
+          lualine_x = { 'location' },
+          lualine_y = {},
+          lualine_z = {},
+        },
+        tabline = {},
+        winbar = {},
+        inactive_winbar = {},
+        extensions = {},
+      }
+    end,
+  },
+
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
@@ -837,26 +930,31 @@ require('lazy').setup({
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
+      require('mini.pairs').setup()
 
-      -- Simple and easy statusline.
-      --  You could remove this setup call if you don't like it,
-      --  and try some other statusline plugin
-      local statusline = require 'mini.statusline'
-      -- set use_icons to true if you have a Nerd Font
-      statusline.setup { use_icons = vim.g.have_nerd_font }
+      require('mini.comment').setup {
+        mappings = {
+          comment = '<C-_>',
+          comment_line = '<C-_>',
+          comment_visual = '<C-_>',
+          textobject = '<C-_>',
+        },
+      }
 
-      -- You can configure sections in the statusline by overriding their
-      -- default behavior. For example, here we set the section for
-      -- cursor location to LINE:COLUMN
-      ---@diagnostic disable-next-line: duplicate-set-field
-      statusline.section_location = function()
-        return '%2l:%-2v'
-      end
-
-      -- ... and there is more!
-      --  Check out: https://github.com/echasnovski/mini.nvim
+      -- local statusline = require 'mini.statusline'
+      -- -- set use_icons to true if you have a Nerd Font
+      -- statusline.setup { use_icons = vim.g.have_nerd_font }
+      --
+      -- -- You can configure sections in the statusline by overriding their
+      -- -- default behavior. For example, here we set the section for
+      -- -- cursor location to LINE:COLUMN
+      -- ---@diagnostic disable-next-line: duplicate-set-field
+      -- statusline.section_location = function()
+      --   return '%2l:%-2v'
+      -- end
     end,
   },
+
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
@@ -900,7 +998,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.lint',
-  require 'kickstart.plugins.autopairs',
+  -- require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
