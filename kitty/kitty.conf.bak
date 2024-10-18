@@ -1471,6 +1471,6 @@ map kitty_mod+f6 debug_config
 
 
 # BEGIN_KITTY_THEME
-# Rosé Pine
+# Adwaita dark
 include current-theme.conf
 # END_KITTY_THEME

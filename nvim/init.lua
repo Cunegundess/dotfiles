@@ -102,6 +102,16 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 
 vim.keymap.set('n', '<leader>e', '<cmd>Neotree filesystem toggle right<cr>', { desc = 'Open neotree' })
 
+-- Move around selected text (also indents)
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
+
+-- Keeps cursor in place when appeding line below to the current line
+vim.keymap.set('n', 'J', 'mzJ`z')
+
+-- Replace the word in the cursor
+vim.keymap.set('n', '<leader>r', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -304,6 +314,7 @@ require('lazy').setup({
           local map = function(keys, func, desc)
             vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
+          local opts = { buffer = event.buf }
 
           map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
           map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
@@ -314,6 +325,7 @@ require('lazy').setup({
           map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
           map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
           map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+          vim.keymap.set('n', '<leader>vf', vim.diagnostic.open_float, opts)
 
           local client = vim.lsp.get_client_by_id(event.data.client_id)
           if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
@@ -930,7 +942,7 @@ require('lazy').setup({
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
-      require('mini.pairs').setup()
+      -- require('mini.pairs').setup()
 
       require('mini.comment').setup {
         mappings = {
@@ -998,7 +1010,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
