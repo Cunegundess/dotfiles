@@ -382,18 +382,28 @@ require('lazy').setup({
               plugins = {
                 pycodestyle = {
                   enabled = true,
-                  ignore = { 'E501' },
+                  -- ignore = { 'E501' },
                   maxLineLength = 150,
                 },
-                pylint = { enabled = false },
+                pylint = {
+                  enabled = false,
+                  maxLineLength = 150,
+                },
                 pyflakes = { enabled = true },
                 mccabe = { enabled = false },
-                rope_completion = { enabled = false },
-                yapf = { enabled = false },
-                autopep8 = { enabled = false },
-                black = {
+                -- rope_completion = { enabled = true },
+                rope = { enabled = true },
+                yapf = {
                   enabled = true,
-                  maxLineLength = 100,
+                  maxLineLength = 150,
+                },
+                autopep8 = {
+                  enabled = false,
+                  maxLineLength = 150,
+                },
+                black = {
+                  enabled = false,
+                  maxLineLength = 150,
                 },
                 isort = { enabled = true },
               },
@@ -407,9 +417,9 @@ require('lazy').setup({
         rust_analyzer = {
           capabilities = capabilities,
         },
-        -- tsserver = {
-        --   capabilities = capabilities,
-        -- },
+        ts_ls = {
+          capabilities = capabilities,
+        },
         ast_grep = {
           capabilities = capabilities,
         },
@@ -438,6 +448,7 @@ require('lazy').setup({
         'isort',
         'prettier',
         'black',
+        'ts_ls',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -849,6 +860,39 @@ require('lazy').setup({
   },
 
   { 'christoomey/vim-tmux-navigator' },
+
+  {
+    'epwalsh/obsidian.nvim',
+    version = '*', -- recommended, use latest release instead of latest commit
+    lazy = true,
+    ft = 'markdown',
+    -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
+    -- event = {
+    --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
+    --   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
+    --   -- refer to `:h file-pattern` for more examples
+    --   "BufReadPre path/to/my-vault/*.md",
+    --   "BufNewFile path/to/my-vault/*.md",
+    -- },
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+    },
+    opts = {
+      workspaces = {
+        {
+          name = 'pessoal',
+          path = '~/Documentos/Obsidian/Pessoal/',
+        },
+        {
+          name = 'code',
+          path = '~/Documentos/Obsidian/Code/',
+        },
+      },
+    },
+    config = function()
+      vim.opt.conceallevel = 1
+    end,
+  },
 
   {
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
