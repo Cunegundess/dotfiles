@@ -20,9 +20,14 @@ local function parse_color(color)
   end
 
   color = color:lower()
+  -- local palette = require 'custom.themes.yugen.palette'
+
+  -- if not color:find '#' and color ~= 'none' then
+  --   color = require('custom.themes.yugen.palette')[color] or vim.api.nvim_get_color_by_name(color)
+  -- end
 
   if not color:find '#' and color ~= 'none' then
-    color = require('yugen.palette')[color] or vim.api.nvim_get_color_by_name(color)
+    color = vim.api.nvim_get_color_by_name(color)
   end
 
   return color

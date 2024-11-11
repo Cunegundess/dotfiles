@@ -291,7 +291,9 @@ require('lazy').setup({
       },
     },
   },
+
   { 'Bilal2453/luvit-meta', lazy = true },
+
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
@@ -362,6 +364,9 @@ require('lazy').setup({
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
       local servers = {
+        html = {
+          capabilities = capabilities,
+        },
         clangd = {
           capabilities = capabilities,
         },
@@ -371,46 +376,85 @@ require('lazy').setup({
         sqlls = {
           capabilities = capabilities,
         },
-        -- pyright = {
-        --   capabilities = capabilities,
-        -- },
-        pylsp = {
+        ruff = {
           capabilities = capabilities,
-          settings = {
-            pylsp = {
-              configurationSources = { 'pycodestyle' },
-              plugins = {
-                pycodestyle = {
-                  enabled = true,
-                  -- ignore = { 'E501' },
-                  maxLineLength = 150,
-                },
-                pylint = {
-                  enabled = false,
-                  maxLineLength = 150,
-                },
-                pyflakes = { enabled = true },
-                mccabe = { enabled = false },
-                -- rope_completion = { enabled = true },
-                rope = { enabled = true },
-                yapf = {
-                  enabled = true,
-                  maxLineLength = 150,
-                },
-                autopep8 = {
-                  enabled = false,
-                  maxLineLength = 150,
-                },
-                black = {
-                  enabled = false,
-                  maxLineLength = 150,
-                },
-                isort = { enabled = true },
+          init_options = {
+            settings = {
+              showSyntaxErrors = true,
+              organizeImports = true,
+              lineLength = 100,
+              fixAll = true,
+              unsafeFixes = true,
+              lint = {
+                enable = true,
+                preview = true,
+                select = { 'F', 'E', 'W', 'I', 'N' },
+                extendSelect = { 'F', 'E', 'W', 'I', 'N' },
+              },
+              format = {
+                preview = true,
               },
             },
           },
         },
-
+        -- pylsp = {
+        --   capabilities = capabilities,
+        --   settings = {
+        --     pylsp = {
+        --       configurationSources = { 'ruff' },
+        --       plugins = {
+        --         pycodestyle = {
+        --           enabled = false,
+        --           -- ignore = { 'E501' },
+        --           maxLineLength = 150,
+        --         },
+        --         pylint = {
+        --           enabled = false,
+        --           maxLineLength = 150,
+        --         },
+        --         ruff = {
+        --           enabled = true, -- Enable the plugin
+        --           formatEnabled = true, -- Enable formatting using ruffs formatter
+        --           -- extendSelect = { 'I' }, -- Rules that are additionally used by ruff
+        --           extendSelect = { 'F', 'E', 'W', 'I', 'N' },
+        --           -- extendSelect = { 'ALL' },
+        --           extendIgnore = { '' }, -- Rules that are additionally ignored by ruff
+        --           -- format = { 'I' }, -- Rules that are marked as fixable by ruff that should be fixed when running textDocument/formatting
+        --           format = { 'F', 'E', 'W', 'I', 'N' },
+        --           severities = { ['D212'] = 'I' }, -- Optional table of rules where a custom severity is desired
+        --           unsafeFixes = true, -- Whether or not to offer unsafe fixes as code actions. Ignored with the "Fix All" action
+        --
+        --           -- Rules that are ignored when a pyproject.toml or ruff.toml is present:
+        --           lineLength = 88, -- Line length to pass to ruff checking and formatting
+        --           exclude = { '__about__.py' }, -- Files to be excluded by ruff checking
+        --           select = { 'F', 'E', 'W', 'I', 'N' }, -- Rules to be enabled by ruff
+        --           -- select = { 'ALL' }, -- Rules to be enabled by ruff
+        --           ignore = { '' }, -- Rules to be ignored by ruff
+        --           perFileIgnores = { ['__init__.py'] = 'CPY001' }, -- Rules that should be ignored for specific files
+        --           preview = true, -- Whether to enable the preview style linting and formatting.
+        --           targetVersion = 'py38', -- The minimum python version to target (applies for both linting and formatting).
+        --         },
+        --         pyflakes = { enabled = false },
+        --         mccabe = { enabled = false },
+        --         rope = { enabled = false },
+        --         rope_completion = { enabled = false },
+        --         yapf = {
+        --           enabled = false,
+        --           maxLineLength = 150,
+        --         },
+        --         autopep8 = {
+        --           enabled = false,
+        --           maxLineLength = 150,
+        --         },
+        --         black = {
+        --           enabled = false,
+        --           maxLineLength = 150,
+        --         },
+        --         isort = { enabled = false },
+        --       },
+        --     },
+        --   },
+        -- },
         -- gopls = {
         --   capabilities = capabilities,
         -- },
@@ -627,10 +671,6 @@ require('lazy').setup({
   },
 
   {
-    'davidosomething/vim-colors-meh',
-  },
-
-  {
     'rose-pine/neovim',
     name = 'rose-pine',
     config = function()
@@ -692,153 +732,18 @@ require('lazy').setup({
   },
 
   {
-    'slugbyte/lackluster.nvim',
-    lazy = false,
-    priority = 1000,
-    init = function()
-      -- vim.cmd.colorscheme 'lackluster'
-      -- vim.cmd.colorscheme("lackluster-hack") -- my favorite
-      -- vim.cmd.colorscheme("lackluster-mint")
-    end,
-  },
-
-  {
     'bettervim/yugen.nvim',
-    opts = {
-
-      highlight_groups = {
-
-        ['@string'] = { fg = '#FFBE89' },
-      },
-    },
+    -- opts = {
+    --   highlight_groups = {
+    --     ['@string'] = { fg = '#FFBE89' },
+    --   },
+    -- },
     config = function()
       vim.cmd.colorscheme 'yugen'
     end,
   },
 
-  {
-    'rebelot/kanagawa.nvim',
-    config = function()
-      require('kanagawa').setup {
-        compile = false, -- enable compiling the colorscheme
-        undercurl = true, -- enable undercurls
-        commentStyle = { italic = true },
-        functionStyle = {},
-        keywordStyle = { italic = true },
-        statementStyle = { bold = true },
-        typeStyle = { bold = true },
-        transparent = true, -- do not set background color
-        dimInactive = false, -- dim inactive window `:h hl-NormalNC`
-        terminalColors = true, -- define vim.g.terminal_color_{0,17}
-        colors = { -- add/modify theme and palette colors
-          palette = {},
-          theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
-        },
-        overrides = function(colors) -- add/modify highlights
-          return {}
-        end,
-        theme = 'wave', -- Load "wave" theme when 'background' option is not set
-        background = { -- map the value of 'background' option to a theme
-          dark = 'wave', -- try "dragon" !
-          light = 'lotus',
-        },
-      }
-    end,
-  },
-
-  {
-    'sho-87/kanagawa-paper.nvim',
-    lazy = false,
-    priority = 1000,
-    opts = {
-      undercurl = true,
-      transparent = true,
-      gutter = false,
-      dimInactive = true, -- disabled when transparent
-      terminalColors = true,
-      commentStyle = { italic = true, bold = true },
-      functionStyle = { italic = true },
-      keywordStyle = { italic = false, bold = false },
-      statementStyle = { italic = false, bold = false },
-      typeStyle = { italic = true },
-      colors = { theme = {}, palette = {} }, -- override default palette and theme colors
-      overrides = function() -- override highlight groups
-        return {}
-      end,
-    },
-  },
-
-  {
-    'shaunsingh/nord.nvim',
-  },
-
-  {
-    'AlexvZyl/nordic.nvim',
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require('nordic').load()
-      require('nordic').setup {
-        bold_keywords = true,
-        italic_comments = true,
-        transparent = {
-          bg = true,
-          float = true,
-        },
-        -- Enable brighter float border.
-        bright_border = false,
-        -- Reduce the overall amount of blue in the theme (diverges from base Nord).
-        reduced_blue = true,
-        -- Swap the dark background with the normal one.
-        swap_backgrounds = false,
-        cursorline = {
-          bold = true,
-          bold_number = true,
-          theme = 'dark',
-          -- Blending the cursorline bg with the buffer bg.
-          blend = 0.85,
-        },
-        noice = {
-          -- Available styles: `classic`, `flat`.
-          style = 'classic',
-        },
-        telescope = {
-          -- Available styles: `classic`, `flat`.
-          style = 'flat',
-        },
-        leap = {
-          -- Dims the backdrop when using leap.
-          dim_backdrop = false,
-        },
-        ts_context = {
-          -- Enables dark background for treesitter-context window
-          dark_background = true,
-        },
-      }
-      -- vim.cmd.colorscheme 'nordic'
-      vim.cmd [[
-            highlight Normal guibg=none
-            highlight NonText guibg=none
-            highlight Normal ctermbg=none
-            highlight NonText ctermbg=none
-        ]]
-    end,
-  },
-
-  {
-    'zenbones-theme/zenbones.nvim',
-    -- Optionally install Lush. Allows for more configuration or extending the colorscheme
-    -- If you don't want to install lush, make sure to set g:zenbones_compat = 1
-    -- In Vim, compat mode is turned on as Lush only works in Neovim.
-    dependencies = 'rktjmp/lush.nvim',
-    lazy = false,
-    priority = 1000,
-    -- you can set set configuration options here
-    -- config = function()
-    --     vim.g.zenbones_darken_comments = 45
-    --     vim.cmd.colorscheme('zenbones')
-    -- end
-  },
+  { 'tjdevries/colorbuddy.nvim' },
 
   {
     'ThePrimeagen/harpoon',
@@ -862,6 +767,66 @@ require('lazy').setup({
   { 'christoomey/vim-tmux-navigator' },
 
   {
+    'brenoprata10/nvim-highlight-colors',
+    config = function()
+      require('nvim-highlight-colors').setup {
+        ---Render style
+        ---@usage 'background'|'foreground'|'virtual'
+        render = 'virtual',
+
+        ---Set virtual symbol (requires render to be set to 'virtual')
+        virtual_symbol = '■',
+
+        ---Set virtual symbol suffix (defaults to '')
+        virtual_symbol_prefix = '',
+
+        ---Set virtual symbol suffix (defaults to ' ')
+        virtual_symbol_suffix = ' ',
+
+        ---Set virtual symbol position()
+        ---@usage 'inline'|'eol'|'eow'
+        ---inline mimics VS Code style
+        ---eol stands for `end of column` - Recommended to set `virtual_symbol_suffix = ''` when used.
+        ---eow stands for `end of word` - Recommended to set `virtual_symbol_prefix = ' ' and virtual_symbol_suffix = ''` when used.
+        virtual_symbol_position = 'inline',
+
+        ---Highlight hex colors, e.g. '#FFFFFF'
+        enable_hex = true,
+
+        ---Highlight short hex colors e.g. '#fff'
+        enable_short_hex = true,
+
+        ---Highlight rgb colors, e.g. 'rgb(0 0 0)'
+        enable_rgb = true,
+
+        ---Highlight hsl colors, e.g. 'hsl(150deg 30% 40%)'
+        enable_hsl = true,
+
+        ---Highlight CSS variables, e.g. 'var(--testing-color)'
+        enable_var_usage = true,
+
+        ---Highlight named colors, e.g. 'green'
+        enable_named_colors = true,
+
+        ---Highlight tailwind colors, e.g. 'bg-blue-500'
+        enable_tailwind = false,
+
+        ---Set custom colors
+        ---Label must be properly escaped with '%' to adhere to `string.gmatch`
+        --- :help string.gmatch
+        custom_colors = {
+          { label = '%-%-theme%-primary%-color', color = '#0f1219' },
+          { label = '%-%-theme%-secondary%-color', color = '#5a5d64' },
+        },
+
+        -- Exclude filetypes or buftypes from highlighting e.g. 'exclude_buftypes = {'text'}'
+        exclude_filetypes = {},
+        exclude_buftypes = {},
+      }
+    end,
+  },
+
+  {
     'epwalsh/obsidian.nvim',
     version = '*', -- recommended, use latest release instead of latest commit
     lazy = true,
@@ -880,12 +845,8 @@ require('lazy').setup({
     opts = {
       workspaces = {
         {
-          name = 'pessoal',
-          path = '~/Documentos/Obsidian/Pessoal/',
-        },
-        {
-          name = 'code',
-          path = '~/Documentos/Obsidian/Code/',
+          name = 'vault',
+          path = '~/Documentos/Obsidian',
         },
       },
     },
@@ -895,7 +856,6 @@ require('lazy').setup({
   },
 
   {
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     'kvrohit/rasmus.nvim',
     priority = 1000,
     init = function()
@@ -927,8 +887,8 @@ require('lazy').setup({
         options = {
           icons_enabled = true,
           theme = yugen_theme,
-          component_separators = { left = '', right = '' },
-          section_separators = { left = '', right = '' },
+          component_separators = { left = '', right = '' },
+          section_separators = { left = '', right = '' },
           disabled_filetypes = {
             statusline = {},
             winbar = {},
@@ -1085,6 +1045,22 @@ require('lazy').setup({
     },
   },
 })
+
+-- vim.cmd.colorscheme 'gruvbuddy'
+
+-- vim.opt.rtp:append '~/.config/nvim/lua'
+--
+-- function set_custom_theme()
+--   local success, mytheme = pcall(require, 'custom.themes.yugen')
+--
+--   if success then
+--     mytheme.setup()
+--     vim.cmd 'colorscheme yugen-custom'
+--   end
+-- end
+--
+-- -- Chame a função para aplicar o tema
+-- set_custom_theme()
 
 -- Transparent background
 
