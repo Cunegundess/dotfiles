@@ -100,8 +100,6 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
-vim.keymap.set('n', '<leader>e', '<cmd>Neotree filesystem toggle right<cr>', { desc = 'Open neotree' })
-
 -- Move around selected text (also indents)
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
@@ -294,6 +292,10 @@ require('lazy').setup({
 
   { 'Bilal2453/luvit-meta', lazy = true },
 
+  -- {
+  --   'OmniSharp/omnisharp-vim',
+  -- },
+
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
@@ -371,6 +373,9 @@ require('lazy').setup({
           capabilities = capabilities,
         },
         cpplint = {
+          capabilities = capabilities,
+        },
+        omnisharp = {
           capabilities = capabilities,
         },
         sqlls = {
@@ -680,7 +685,7 @@ require('lazy').setup({
         },
       }
 
-      -- vim.cmd.colorscheme 'rose-pine-moon'
+      vim.cmd.colorscheme 'rose-pine-moon'
     end,
   },
 
@@ -739,7 +744,7 @@ require('lazy').setup({
     --   },
     -- },
     config = function()
-      vim.cmd.colorscheme 'yugen'
+      -- vim.cmd.colorscheme 'yugen'
     end,
   },
 
