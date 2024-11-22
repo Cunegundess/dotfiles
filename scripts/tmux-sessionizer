@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+# Define os diretórios base onde procurar os projetos
+base_dirs=("$HOME/Code/csharp" "$HOME/Code/youtan")
+
+# Se um nome de sessão for passado como argumento
+if [[ $# -eq 1 ]]; then
+    selected_name=$1
+    # Procura o diretório correspondente nas pastas base
+    for base_dir in "${base_dirs[@]}"; do
+        if [[ -d "$base_dir/$selected_name" ]]; then
+            selected="$base_dir/$selected_name"
+            break
+        fi
+    done
+    
+    # Se não encontrou o diretório, mostra erro e sai
+    if [[ -z $selected ]]; then
+        echo "Diretório não encontrado para: $selected_name"
+        exit 1
+    fi
+else
+    # Caso contrário, usa fzf para selecionar
+    selected=$(find "${base_dirs[@]}" -mindepth 1 -maxdepth 1 -type d | fzf)
+    if [[ -z $selected ]]; then
+        exit 0
+    fi
+    selected_name=$(basename "$selected" | tr . _)
+fi
+
+tmux_running=$(pgrep tmux)
+
+# Se não estiver em uma sessão tmux e o tmux não estiver rodando
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    tmux new-session -s "$selected_name" -c "$selected" \; \
+        new-window -n "docker" -c "$selected"
+    exit 0
+fi
+
+# Se a sessão não existir, cria uma nova
+if ! tmux has-session -t="$selected_name" 2> /dev/null; then
+    tmux new-session -ds "$selected_name" -c "$selected" \; \
+        new-window -n "docker" -c "$selected"
+fi
+
+# Conecta à sessão
+if [[ -z $TMUX ]]; then
+    tmux attach-session -t "$selected_name"
+else
+    tmux switch-client -t "$selected_name"
+fi
