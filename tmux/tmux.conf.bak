@@ -52,7 +52,7 @@ set -g mouse on
 # #set -g @rose_pine_window_status_separator ' > ' # Changes the default icon that appears bet
 # #set -g @rose_pine_status_left_prepend_section '#{tmux_mode_indicator}'
 
-set -g status-position bottom
+set -g status-position top
 # set -g status-justify left
 set -g status-style 'fg=white bg=default bold'
 # set -g status-left '#{tmux_mode_indicator}'
