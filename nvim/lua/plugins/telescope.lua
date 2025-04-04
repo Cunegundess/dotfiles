@@ -37,6 +37,9 @@ return { -- Fuzzy Finder (files, lsp, etc)
         colorscheme = {
           enable_preview = true,
         },
+        find_files = {
+          hidden = true,
+        },
       },
       extensions = {
         ['ui-select'] = {
