@@ -1,0 +1,140 @@
+{
+  "editor.lineNumbers": "relative",
+  "editor.fontFamily": "JetBrains Mono",
+  "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
+  "editor.fontWeight": "bold",
+  "terminal.integrated.fontWeight": "bold",
+  "terminal.integrated.fontSize": 12,
+  "editor.fontSize": 12,
+  "editor.lineHeight": 1.8,
+  "editor.fontLigatures": true,
+  "editor.semanticHighlighting.enabled": false,
+  "explorer.compactFolders": false,
+  "workbench.editor.labelFormat": "short",
+  "symbols.hidesExplorerArrows": false,
+  "breadcrumbs.enabled": false,
+  "editor.minimap.enabled": false,
+  "editor.scrollbar.horizontal": "hidden",
+  "editor.scrollbar.vertical": "hidden",
+  "window.titleBarStyle": "custom",
+  "window.commandCenter": false,
+  "workbench.layoutControl.enabled": false,
+  "explorer.fileNesting.enabled": true,
+  "javascript.suggest.autoImports": true,
+  "typescript.suggest.autoImports": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "extensions.ignoreRecommendations": true,
+  "update.showReleaseNotes": false,
+  "explorer.sortOrder": "foldersNestsFiles",
+  "extensions.autoCheckUpdates": true,
+  "editor.accessibilitySupport": "off",
+  "editor.cursorStyle": "line",
+  "editor.cursorBlinking": "expand",
+  "editor.wordWrap": "on",
+  "explorer.confirmDragAndDrop": false,
+  "security.workspace.trust.untrustedFiles": "newWindow",
+  "vim.leader": "<space>",
+
+  "eslint.format.enable": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "editor.formatOnPaste": false,
+  "editor.inlineSuggest.enabled": true,
+  "git.confirmSync": false,
+  "eslint.validate": ["javascript", "typescriptreact", "javascriptreact"],
+  "[javascript]": {
+    "editor.autoClosingBrackets": "always",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.autoClosingBrackets": "always",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.autoClosingBrackets": "always",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.autoClosingBrackets": "always",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.python"
+  },
+  "emmet.syntaxProfiles": {
+    "javascript": "jsx"
+  },
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact",
+    "typescript": "typescriptreact",
+    "javascriptreact": "javascriptreact",
+    "typescriptreact": "typescriptreact"
+  },
+  "explorer.fileNesting.patterns": {
+    "pubspec.yaml": "pubspec.lock,pubspec_overrides.yaml,.packages,.flutter-plugins,.flutter-plugins-dependencies,.metadata",
+    "*.dart": "${capture}.g.dart",
+    "package.json": ".eslint*, prettier*, tsconfig*, vite*, pnpm-lock*, package-lock*",
+    "tailwind.config.*": "tailwind.config*, postcss.config*",
+    ".env.local": ".env*",
+    ".env": ".env*"
+  },
+  "reactSnippets.settings.prettierEnabled": true,
+  "terminal.integrated.defaultProfile.linux": "fish",
+  "editor.linkedEditing": true,
+  "explorer.confirmDelete": false,
+  // "workbench.activityBar.location": "hidden",
+  "editor.renderWhitespace": "all",
+  "window.menuBarVisibility": "toggle",
+  "terminal.integrated.cursorBlinking": true,
+  "terminal.integrated.cursorStyleInactive": "none",
+  "terminal.integrated.gpuAcceleration": "on",
+  "terminal.integrated.hideOnStartup": "always",
+  "terminal.integrated.env.linux": {},
+  "console-ninja.featureSet": "Community",
+  "terminal.integrated.env.windows": {},
+  "git.autofetch": true,
+  "files.autoSave": "onWindowChange",
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "vscode-neovim.neovimExecutablePaths.linux": "/snap/bin/nvim",
+  "workbench.iconTheme": "moxer-icons",
+  "window.customTitleBarVisibility": "auto",
+  "diffEditor.ignoreTrimWhitespace": false,
+  "dart.debugExternalPackageLibraries": false,
+  "dart.debugSdkLibraries": false,
+  "github.copilot.editor.enableAutoCompletions": false,
+  "github.copilot.enable": {
+    "*": false,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false
+  },
+  "workbench.editor.showTabs": "single",
+  "redhat.telemetry.enabled": false,
+  "vim.smartRelativeLine": true,
+  "vim.useSystemClipboard": true,
+  "debug.enableStatusBarColor": false,
+  "editor.bracketPairColorization.enabled": false,
+  "editor.defaultFormatter": "charliermarsh.ruff",
+  "database-client.autoSync": true,
+  "docker.contexts.showInStatusBar": true,
+  "workbench.sideBar.location": "right",
+  "vscode_custom_css.imports": [
+    "file:///home/lucas-proxion/.vscode/extensions/zykowal.editor-cursor-animation-0.0.1/out/animation.js"
+  ],
+  "editor.cursorSmoothCaretAnimation": "on",
+  "workbench.settings.applyToAllProfiles": [
+    "files.autoSave",
+    "editor.fontSize"
+  ],
+  "workbench.colorTheme": "Ayu Tokyo Night",
+  "editor.formatOnSaveMode": "modifications",
+  "editor.formatOnSave": true,
+  "ruff.organizeImports": false,
+  "editor.renderLineHighlight": "all"
+  // "workbench.tree.indent": 10
+}
