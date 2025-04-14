@@ -1,0 +1,57 @@
+#+TITLE: python-notes
+#+DESCRIPTION: Anotações de Python do curso https://www.udemy.com/course/python-3-do-zero-ao-avancado/
+#+AUTHOR: Lucas Cunegundes
+
+
+* Decoradores
+São funções que recebem outras funções como argumento
+usados para alterar / incrementar a lógica da função sem a alterar diretamente
+
+#+BEGIN_SRC python
+def decorador(func):
+    def wrapper():
+        # incrementa a lógica
+        # altera o comportamento
+        func()
+    return wrapper
+
+@decorador
+def funcao():
+    # lógica original
+#+END_SRC
+
+
+** Decoradores com Argumentos
+Lógica parecida porém agora passando argumentos na função
+
+#+BEGIN_SRC python
+def decorador(func):
+    def wrapper(*args, **kwargs):
+        # incrementa a lógica
+        # altera o comportamento
+        func(*args, **kwargs)
+    return wrapper
+
+@decorador
+def funcao(a, b):
+    # lógica original com argumentos
+#+END_SRC
+
+
+** Decoradores com Parâmetros
+Lógica parecida porém agora passando parâmetros no decorador
+
+#+BEGIN_SRC python
+def repetir_vezes(n):
+    def decorador(func):
+        def wrapper(*args, **kwargs):
+            # incrementa a lógica
+            # altera o comportamento
+            func(*args, **kwargs)
+        return wrapper
+    return decorador
+
+@repetir_vezes(3)
+def funcao(a, b):
+    # lógica original com argumentos
+#+END_SRC

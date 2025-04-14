@@ -1,0 +1,65 @@
+#+TITLE: POO - Programação Orientada à Objetos
+#+DESCRIPTION: Anotações de POO do curso https://www.udemy.com/course/python-3-do-zero-ao-avancado/
+#+AUTHOR: Lucas Cunegundes
+
+
+* Métodos
+** Métodos de Instância
+Tipo padrão de método, ele recebe ~self~ como primeiro argumento
+
+- Referência à instância da classe
+- Usa dados da instância
+- Pode acessar ou modificar o estado da instância
+
+#+BEGIN_SRC python
+class Pessoa:
+    def __init__(self, nome):
+        self.nome = nome
+
+    def dizer_ola(self):
+        print(f"Olá, {nome}")
+
+p = Pessoa("Lucas")
+p.dizer_ola()
+#+END_SRC
+
+
+** Métodos Estáticos
+
+Uma função normal definida dentro de uma classe apenas por organização
+mas que não acessa nem o estado da instância ou da classe
+
+- Serve só pra organização lógica
+- Não depende de instância nem da classe
+- Usa quando não precisa acessar nada além dos parâmetros
+
+#+BEGIN_SRC python
+class Validador:
+    def validar(item):
+        print(f"O {item} está validado")
+
+Validador.validar(item)
+#+END_SRC
+
+
+** Métodos de Classe
+
+Recebe ~cls~ como primeiro argumento (Classe). Usado quando você
+quiser trabalhar com a classe em si, e não a instância.
+Por exemplo: criar /factory methods/
+
+- Usa a Classe e não a instância
+- Pode criar novas instâncias com lógica personalizada
+- Útil para herança e factorização
+
+#+BEGIN_SRC python
+class Pessoa:
+    def __init__(self, nome):
+        self.nome = nome
+
+    @classmethod
+    def dizer_ola(cls):
+        print(f"Olá, Lucas")
+
+Pessoa.dizer_ola()
+#+END_SRC
