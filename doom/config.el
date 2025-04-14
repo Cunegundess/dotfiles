@@ -21,7 +21,7 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "JetBrains Mono Nerd Font" :size 15 :weight 'bold)
+(setq doom-font (font-spec :family "JetBrains Mono Nerd Font" :size 18 :weight 'bold)
       doom-variable-pitch-font (font-spec :family "JetBrains Mono Nerd Font" :size 15))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
@@ -48,6 +48,14 @@
 ;;
 ;;   (after! PACKAGE
 ;;     (setq x y))
+;;
+(after! org
+  (setq org-directory "~/org/")
+  (setq org-agenda-files "~/org/agenda.org")
+  (setq org-log-done 'time)
+  (require 'org-bullets)
+  (add-hook 'org-mode-hook (lambda() (org-bullets-mode 1)))
+)
 ;;
 ;; The exceptions to this rule:
 ;;
