@@ -115,12 +115,6 @@ if ! shopt -oq posix; then
     fi
 fi
 
-alias pgadmin="sudo docker run -p 8081:80 \
-    -e 'PGADMIN_DEFAULT_EMAIL=lucas@proxion.com' \
-    -e 'PGADMIN_DEFAULT_PASSWORD=lucasproxion' \
-    --name pgadmin \
-    -d dpage/pgadmin4"
-
 export PATH="$HOME/.config/emacs/bin:$PATH"
 export PATH="$HOME/.config/emacs/bin/doom:$PATH"
 
