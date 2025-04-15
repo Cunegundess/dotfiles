@@ -63,3 +63,76 @@ class Pessoa:
 
 Pessoa.dizer_ola()
 #+END_SRC
+
+
+
+* Encapsulamento
+** Modificadores de Acesso
+O Python não possui modificadores de acesso, mas podemos seguir
+as seguintes convenções
+
+~sem underline~: public, pode ser usado em qualquer lugar
+
+~um underline~: protected, não deve ser usado fora da classe ou
+das suas subclasses
+
+~dois underlines~: private =, "name mangling" (desfiguração de nomes) em
+Python só deve ser usado na classe em que foi declarado
+
+
+#+begin_src python
+class Foo:
+    def __init__(self):
+        self.public = 'Público'
+        self._protected = 'Protegido'
+        self.__public = 'Privado'
+#+end_src
+
+
+** @property
+Uma propriedade do objeto, ela é um método que se comporta como um atributo
+
+Utilizada como:
+- Getter (modo pythônico)
+- para evitar quebrar código cliente
+- para habilitar um setter
+- para executar ações ao obter um atributo
+
+#+begin_src python
+class Caneta:
+    def __init__(self, cor):
+        self._cor = cor # _ convenção para atributo protegido
+
+    @property
+    def cor(self):
+        return self._cor
+
+Caneta.cor # acessando o atributo cor
+#+end_src
+
+
+** @pro.setter
+Método que define um valor a um atributo, convertendo o método setter com a mesma aparência de atribuição comum
+
+Utilizada como:
+- Setter (modo pythônico)
+- para evitar quebrar código cliente
+- permite validações mantendo a aparência de atributo
+- define um valor a um atributo
+
+#+begin_src python
+class Caneta:
+    def __init__(self, cor):
+        self._cor = cor
+
+    @property
+    def cor(self):
+        return self._cor
+
+    @cor.setter
+    def cor(self, nova_cor):
+        self._cor = nova_cor
+
+# Alterando a cor da Caneta pelo setter
+Caneta.cor = "Azul"
+#+end_src
