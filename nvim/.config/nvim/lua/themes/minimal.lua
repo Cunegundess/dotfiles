@@ -7,6 +7,6 @@ return {
     vim.g.minimal_italic_functions = true
     vim.g.minimal_italic_variables = true
     vim.g.minimal_transparent_background = false
-    vim.cmd 'colorscheme minimal'
+    -- vim.cmd 'colorscheme minimal'
   end,
 }
