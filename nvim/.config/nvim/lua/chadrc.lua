@@ -15,20 +15,22 @@ M.base46 = {
   },
 }
 
-M.nvdash = { load_on_startup = true }
-
 M.ui = {
   tabufline = {
     enabled = true,
     lazyload = false,
   },
+
+  statusline = {
+    theme = "default",
+    separator_style = "block",
+  },
 }
 
-M.statusline = {
-  theme = "block",
-}
+M.nvdash = { load_on_startup = true }
 
 M.lsp = { signature = true }
 
-M.colorify = { enabled = true }
+M.cheatsheet = { theme = "simple" }
+
 return M
