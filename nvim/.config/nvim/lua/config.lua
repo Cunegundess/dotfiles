@@ -67,3 +67,13 @@ vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
+
+-- Theme
+-- vim.api.nvim_create_autocmd('VimEnter', {
+--   callback = function()
+--     vim.cmd 'luafile ~/.config/nvim/lua/custom/themes/sakana/init.lua'
+--     package.preload['sakana'] = nil
+--     package.loaded['sakana'] = nil
+--     require('custom.themes.sakana').colorscheme()
+--   end,
+-- })
