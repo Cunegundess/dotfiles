@@ -5,5 +5,5 @@ local opt = vim.opt
 
 o.cursorlineopt ='both'
 o.relativenumber = true
-opt.clipboard = "unnamedplus"
+opt.clipboard = "unnamedplus" -- This needs to Install xclip
 
