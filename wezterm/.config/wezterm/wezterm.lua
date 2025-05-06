@@ -77,22 +77,22 @@ config.keys = {
 	},
 	{
 		key = "h",
-		mods = "CTRL",
+		mods = "ALT",
 		action = wezterm.action.ActivatePaneDirection("Left"),
 	},
 	{
 		key = "l",
-		mods = "CTRL",
+		mods = "ALT",
 		action = wezterm.action.ActivatePaneDirection("Right"),
 	},
 	{
 		key = "k",
-		mods = "CTRL",
+		mods = "ALT",
 		action = wezterm.action.ActivatePaneDirection("Up"),
 	},
 	{
 		key = "j",
-		mods = "CTRL",
+		mods = "ALT",
 		action = wezterm.action.ActivatePaneDirection("Down"),
 	},
 }
