@@ -1,6 +1,6 @@
 return {
   "Cunegundess/notes-nvim",
-  cmd = { "Notes" },
+  lazy = false,
   config = function()
     require("notes-nvim").setup {
       target_file = "~/Documentos/notes/notes.md",
