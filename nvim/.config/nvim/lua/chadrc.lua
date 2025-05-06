@@ -33,4 +33,18 @@ M.lsp = { signature = true }
 
 M.cheatsheet = { theme = "simple" }
 
+M.plugins = {
+  ["nvim-telescope/telescope.nvim"] = {
+    override_options = function()
+      return {
+        defaults = {
+          vimgrep_arguments = {
+            "--hidden",
+          },
+        },
+      }
+    end,
+  },
+}
+
 return M
