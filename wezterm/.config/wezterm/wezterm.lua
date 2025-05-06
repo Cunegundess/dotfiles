@@ -14,10 +14,10 @@ config.window_background_opacity = 0.9
 config.text_background_opacity = 1.0
 config.window_decorations = "RESIZE"
 config.window_padding = {
-  left = 10,
-  right = 10,
-  top = 10,
-  bottom = 10,
+	left = 10,
+	right = 10,
+	top = 10,
+	bottom = 10,
 }
 
 config.initial_cols = 180
@@ -74,6 +74,26 @@ config.keys = {
 		key = "m",
 		mods = "ALT",
 		action = wezterm.action.RotatePanes("Clockwise"),
+	},
+	{
+		key = "h",
+		mods = "CTRL",
+		action = wezterm.action.ActivatePaneDirection("Left"),
+	},
+	{
+		key = "l",
+		mods = "CTRL",
+		action = wezterm.action.ActivatePaneDirection("Right"),
+	},
+	{
+		key = "k",
+		mods = "CTRL",
+		action = wezterm.action.ActivatePaneDirection("Up"),
+	},
+	{
+		key = "j",
+		mods = "CTRL",
+		action = wezterm.action.ActivatePaneDirection("Down"),
 	},
 }
 
