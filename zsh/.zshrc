@@ -36,13 +36,14 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
+export PATH="$PATH:/usr/local/bin:/usr/bin:/bin"
 
 # Eza alias
 alias ls="eza --icons"
 alias ll="eza -lg -a --icons"
 alias "ls -a"="eza -lag --icons"
 alias cd="z"
-alias cat="bat"
+alias cat="batcat --theme=gruvbox-dark"
 
 # Autosuggestions
 [ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
