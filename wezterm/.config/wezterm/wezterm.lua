@@ -1,9 +1,16 @@
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
-config.font = wezterm.font("JetBrains Mono Nerd Font", { weight = "Bold" })
+-- config.color_scheme = 'neobones_dark'
+-- config.color_scheme = 'Neon (terminal.sexy)'
+-- config.color_scheme = 'Nord (Gogh)'
+-- config.color_scheme = 'Terminix Dark (Gogh)'
+-- config.color_scheme = 'Tokyo Night (Gogh)'
+-- config.color_scheme = 'Tokyo Night'
+config.color_scheme = 'tokyonight_night'
+config.font = wezterm.font("JetBrains Mono Nerd Font", { weight = "Black" })
 config.font_size = 12
-config.line_height = 1.2
+config.line_height = 1.3
 config.default_cursor_style = "BlinkingBlock"
 config.enable_tab_bar = true
 config.hide_tab_bar_if_only_one_tab = true
@@ -21,23 +28,23 @@ config.window_padding = {
 
 config.initial_cols = 180
 config.initial_rows = 37
-config.colors = {
-	foreground = "white",
-}
+-- config.colors = {
+-- 	foreground = "white",
+-- }
 
 config.window_frame = {
 	font = wezterm.font("JetBrains Mono Nerd Font", { weight = "Bold" }),
 	font_size = 11,
-	inactive_titlebar_bg = "#000000",
-	active_titlebar_bg = "#000000",
-	inactive_titlebar_fg = "#cccccc",
-	active_titlebar_fg = "#ffffff",
-	inactive_titlebar_border_bottom = "#000000",
-	active_titlebar_border_bottom = "#000000",
-	button_fg = "#cccccc",
-	button_bg = "#000000",
-	button_hover_fg = "#ffffff",
-	button_hover_bg = "#000000",
+	-- inactive_titlebar_bg = "#000000",
+	-- active_titlebar_bg = "#000000",
+	-- inactive_titlebar_fg = "#cccccc",
+	-- active_titlebar_fg = "#ffffff",
+	-- inactive_titlebar_border_bottom = "#000000",
+	-- active_titlebar_border_bottom = "#000000",
+	-- button_fg = "#cccccc",
+	-- button_bg = "#000000",
+	-- button_hover_fg = "#ffffff",
+	-- button_hover_bg = "#000000",
 }
 
 config.keys = {
