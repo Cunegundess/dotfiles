@@ -95,28 +95,31 @@ return -- LSP Plugins
         sqlls = {
           capabilities = capabilities,
         },
-        ruff = {
+        -- ruff = {
+        --   capabilities = capabilities,
+        -- },
+        pyright = {
           capabilities = capabilities,
         },
-        pylsp = {
-          capabilities = capabilities,
-          settings = {
-            pylsp = {
-              plugins = {
-                pycodestyle = { enabled = false },
-                pylint = { enabled = false },
-                pyflakes = { enabled = false },
-                mccabe = { enabled = false },
-                rope = { enabled = false },
-                rope_completion = { enabled = false },
-                yapf = { enabled = false },
-                autopep8 = { enabled = false },
-                black = { enabled = false },
-                isort = { enabled = false },
-              },
-            },
-          },
-        },
+        -- pylsp = {
+        --   capabilities = capabilities,
+        --   settings = {
+        --     pylsp = {
+        --       plugins = {
+        --         pycodestyle = { enabled = false },
+        --         pylint = { enabled = false },
+        --         pyflakes = { enabled = false },
+        --         mccabe = { enabled = false },
+        --         rope = { enabled = false },
+        --         rope_completion = { enabled = false },
+        --         yapf = { enabled = false },
+        --         autopep8 = { enabled = false },
+        --         black = { enabled = false },
+        --         isort = { enabled = false },
+        --       },
+        --     },
+        --   },
+        -- },
         ts_ls = {
           capabilities = capabilities,
         },
@@ -141,7 +144,7 @@ return -- LSP Plugins
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua',
-        'ruff',
+        'pyright',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

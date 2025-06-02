@@ -19,10 +19,10 @@ return { -- Collection of various small independent plugins/modules
 
     require('mini.comment').setup {
       mappings = {
-        comment = '<C-_>',
-        comment_line = '<C-_>',
-        comment_visual = '<C-_>',
-        textobject = '<C-_>',
+        comment = '<C-/>',
+        comment_line = '<C-/>',
+        comment_visual = '<C-/>',
+        textobject = '<C-/>',
       },
     }
 
