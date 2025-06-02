@@ -61,3 +61,4 @@ alias cat="batcat --theme=gruvbox-dark"
 eval "$(zoxide init zsh)"
 # Inicializa o Starship
 eval "$(starship init zsh)"
+export PATH=$HOME/.local/bin:$PATH

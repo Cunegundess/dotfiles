@@ -28,10 +28,6 @@ config.window_padding = {
 
 config.initial_cols = 180
 config.initial_rows = 37
--- config.colors = {
--- 	foreground = "white",
--- }
-
 config.window_frame = {
 	font = wezterm.font("JetBrains Mono Nerd Font", { weight = "Bold" }),
 	font_size = 11,
