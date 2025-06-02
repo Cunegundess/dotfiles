@@ -21,9 +21,9 @@ return {
         -- Only valid when using a float window
         -- (i.e. when 'split' is not defined, default)
         height = 0.85, -- window height
-        width = 0.85, -- window width
-        row = 0.35, -- window row position (0=top, 1=bottom)
-        col = 0.50, -- window col position (0=left, 1=right)
+        width = 0.85,  -- window width
+        row = 0.35,    -- window row position (0=top, 1=bottom)
+        col = 0.50,    -- window col position (0=left, 1=right)
         -- border argument passthrough to nvim_open_win()
         border = 'rounded',
         -- Backdrop opacity, 0 is fully opaque, 100 is fully transparent (i.e. disabled)
@@ -47,23 +47,23 @@ return {
           -- and fzf values (e.g. "border-top", "none")
           -- native fzf previewers (bat/cat/git/etc)
           -- can also be set to `fun(winopts, metadata)`
-          wrap = false, -- preview line wrap (fzf's 'wrap|nowrap')
-          hidden = false, -- start preview hidden
-          vertical = 'up:60%', -- up|down:size
-          horizontal = 'right:60%', -- right|left:size
-          layout = 'vertical', -- horizontal|vertical|flex
-          flip_columns = 100, -- #cols to switch to horizontal on flex
+          wrap = false,             -- preview line wrap (fzf's 'wrap|nowrap')
+          hidden = false,           -- start preview hidden
+          vertical = 'up:30%',      -- up|down:size
+          horizontal = 'right:40%', -- right|left:size
+          layout = 'flex',          -- horizontal|vertical|flex
+          flip_columns = 100,       -- #cols to switch to horizontal on flex
           -- Only used with the builtin previewer:
-          title = true, -- preview border title (file/buf)?
-          title_pos = 'center', -- left|center|right, title alignment
-          scrollbar = 'float', -- `false` or string:'float|border'
+          title = true,             -- preview border title (file/buf)?
+          title_pos = 'center',     -- left|center|right, title alignment
+          scrollbar = 'float',      -- `false` or string:'float|border'
           -- float:  in-window floating border
           -- border: in-border "block" marker
           scrolloff = -1, -- float scrollbar offset from right
           -- applies only when scrollbar = 'float'
-          delay = 20, -- delay(ms) displaying the preview
+          delay = 10,     -- delay(ms) displaying the preview
           -- prevents lag on fast scrolling
-          winopts = { -- builtin previewer window options
+          winopts = {     -- builtin previewer window options
             number = true,
             relativenumber = true,
             cursorline = true,

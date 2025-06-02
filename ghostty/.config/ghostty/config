@@ -1,11 +1,10 @@
-font-family = JetBrains Mono
-font-family-bold = JetBrains Mono Bold
-font-family-italic = JetBrains Mono Italic
-font-family-bold-italic = JetBrains Mono Bold Italic
+font-family = JetBrainsMono Nerd Font
+font-family-bold = JetBrainsMono Nerd Font Bold
+font-family-italic = JetBrainsMono Nerd Font Bold Italic
+font-family-bold-italic = JetBrainsMono Nerd Font Bold Italic
 font-feature = +calt
-font-style = Bold
+font-style = ExtraBold
 theme = tokyonight_night
-font-size = 15
-shell-integration-features = no-cursor,sudo,no-title
+font-size = 12
 cursor-style = block
 copy-on-select = clipboard
