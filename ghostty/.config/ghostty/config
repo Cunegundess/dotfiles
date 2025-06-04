@@ -1,10 +1,9 @@
-font-family = JetBrainsMono Nerd Font
-font-family-bold = JetBrainsMono Nerd Font Bold
-font-family-italic = JetBrainsMono Nerd Font Bold Italic
-font-family-bold-italic = JetBrainsMono Nerd Font Bold Italic
-font-feature = +calt
-font-style = ExtraBold
+font-family = IosevkaTermSlab NFM
+font-family-bold = IosevkaTermSlab NFM Bold
+font-family-italic = IosevkaTermSlab NFM Italic
+font-family-bold-italic = IosevkaTermSlab NFM Bold Italic
+font-style = bold
+window-decoration = server
 theme = tokyonight_night
 font-size = 12
-cursor-style = block
 copy-on-select = clipboard
