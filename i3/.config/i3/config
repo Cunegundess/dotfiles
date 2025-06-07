@@ -1,0 +1,165 @@
+# ─────────────────────────────────────────────────────────────
+# i3 Window Manager Config
+# ─────────────────────────────────────────────────────────────
+
+### MOD KEY
+set $mod Mod4
+
+### FONTES E APARÊNCIA
+font pango:JetBrains Mono Nerd Font Bold 9
+title_align center
+for_window [class=".*"] border pixel 0
+
+# Cores das janelas
+client.focused          #FFFFFF #282A2E #ffffff #282A2E   #FFFFFF
+client.focused_inactive #FFFFFF #282A2E #ffffff #282A2E   #000000
+client.unfocused        #FFFFFF #282A2E #888888 #282A2E   #000000
+client.urgent           #FFFFFF #282A2E #ffffff #282A2E   #FFFFFF
+client.placeholder      #FFFFFF #0c0c0c #ffffff #000000   #FFFFFF
+client.background       #ffffff
+
+### INICIAIS AUTOMÁTICOS
+exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id nm-applet
+exec_always --no-startup-id $HOME/.config/i3/scripts/random-wallpaper.sh
+exec_always --no-startup-id picom --config $HOME/.config/picom/picom.conf --experimental-backends
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh --grayblocks
+exec --no-startup-id xrandr --output eDP-1 --primary --mode 1920x1080 --output HDMI-1 --mode 1920x1080 --above eDP-1
+
+### COMPORTAMENTO DE JANELAS
+floating_modifier $mod
+tiling_drag modifier titlebar
+workspace_layout default
+default_border pixel 0
+default_floating_border pixel 0
+gaps inner 4
+gaps outer 4
+
+### LANÇADORES E APPS
+bindsym $mod+Return exec --no-startup-id ghostty
+bindsym $mod+b exec --no-startup-id brave-browser
+bindsym $mod+e exec --no-startup-id nemo
+bindsym $mod+d exec --no-startup-id rofi -no-config -no-lazy-grab -show drun -modi drun -theme ~/.config/polybar/grayblocks/scripts/rofi/launcher.rasi
+
+### CONTROLE DE FOCO
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+### MOVIMENTAÇÃO DE JANELAS
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# ENTRE MONITORES
+bindsym $mod+Shift+Up move workspace to output up
+bindsym $mod+Shift+Down move workspace to output down
+bindsym $mod+Up focus output up
+bindsym $mod+Down focus output down
+
+### MODOS DE LAYOUT
+bindsym $mod+/ split h
+bindsym $mod+v split v
+bindsym $mod+s layout toggle split
+bindsym $mod+f fullscreen toggle
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+bindsym $mod+a focus parent
+
+# PrintScreen
+bindsym Print exec --no-startup-id flameshot gui
+
+## CONTROLE DE BACKLIGHT
+bindsym XF86MonBrightnessUp exec --no-startup-id $HOME/.config/i3/scripts/change-brightness.sh up
+bindsym XF86MonBrightnessDown exec --no-startup-id $HOME/.config/i3/scripts/change-brightness.sh down
+
+### CONTROLE DE ÁUDIO E MÍDIA
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+bindsym XF86AudioPlay exec --no-startup-id playerctl play
+bindsym XF86AudioPause exec --no-startup-id playerctl pause
+bindsym XF86AudioNext exec --no-startup-id playerctl next
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+
+### WORKSPACES
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# Alternar entre workspaces
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+# Mover janelas entre workspaces
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+### SISTEMA
+bindsym $mod+Shift+q kill
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Você quer realmente sair do i3? Isso encerrará sua sessão.' -B 'Sim, sair' 'i3-msg exit'"
+
+### MODO DE REDIMENSIONAMENTO
+mode "resize" {
+    bindsym h resize shrink width 10 px or 10 ppt
+    bindsym k resize grow height 10 px or 10 ppt
+    bindsym j resize shrink height 10 px or 10 ppt
+    bindsym l resize grow width 10 px or 10 ppt
+    bindsym Escape mode "default"
+    bindsym Return mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# ─────────────────────────────────────────────────────────────
+# Status Bar (i3status)
+# ─────────────────────────────────────────────────────────────
+#
+# bar {
+#     status_command i3status
+#     font pango:JetBrains Mono Nerd Font Bold 9
+#     position top
+#
+#     colors {
+#         background #1d1f21
+#         statusline #c5c8c6
+#         separator  #666666
+#
+#         focused_workspace  #81A2BE #81A2BE #1d1f21
+#         active_workspace   #373b41 #373b41 #c5c8c6
+#         inactive_workspace #282a2e #282a2e #888888
+#         urgent_workspace   #cc6666 #cc6666 #ffffff
+#         binding_mode       #f0c674 #f0c674 #1d1f21
+#     }
+# }
+

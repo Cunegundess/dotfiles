@@ -1,0 +1,106 @@
+#!/usr/bin/bash
+#
+#   checkupdates: Safely print a list of pending updates.
+#
+#   Copyright (c) 2013 Kyle Keen <keenerd@gmail.com>
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# checkupdates-apt: Lista segura de atualizações disponíveis com APT
+
+declare -r myname='checkupdates-apt'
+declare -r myver='1.0.0'
+
+plain() {
+    ((QUIET)) && return
+    local mesg=$1
+    shift
+    printf "${BOLD}    ${mesg}${ALL_OFF}\n" "$@" >&1
+}
+
+msg() {
+    ((QUIET)) && return
+    local mesg=$1
+    shift
+    printf "${GREEN}==>${ALL_OFF}${BOLD} ${mesg}${ALL_OFF}\n" "$@" >&1
+}
+
+msg2() {
+    ((QUIET)) && return
+    local mesg=$1
+    shift
+    printf "${BLUE}  ->${ALL_OFF}${BOLD} ${mesg}${ALL_OFF}\n" "$@" >&1
+}
+
+ask() {
+    local mesg=$1
+    shift
+    printf "${BLUE}::${ALL_OFF}${BOLD} ${mesg}${ALL_OFF}" "$@" >&1
+}
+
+warning() {
+    local mesg=$1
+    shift
+    printf "${YELLOW}==> WARNING:${ALL_OFF}${BOLD} ${mesg}${ALL_OFF}\n" "$@" >&2
+}
+
+error() {
+    local mesg=$1
+    shift
+    printf "${RED}==> ERROR:${ALL_OFF}${BOLD} ${mesg}${ALL_OFF}\n" "$@" >&2
+}
+
+# Check if messages are to be printed using color
+unset ALL_OFF BOLD BLUE GREEN RED YELLOW
+if [[ -t 2 && ! $USE_COLOR = "n" ]]; then
+    if tput setaf 0 &>/dev/null; then
+        ALL_OFF="$(tput sgr0)"
+        BOLD="$(tput bold)"
+        BLUE="${BOLD}$(tput setaf 4)"
+        GREEN="${BOLD}$(tput setaf 2)"
+        RED="${BOLD}$(tput setaf 1)"
+        YELLOW="${BOLD}$(tput setaf 3)"
+    else
+        ALL_OFF="\e[1;0m"
+        BOLD="\e[1;1m"
+        BLUE="${BOLD}\e[1;34m"
+        GREEN="${BOLD}\e[1;32m"
+        RED="${BOLD}\e[1;31m"
+        YELLOW="${BOLD}\e[1;33m"
+    fi
+fi
+readonly ALL_OFF BOLD BLUE GREEN RED YELLOW
+
+if (($# > 0)); then
+    echo "${myname} v${myver}"
+    echo
+    echo "Safely print a list of pending updates using apt"
+    echo
+    echo "Usage: ${myname}"
+    exit 0
+fi
+
+# Verifica se o apt está disponível
+if ! command -v apt >/dev/null; then
+    error "'apt' não está instalado ou não está no PATH."
+    exit 1
+fi
+
+# Atualiza o índice de pacotes silenciosamente
+sudo apt update >/dev/null 2>&1
+
+# Lista pacotes com atualização disponível
+apt list --upgradable 2>/dev/null | grep -v "Listing..."
+# vim: set noet:
