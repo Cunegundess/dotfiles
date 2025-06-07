@@ -1,11 +1,3 @@
--- debug.lua
---
--- Shows how to use the DAP plugin to debug your code.
---
--- Primarily focused on configuring the debugger for Go, but can
--- be extended to other languages as well. That's why it's called
--- kickstart.nvim and not kitchen-sink.nvim ;)
-
 return {
   'mfussenegger/nvim-dap',
   dependencies = {
@@ -15,6 +7,7 @@ return {
     'jay-babu/mason-nvim-dap.nvim',
     'mfussenegger/nvim-dap-python',
     'theHamsta/nvim-dap-virtual-text',
+    'jbyuki/one-small-step-for-vimkind',
   },
   keys = function(_, keys)
     local dap = require 'dap'
@@ -116,6 +109,24 @@ return {
           },
         },
         justMyCode = false,
+      },
+    }
+
+    dap.adapters.nlua = function(callback, config)
+      callback {
+        type = 'server',
+        host = config.host or '127.0.0.1',
+        port = config.port or 8086,
+      }
+    end
+
+    dap.configurations.lua = {
+      {
+        type = 'nlua',
+        request = 'attach',
+        name = '🪛 Attach to running Neovim instance',
+        host = '127.0.0.1',
+        port = 8086,
       },
     }
 
