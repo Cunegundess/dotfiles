@@ -1,4 +1,3 @@
-
 ### ┌───────────────────────────────────────────────┐
 ### │            Inicialização do Zsh              │
 ### └───────────────────────────────────────────────┘
@@ -37,24 +36,12 @@ zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light Aloxaf/fzf-tab
 zinit light MichaelAquilina/zsh-auto-notify
-zinit ice depth=1
-zinit light jeffreytse/zsh-vi-mode
 
 ### ┌───────────────────────────────────────────────┐
 ### │           Comportamento e Estilo             │
 ### └───────────────────────────────────────────────┘
 
-# Keybindings
-bindkey -v                  # Vi mode
-bindkey '^P' up-line-or-search
-bindkey '^N' down-line-or-search
-bindkey "^[[A" history-beginning-search-backward  # search history with up key
-bindkey "^[[B" history-beginning-search-forward   # search history with down key
-
-# Cursores para modos vi
-ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BEAM
-ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BLOCK
-ZVM_OPPEND_MODE_CURSOR=$ZVM_CURSOR_BLINKING_UNDERLINE
+bindkey -e
 
 # Editor padrão
 export EDITOR="nvim"
@@ -97,7 +84,7 @@ alias ls="eza --icons"
 alias ll="eza -lg -a --icons"
 alias "ls -a"="eza -lag --icons"
 alias cd="z"
-alias cat="batcat --theme=gruvbox-dark"
+alias cat="batcat --theme=ansi"
 
 # IP local
 if [[ -x "$(command -v ip)" ]]; then
