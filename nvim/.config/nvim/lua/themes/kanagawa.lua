@@ -53,7 +53,7 @@ return {
           }
         end,
       }
-      require('kanagawa').load 'dragon'
+      -- require('kanagawa').load 'dragon'
     end,
   },
 }

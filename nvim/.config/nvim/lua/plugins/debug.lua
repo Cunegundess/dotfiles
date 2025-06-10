@@ -90,7 +90,7 @@ return {
     dap.adapters.python = {
       type = 'server',
       host = 'localhost',
-      port = 5678, -- porta onde o debugpy está escutando no container
+      port = 5678,
     }
 
     dap.configurations.python = {

@@ -4,7 +4,7 @@ vim.lsp.config('lua_ls', require 'lsp.lua_ls')
 vim.lsp.enable { 'lua_ls', 'pyright' }
 
 vim.diagnostic.config {
-  virtual_lines = true,
+  virtual_lines = false,
   -- virtual_text = true,
   underline = true,
   update_in_insert = true,
