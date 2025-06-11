@@ -22,6 +22,7 @@ client.background       #ffffff
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
+exec_always --no-startup-id autotiling
 exec_always --no-startup-id $HOME/.config/i3/scripts/random-wallpaper.sh
 exec_always --no-startup-id picom --config $HOME/.config/picom/picom.conf --experimental-backends
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh --grayblocks
@@ -30,7 +31,7 @@ exec --no-startup-id xrandr --output eDP-1 --primary --mode 1920x1080 --output H
 ### COMPORTAMENTO DE JANELAS
 floating_modifier $mod
 tiling_drag modifier titlebar
-workspace_layout default
+# workspace_layout default
 default_border pixel 0
 default_floating_border pixel 0
 gaps inner 8
