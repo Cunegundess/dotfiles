@@ -11,9 +11,10 @@ return {
   },
   cmd = 'Neotree',
   keys = {
-    { '<leader>e', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
+    { '<leader>E', ':Neotree reveal float<CR>', desc = 'NeoTree reveal', silent = true },
   },
   opts = {
+    popup_border_style = '',
     filesystem = {
       filtered_items = {
         visible = true,
@@ -22,7 +23,14 @@ return {
       },
       window = {
         mappings = {
-          ['<leader>e'] = 'close_window',
+          ['<leader>E'] = 'close_window',
+          ['P'] = {
+            'toggle_preview',
+            config = {
+              use_float = true,
+            },
+            desc = 'Toggle preview',
+          },
         },
       },
     },
