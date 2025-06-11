@@ -4,6 +4,8 @@
 
 ### MOD KEY
 set $mod Mod4
+set $HDMI HDMI-1
+set $eDP eDP-1
 
 ### FONTES E APARÊNCIA
 font pango:JetBrains Mono Nerd Font Bold 9
@@ -100,6 +102,17 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
+
+workspace $ws1 output $HDMI
+workspace $ws2 output $eDP
+workspace $ws3 output $eDP
+workspace $ws4 output $eDP
+workspace $ws5 output $eDP
+workspace $ws6 output $eDP
+workspace $ws7 output $eDP
+workspace $ws8 output $eDP
+workspace $ws9 output $eDP
+workspace $ws0 output $eDP
 
 # Alternar entre workspaces
 bindsym $mod+1 workspace number $ws1
