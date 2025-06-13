@@ -108,7 +108,7 @@ return {
             remoteRoot = '/app',
           },
         },
-        justMyCode = false,
+        justMyCode = true,
       },
     }
 
