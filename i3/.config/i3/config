@@ -36,8 +36,8 @@ tiling_drag modifier titlebar
 # workspace_layout default
 default_border pixel 0
 default_floating_border pixel 0
-gaps inner 8
-gaps outer 8
+gaps inner 5
+gaps outer 5
 
 ### LANÇADORES E APPS
 bindsym $mod+Return exec --no-startup-id ghostty
