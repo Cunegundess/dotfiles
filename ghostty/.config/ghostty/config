@@ -1,8 +1,6 @@
 font-family = GeistMono NF
-font-family-bold = GeistMono NF Bold
-font-family-italic = GeistMono NF Medium Italic
-font-family-bold-italic = GeistMono NF Bold Italic
 font-style = Bold
+font-style-italic = Bold
 window-decoration = server
 # adjust-cell-height = "5%"
 theme = catppuccin-mocha
