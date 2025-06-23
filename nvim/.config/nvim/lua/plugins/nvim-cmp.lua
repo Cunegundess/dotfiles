@@ -1,23 +1,16 @@
-return { -- Autocompletion
+return {
   'hrsh7th/nvim-cmp',
   event = 'InsertEnter',
   dependencies = {
-    -- Snippet Engine & its associated nvim-cmp source
     {
       'L3MON4D3/LuaSnip',
       build = (function()
-        -- Build Step is needed for regex support in snippets.
-        -- This step is not supported in many windows environments.
-        -- Remove the below condition to re-enable on windows.
         if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then
           return
         end
         return 'make install_jsregexp'
       end)(),
       dependencies = {
-        -- `friendly-snippets` contains a variety of premade snippets.
-        --    See the README about individual language/framework/plugin snippets:
-        --    https://github.com/rafamadriz/friendly-snippets
         {
           'rafamadriz/friendly-snippets',
           config = function()
@@ -27,17 +20,52 @@ return { -- Autocompletion
       },
     },
     'saadparwaiz1/cmp_luasnip',
-
-    -- Adds other completion capabilities.
-    --  nvim-cmp does not ship with all sources by default. They are split
-    --  into multiple repos for maintenance purposes.
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-path',
+    'onsails/lspkind.nvim',
   },
   config = function()
-    -- See `:help cmp`
     local cmp = require 'cmp'
     local luasnip = require 'luasnip'
+    local lspkind = require 'lspkind'
+
+    local kind_icons = {
+      Text = '',
+      Method = '󰆧',
+      Function = '󰊕',
+      Constructor = '',
+      Field = '󰇽',
+      Variable = '󰂡',
+      Class = '󰠱',
+      Interface = '',
+      Module = '',
+      Property = '󰜢',
+      Unit = '',
+      Value = '󰎠',
+      Enum = '',
+      Keyword = '󰌋',
+      Snippet = '',
+      Color = '󰏘',
+      File = '󰈙',
+      Reference = '',
+      Folder = '󰉋',
+      EnumMember = '',
+      Constant = '󰏿',
+      Struct = '',
+      Event = '',
+      Operator = '󰆕',
+      TypeParameter = '󰅲',
+    }
+
+    lspkind.setup {
+      mode = 'symbol_text',
+      ellipsis_char = '...',
+      show_labelDetails = true,
+      symbols = kind_icons,
+      fontName = 'Nerd Font',
+      size = 14,
+    }
+
     luasnip.config.setup {}
 
     cmp.setup {
@@ -46,12 +74,16 @@ return { -- Autocompletion
           luasnip.lsp_expand(args.body)
         end,
       },
+      window = {
+        completion = {
+          winhighlight = 'Normal:Pmenu,FloatBorder:Pmenu,Search:None',
+          col_offset = -3,
+          side_padding = 0,
+        },
+      },
+
       completion = { completeopt = 'menu,menuone,noinsert' },
 
-      -- For an understanding of why these mappings were
-      -- chosen, you will need to read `:help ins-completion`
-      --
-      -- No, but seriously. Please read `:help ins-completion`, it is really good!
       mapping = cmp.mapping.preset.insert {
         -- Select the [n]ext item
         -- ['<C-n>'] = cmp.mapping.select_next_item(),
@@ -96,14 +128,10 @@ return { -- Autocompletion
             luasnip.jump(-1)
           end
         end, { 'i', 's' }),
-
-        -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
-        --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
       },
       sources = {
         {
           name = 'lazydev',
-          -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
           group_index = 0,
         },
         { name = 'nvim_lsp' },
@@ -111,6 +139,17 @@ return { -- Autocompletion
         { name = 'path' },
         { name = 'vim-dadbod-completion' },
         { name = 'buffer' },
+      },
+      formatting = {
+        fields = { 'kind', 'abbr', 'menu' },
+        format = function(entry, vim_item)
+          local kind = require('lspkind').cmp_format { mode = 'symbol_text', maxwidth = 50 }(entry, vim_item)
+          local strings = vim.split(kind.kind, '%s', { trimempty = true })
+          kind.kind = ' ' .. (strings[1] or '') .. ' '
+          kind.menu = '    (' .. (strings[2] or '') .. ')'
+
+          return kind
+        end,
       },
     }
   end,

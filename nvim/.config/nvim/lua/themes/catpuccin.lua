@@ -4,6 +4,11 @@ return {
   priority = 1000,
   opts = {
     flavour = 'mocha',
+    term_colors = true,
+    styles = {
+      comments = { 'italic' },
+      conditionals = {},
+    },
     custom_highlights = function(colors)
       return {
         WinSeparator = { fg = colors.surface0 },
