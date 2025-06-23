@@ -1,4 +1,4 @@
 while true; do
     feh --randomize --bg-fill $HOME/Imagens/wallpapers/*
-    sleep 120
+    sleep 60
 done

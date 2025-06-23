@@ -10,7 +10,7 @@ return {
   config = function()
     local oil = require 'oil'
     oil.setup {
-      default_file_explorer = true,
+      default_file_explorer = false,
       columns = {
         'icon',
         -- "permissions",
@@ -117,6 +117,6 @@ return {
       },
     }
 
-    -- vim.keymap.set('n', '<leader>e', oil.open_float, { desc = 'Open parent directory' })
+    vim.keymap.set('n', '<leader>E', oil.open_float, { desc = 'Open parent directory' })
   end,
 }

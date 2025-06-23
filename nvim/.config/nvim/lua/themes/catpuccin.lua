@@ -5,8 +5,9 @@ return {
   opts = {
     flavour = 'mocha',
     term_colors = true,
+    no_italics = true,
     styles = {
-      comments = { 'italic' },
+      comments = {},
       conditionals = {},
     },
     custom_highlights = function(colors)
