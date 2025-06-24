@@ -26,23 +26,23 @@ return { -- Collection of various small independent plugins/modules
       },
     }
 
-    require('mini.files').setup {
-      mappings = {
-        close = 'q',
-        go_in = '<CR>',
-        go_out = '<ESC>',
-        mark_goto = "'",
-        mark_set = 'm',
-        reset = '<BS>',
-        reveal_cwd = '@',
-        show_help = 'g?',
-        synchronize = '=',
-        trim_left = '<',
-        trim_right = '>',
-      },
+    -- require('mini.files').setup {
+    --   mappings = {
+    --     close = 'q',
+    --     go_in = '<CR>',
+    --     go_out = '<ESC>',
+    --     mark_goto = "'",
+    --     mark_set = 'm',
+    --     reset = '<BS>',
+    --     reveal_cwd = '@',
+    --     show_help = 'g?',
+    --     synchronize = '=',
+    --     trim_left = '<',
+    --     trim_right = '>',
+    --   },
 
-      vim.keymap.set('n', '<leader>e', '<cmd>lua MiniFiles.open()<CR>'),
-    }
+    -- vim.keymap.set('n', '<leader>e', '<cmd>lua MiniFiles.open()<CR>'),
+    -- }
 
     -- local statusline = require 'mini.statusline'
     -- -- set use_icons to true if you have a Nerd Font

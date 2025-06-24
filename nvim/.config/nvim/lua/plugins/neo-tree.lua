@@ -10,9 +10,6 @@ return {
     'MunifTanjim/nui.nvim',
   },
   cmd = 'Neotree',
-  keys = {
-    { '<leader>e', ':Neotree reveal float<CR>', desc = 'NeoTree reveal', silent = true },
-  },
   opts = {
     popup_border_style = '',
     filesystem = {
@@ -35,4 +32,9 @@ return {
       },
     },
   },
+  config = function()
+    require('neo-tree').setup {
+      vim.keymap.set('n', '<leader>e', ':Neotree reveal float<CR>', { desc = 'Neotree reveal', noremap = true, silent = true }),
+    }
+  end,
 }

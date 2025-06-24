@@ -9,10 +9,6 @@ return {
         require('conform').format {
           async = true,
           lsp_fallback = true,
-          range = {
-            ['start'] = vim.api.nvim_buf_get_mark(0, '<'),
-            ['end'] = vim.api.nvim_buf_get_mark(0, '>'),
-          },
         }
       end,
       mode = '',

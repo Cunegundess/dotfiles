@@ -3,17 +3,22 @@ return {
   ---@module 'oil'
   ---@type oil.SetupOpts
   -- Optional dependencies
-  dependencies = { 'echasnovski/mini.icons', opts = {} },
-  -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
+  dependencies = {
+    { 'echasnovski/mini.icons' },
+    { 'refractalize/oil-git-status.nvim' },
+    { 'JezerM/oil-lsp-diagnostics.nvim' },
+  },
+  -- dependencies = { 'nvim-tree/nvim-web-devicons' }, -- use if you prefer nvim-web-devicons
   -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
   lazy = false,
   config = function()
     local oil = require 'oil'
+    local detail = false
     oil.setup {
-      default_file_explorer = false,
+      default_file_explorer = true,
       columns = {
         'icon',
-        -- "permissions",
+        -- 'permissions',
         -- 'size',
         -- 'mtime',
       },
@@ -24,7 +29,7 @@ return {
         ['<C-h>'] = { 'actions.select', opts = { horizontal = true } },
         ['<C-t>'] = { 'actions.select', opts = { tab = true } },
         ['<C-p>'] = 'actions.preview',
-        ['<C-c>'] = { 'actions.close', mode = 'n' },
+        ['<escape>'] = { 'actions.close', mode = 'n' },
         ['<C-l>'] = 'actions.refresh',
         ['-'] = { 'actions.parent', mode = 'n' },
         ['_'] = { 'actions.open_cwd', mode = 'n' },
@@ -34,16 +39,28 @@ return {
         ['gx'] = 'actions.open_external',
         ['g.'] = { 'actions.toggle_hidden', mode = 'n' },
         ['g\\'] = { 'actions.toggle_trash', mode = 'n' },
+        ['gd'] = {
+          desc = 'Toggle file detail view',
+          callback = function()
+            detail = not detail
+            if detail then
+              require('oil').set_columns { 'icon', 'permissions', 'size', 'mtime' }
+            else
+              require('oil').set_columns { 'icon' }
+            end
+          end,
+        },
       },
       view_options = {
         show_hidden = true,
         float = {
-          padding = 5,
+          padding = 10,
           -- max_width and max_height can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
-          max_width = 0.2,
-          max_height = 0.2,
+          max_width = 0.5,
+          max_height = 0.5,
           border = 'rounded',
           win_options = {
+            signcolumn = 'yes:2',
             winblend = 0,
           },
           -- optionally override the oil buffers window title with custom function: fun(winid: integer): string
@@ -116,7 +133,6 @@ return {
         },
       },
     }
-
-    vim.keymap.set('n', '<leader>E', oil.open_float, { desc = 'Open parent directory' })
+    vim.keymap.set('n', '<leader>e', oil.open_float, { noremap = true, silent = true, desc = 'Open parent directory' })
   end,
 }

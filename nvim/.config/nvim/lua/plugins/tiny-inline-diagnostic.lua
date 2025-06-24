@@ -7,7 +7,7 @@ return {
       -- Available options:
       -- "modern", "classic", "minimal", "powerline",
       -- "ghost", "simple", "nonerdfont", "amongus"
-      preset = 'ghost',
+      preset = 'modern',
 
       transparent_bg = false, -- Set the background of the diagnostic to transparent
       transparent_cursorline = false, -- Set the background of the cursorline to transparent (only one the first diagnostic)
@@ -36,7 +36,7 @@ return {
         },
 
         -- Use icons defined in the diagnostic configuration
-        use_icons_from_diagnostic = false,
+        use_icons_from_diagnostic = true,
 
         -- Set the arrow icon to the same color as the first diagnostic severity
         set_arrow_to_diag_color = true,
@@ -66,7 +66,7 @@ return {
         -- }
         multilines = {
           -- Enable multiline diagnostic messages
-          enabled = true,
+          enabled = false,
 
           -- Always show messages on all lines for multiline diagnostics
           always_show = false,
@@ -99,10 +99,9 @@ return {
         -- Configuration for breaking long messages into separate lines
         break_line = {
           -- Enable the feature to break messages after a specific length
-          enabled = false,
-
+          enabled = true,
           -- Number of characters after which to break the line
-          after = 30,
+          after = 100,
         },
 
         -- Filter diagnostics by severity
