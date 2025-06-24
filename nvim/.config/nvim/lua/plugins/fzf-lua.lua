@@ -55,7 +55,20 @@ return {
         fzf_colors = true,
       },
 
-      vim.keymap.set('n', '<leader>st', fzf_lua.colorschemes, { desc = '[S]earch [T]heme' }),
+      vim.keymap.set('n', '<leader>st', function()
+        fzf_lua.colorschemes {
+          preview = function(entry)
+            vim.cmd.colorscheme(entry)
+          end,
+          actions = {
+            ['default'] = function(selected)
+              local theme = selected[1]:gsub("%.vim$", "")
+              vim.cmd.colorscheme(theme)
+              _G.save_colorscheme(theme)
+            end,
+          },
+        }
+      end, { desc = '[S]earch [T]heme' }),
       vim.keymap.set('n', '<leader>sh', fzf_lua.help_tags, { desc = '[S]earch [H]elp' }),
       vim.keymap.set('n', '<leader>sk', fzf_lua.keymaps, { desc = '[S]earch [K]eymaps' }),
       vim.keymap.set('n', '<leader>sf', fzf_lua.files, { desc = '[S]earch [F]iles' }),

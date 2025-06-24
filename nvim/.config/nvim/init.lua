@@ -43,5 +43,25 @@ require('lazy').setup({
     },
   },
 })
+
+local ok, theme = pcall(require, 'colorscheme')
+if ok and theme then
+  vim.cmd.colorscheme(theme)
+else
+  vim.cmd.colorscheme 'default'
+end
+
+function _G.save_colorscheme(name)
+  local file = vim.fn.stdpath("config") .. "/lua/colorscheme.lua"
+  local f = io.open(file, "w")
+  if f then
+    f:write(string.format('return "%s"\n', name))
+    f:close()
+    vim.notify("Colorscheme set to '" .. name .. "'", vim.log.levels.INFO)
+  else
+    vim.notify("Failed to save colorscheme", vim.log.levels.ERROR)
+  end
+end
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
