@@ -79,6 +79,8 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 ### │              Alias e atalhos                 │
 ### └───────────────────────────────────────────────┘
 
+alias wifi="nmtui"
+
 # Substituições de comandos
 alias ls="eza --icons"
 alias ll="eza -lg -a --icons"

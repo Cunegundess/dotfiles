@@ -27,7 +27,7 @@ exec --no-startup-id nm-applet
 exec_always --no-startup-id autotiling
 exec_always --no-startup-id $HOME/.config/i3/scripts/random-wallpaper.sh
 exec_always --no-startup-id picom --config $HOME/.config/picom/picom.conf --experimental-backends
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh --colorblocks
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh --grayblocks
 exec --no-startup-id xrandr --output eDP-1 --primary --mode 1920x1080 --output HDMI-1 --mode 1920x1080 --above eDP-1
 
 ### COMPORTAMENTO DE JANELAS

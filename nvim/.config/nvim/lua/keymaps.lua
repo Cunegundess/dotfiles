@@ -30,6 +30,12 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+-- Resize splits using Alt + hjkl
+vim.keymap.set('n', '<M-l>', '<cmd>vertical resize -2<CR>', { desc = 'Resize split left' })
+vim.keymap.set('n', '<M-h>', '<cmd>vertical resize +2<CR>', { desc = 'Resize split right' })
+vim.keymap.set('n', '<M-k>', '<cmd>resize +2<CR>', { desc = 'Resize split down' })
+vim.keymap.set('n', '<M-j>', '<cmd>resize -2<CR>', { desc = 'Resize split up' })
+
 -- Move around selected text (also indents)
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
@@ -53,6 +59,3 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
-
--- [[ FzfLua ]]
-
