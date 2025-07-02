@@ -4,15 +4,11 @@ add_newline = true
 
 command_timeout = 2000
 
+# Main prompt format - git, shell, and time moved to right side
 format = """
 $os\
 $username\
 $directory\
-$git_branch\
-$git_commit\
-$git_status\
-$git_metrics\
-$git_state\
 $c\
 $rust\
 $golang\
@@ -25,18 +21,26 @@ $python\
 $package\
 $docker_context\
 $kubernetes\
-$shell\
 $container\
 $jobs\
 ${custom.memory_usage}\
 ${custom.battery}\
 ${custom.keyboard_layout}\
-$time\
 $cmd_duration\
 $status\
+$git_branch\
+$git_commit\
+$git_status\
+$git_metrics\
+$git_state\
+$shell\
+$time\
 $line_break\
 $character\
 """
+
+# Right prompt with git, shell, and time
+right_format = ""
 
 palette = 'default'
 
@@ -123,25 +127,25 @@ format = '[$symbol]($style)'
 [os.symbols]
 Windows = "󰍲"
 Ubuntu = "󰕈"
-SUSE = ""
+SUSE = ""
 Raspbian = "󰐿"
 Mint = "󰣭"
 Macos = "󰀵"
-Manjaro = ""
+Manjaro = ""
 Linux = "󰌽"
 Gentoo = "󰣨"
 Fedora = "󰣛"
-Alpine = ""
-Amazon = ""
-Android = ""
+Alpine = ""
+Amazon = ""
+Android = ""
 Arch = "󰣇"
 Artix = "󰣇"
-EndeavourOS = ""
-CentOS = ""
+EndeavourOS = ""
+CentOS = ""
 Debian = "󰣚"
 Redhat = "󱄛"
 RedHatEnterprise = "󱄛"
-Pop = ""
+Pop = ""
 
 [username]
 show_always = true
@@ -158,7 +162,7 @@ read_only = " "
 home_symbol = "~"
 truncation_symbol = "…/"
 truncation_length = 0
-truncate_to_repo = true
+truncate_to_repo = false
 fish_style_pwd_dir_length = 0
 use_logical_path = true
 
@@ -219,12 +223,12 @@ am_or_rebase = "AM/REBASE"
 disabled = false
 
 [nodejs]
-symbol = ""
+symbol = ""
 style = "fg:color_env"
 format = '( [$symbol( $version)]($style) )'
 
 [c]
-symbol = ""
+symbol = ""
 style = "fg:color_env"
 format = '( [$symbol( $version)]($style) )'
 
@@ -239,27 +243,27 @@ style = "fg:color_env"
 format = '( [$symbol( $version)]($style) )'
 
 [php]
-symbol = ""
+symbol = ""
 style = "fg:color_env"
 format = '( [$symbol( $version)]($style) )'
 
 [java]
-symbol = ""
+symbol = ""
 style = "fg:color_env"
 format = '( [$symbol( $version)]($style) )'
 
 [kotlin]
-symbol = ""
+symbol = ""
 style = "fg:color_env"
 format = '( [$symbol( $version)]($style) )'
 
 [haskell]
-symbol = ""
+symbol = ""
 style = "fg:color_env"
 format = '( [$symbol( $version)]($style) )'
 
 [python]
-symbol = ""
+symbol = ""
 style = "fg:color_env"
 format = '( [$symbol( $version)( $virtualenv)]($style) )'
 version_format = '${raw}'
@@ -271,7 +275,7 @@ style = "fg:color_env"
 format = '( [$symbol( $version)]($style) )'
 
 [docker_context]
-symbol = ""
+symbol = ""
 style = "fg:color_docker"
 format = '( [$symbol( $context)]($style) )'
 
@@ -283,7 +287,7 @@ disabled = false
 
 [shell]
 disabled = false
-format = '[  $indicator ]($style)'
+format = '( [  $indicator ]($style) )'
 bash_indicator = "bash"
 fish_indicator = "fish"
 zsh_indicator = "zsh"

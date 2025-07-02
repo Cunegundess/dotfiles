@@ -1,1 +1,1 @@
-return "tokyodark"
+return "vague"

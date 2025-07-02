@@ -1,7 +1,8 @@
-vim.lsp.config('pyright', require 'lsp.pyright')
-vim.lsp.config('lua_ls', require 'lsp.lua_ls')
+-- vim.lsp.config('pyright', require 'lsp.pyright')
+vim.lsp.config('pylsp', require 'lsp.python-lsp-server')
+vim.lsp.config('lua_ls', require 'lsp.lua-ls')
 
-vim.lsp.enable { 'lua_ls', 'pyright' }
+vim.lsp.enable { 'lua_ls', 'pylsp' }
 
 vim.diagnostic.config {
   virtual_lines = false,
@@ -26,3 +27,11 @@ vim.diagnostic.config {
     },
   },
 }
+
+local orig_util_open = vim.lsp.util.open_floating_preview
+
+vim.lsp.util.open_floating_preview = function(contents, syntax, opts, ...)
+  opts = opts or {}
+  opts.border = opts.border or 'rounded'
+  return orig_util_open(contents, syntax, opts, ...)
+end

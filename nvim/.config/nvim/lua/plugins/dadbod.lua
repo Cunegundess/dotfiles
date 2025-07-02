@@ -30,6 +30,7 @@ return {
       vim.g.dbs = {
         { name = 'hb-tracer-dev', url = 'postgres://DB_DEV_USER:DB_DEV_PASSWORD@localhost:5432/DB_DEV' },
         { name = 'jcn-dev', url = 'postgres://postgres:jmalianca2023@localhost:5432/JCN' },
+        { name = 'edp-dev', url = 'postgresql://DB_DEV_USER:DB_DEV_PASSWORD@localhost:5432/DB_DEV' },
       }
     end,
   },
