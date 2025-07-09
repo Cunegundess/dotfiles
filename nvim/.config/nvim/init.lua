@@ -2,6 +2,7 @@ require 'config'
 require 'keymaps'
 require 'lsp'
 
+-- [[ Configure lazy.nvim ]]
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
@@ -24,8 +25,6 @@ require('lazy').setup({
   { import = 'themes' },
 }, {
   ui = {
-    -- If you are using a Nerd Font: set icons to an empty table which will use the
-    -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
     icons = vim.g.have_nerd_font and {} or {
       cmd = '⌘',
       config = '🛠',
@@ -44,6 +43,7 @@ require('lazy').setup({
   },
 })
 
+-- [[ Set selected colorscheme ]]
 local ok, theme = pcall(require, 'colorscheme')
 if ok and theme then
   vim.cmd.colorscheme(theme)
@@ -52,14 +52,14 @@ else
 end
 
 function _G.save_colorscheme(name)
-  local file = vim.fn.stdpath("config") .. "/lua/colorscheme.lua"
-  local f = io.open(file, "w")
+  local file = vim.fn.stdpath 'config' .. '/lua/colorscheme.lua'
+  local f = io.open(file, 'w')
   if f then
     f:write(string.format('return "%s"\n', name))
     f:close()
     vim.notify("Colorscheme set to '" .. name .. "'", vim.log.levels.INFO)
   else
-    vim.notify("Failed to save colorscheme", vim.log.levels.ERROR)
+    vim.notify('Failed to save colorscheme', vim.log.levels.ERROR)
   end
 end
 

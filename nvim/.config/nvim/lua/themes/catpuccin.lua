@@ -4,6 +4,7 @@ return {
   lazy = false,
   priority = 1000,
   opts = {
+    transparent_background = true,
     flavour = 'mocha',
     term_colors = true,
     no_italics = true,

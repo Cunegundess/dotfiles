@@ -5,5 +5,6 @@ return {
   config = function()
     vim.g.rasmus_italic_comments = false
     vim.g.rasmus_variant = 'monochrome' -- or dark
+    vim.g.rasmus_transparent = true
   end,
 }

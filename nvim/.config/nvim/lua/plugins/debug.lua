@@ -13,10 +13,15 @@ return {
     local dap = require 'dap'
     local dapui = require 'dapui'
     return {
-      { '<F5>', dap.continue, desc = 'Debug: Start/Continue' },
-      { '<F1>', dap.step_into, desc = 'Debug: Step Into' },
-      { '<F2>', dap.step_over, desc = 'Debug: Step Over' },
-      { '<F3>', dap.step_out, desc = 'Debug: Step Out' },
+      -- Eval var under cursor
+      vim.keymap.set('n', '<space>?', function()
+        dapui.eval(nil, { enter = true })
+      end),
+
+      { '<leader>bc', dap.continue, desc = 'Debug: Start/Continue' },
+      { '<leader>bi', dap.step_into, desc = 'Debug: Step Into' },
+      { '<leader>bo', dap.step_over, desc = 'Debug: Step Over' },
+      { '<leader>bO', dap.step_out, desc = 'Debug: Step Out' },
       { '<leader>b', dap.toggle_breakpoint, desc = 'Debug: Toggle Breakpoint' },
       {
         '<leader>B',
@@ -128,17 +133,5 @@ return {
         port = 8086,
       },
     }
-
-    -- Eval var under cursor
-    vim.keymap.set('n', '<space>?', function()
-      dapui.eval(nil, { enter = true })
-    end)
-
-    vim.keymap.set('n', '<leader>bc', dap.continue)
-    vim.keymap.set('n', '<leader>bi', dap.step_into)
-    vim.keymap.set('n', '<leader>bo', dap.step_over)
-    vim.keymap.set('n', '<leader>bO', dap.step_out)
-    vim.keymap.set('n', '<leader>bb', dap.step_back)
-    vim.keymap.set('n', '<leader>br', dap.restart)
   end,
 }

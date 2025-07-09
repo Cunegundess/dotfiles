@@ -10,8 +10,8 @@ return {
       -- Reduce the overall amount of blue in the theme (diverges from base Nord).
       reduced_blue = true,
       transparent = {
-        bg = false,
-        float = false,
+        bg = true,
+        float = true,
       },
       cursorline = {
         bold = false,
