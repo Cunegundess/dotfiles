@@ -21,8 +21,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "JetBrains Mono Nerd Font" :size 18 :weight 'bold)
-      doom-variable-pitch-font (font-spec :family "JetBrains Mono Nerd Font" :size 15))
+(setq doom-font (font-spec :family "JetBrains Mono Nerd Font" :size 13 :weight 'bold)
+      doom-variable-pitch-font (font-spec :family "JetBrains Mono Nerd Font" :size 13))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -32,7 +32,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-tokyo-night)
+(setq doom-theme 'doom-nord-aurora)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -56,6 +56,42 @@
   (require 'org-bullets)
   (add-hook 'org-mode-hook (lambda() (org-bullets-mode 1)))
 )
+
+(after! dap-mode
+  (setq dap-python-debugger 'debugpy)
+  (setq dap-python-executable "python3"))
+
+(map! :map dap-mode-map
+      :leader
+      :prefix ("d" . "dap")
+      ;; basics
+      :desc "dap next"          "n" #'dap-next
+      :desc "dap step in"       "i" #'dap-step-in
+      :desc "dap step out"      "o" #'dap-step-out
+      :desc "dap continue"      "c" #'dap-continue
+      :desc "dap hydra"         "h" #'dap-hydra
+      :desc "dap debug restart" "r" #'dap-debug-restart
+      :desc "dap debug"         "s" #'dap-debug
+
+      ;; debug
+      :prefix ("dd" . "Debug")
+      :desc "dap debug recent"  "r" #'dap-debug-recent
+      :desc "dap debug last"    "l" #'dap-debug-last
+
+      ;; eval
+      :prefix ("de" . "Eval")
+      :desc "eval"                "e" #'dap-eval
+      :desc "eval region"         "r" #'dap-eval-region
+      :desc "eval thing at point" "s" #'dap-eval-thing-at-point
+      :desc "add expression"      "a" #'dap-ui-expressions-add
+      :desc "remove expression"   "d" #'dap-ui-expressions-remove
+
+      :prefix ("db" . "Breakpoint")
+      :desc "dap breakpoint toggle"      "b" #'dap-breakpoint-toggle
+      :desc "dap breakpoint condition"   "c" #'dap-breakpoint-condition
+      :desc "dap breakpoint hit count"   "h" #'dap-breakpoint-hit-condition
+      :desc "dap breakpoint log message" "l" #'dap-breakpoint-log-message)
+
 ;;
 ;; The exceptions to this rule:
 ;;

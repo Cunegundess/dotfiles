@@ -8,6 +8,8 @@
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 (package! jedi)
 (package! org-bullets)
+(package! dap-mode)
+(package! debugpy :recipe (:host github :repo "microsoft/debugpy"))
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:

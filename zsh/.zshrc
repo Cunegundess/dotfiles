@@ -110,6 +110,9 @@ fi
 ### │               Ferramentas extras              │
 ### └───────────────────────────────────────────────┘
 
+export PATH="$HOME/.config/emacs/bin:$PATH"
+export PATH="$HOME/.config/emacs/bin/doom:$PATH"
+
 # FZF (se instalado)
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
