@@ -13,12 +13,11 @@ $aws\
 $docker_context\
 $jobs\
 $cmd_duration\
-$localip\
 $line_break\
 $character"""
 
 add_newline = true
-palette = 'vague'
+palette = 'nord'
 
 [directory]
 style = 'bold fg:dark_blue'

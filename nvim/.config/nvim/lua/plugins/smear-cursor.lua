@@ -1,11 +1,19 @@
 return {
-  'sphamba/smear-cursor.nvim',
-
+  "sphamba/smear-cursor.nvim",
+  event = "VeryLazy",
+  cond = vim.g.neovide == nil,
   opts = {
-    smear_between_buffers = true,
-    smear_between_neighbor_lines = true,
-    scroll_buffer_space = true,
-    legacy_computing_symbols_support = false,
-    smear_insert_mode = true,
+    hide_target_hack = true,
+    cursor_color = "none",
+  },
+  specs = {
+    -- disable mini.animate cursor
+    {
+      "echasnovski/mini.animate",
+      optional = true,
+      opts = {
+        cursor = { enable = false },
+      },
+    },
   },
 }
