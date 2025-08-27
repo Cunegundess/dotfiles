@@ -1,9 +1,10 @@
--- vim.lsp.config('pyright', require 'lsp.-lspyright')
-vim.lsp.config('pylsp', require 'lsp.python-lsp-server')
+vim.lsp.config('pyright', require 'lsp.pyright')
+vim.lsp.config('ruff', require 'lsp.ruff')
+-- vim.lsp.config('pylsp', require 'lsp.python-lsp-server')
 vim.lsp.config('lua_ls', require 'lsp.lua-ls')
 vim.lsp.config('sqlls', require 'lsp.sqlls')
 
-vim.lsp.enable { 'lua_ls', 'pylsp', 'sqlls' }
+vim.lsp.enable { 'lua_ls', 'pyright', 'ruff', 'sqlls' }
 
 vim.diagnostic.config {
   virtual_lines = false,

@@ -1,16 +1,16 @@
-return { -- Fuzzy Finder (files, lsp, etc)
+return {
+  -- Fuzzy Finder (files, lsp, etc)
   'nvim-telescope/telescope.nvim',
   event = 'VimEnter',
   branch = '0.1.x',
   dependencies = {
     'nvim-lua/plenary.nvim',
-    { -- If encountering errors, see telescope-fzf-native README for installation instructions
+    {
+      -- If encountering errors, see telescope-fzf-native README for installation instructions
       'nvim-telescope/telescope-fzf-native.nvim',
-
       -- `build` is used to run some command when the plugin is installed/updated.
       -- This is only run then, not every time Neovim starts up.
       build = 'make',
-
       -- `cond` is a condition used to determine whether this plugin should be
       -- installed and loaded.
       cond = function()
@@ -18,7 +18,6 @@ return { -- Fuzzy Finder (files, lsp, etc)
       end,
     },
     { 'nvim-telescope/telescope-ui-select.nvim' },
-
     -- Useful for getting pretty icons, but requires a Nerd Font.
     { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
   },
@@ -35,11 +34,9 @@ return { -- Fuzzy Finder (files, lsp, etc)
           'venv',
         },
         previewer = true,
-        -- layout_strategy = 'flex',
-        -- layout_config = {
-        --   vertical = { width = 0.5 },
-        --   horizontal = { width = 0.9, height = 0.7 },
-        -- },
+        layout_config = {
+          height = 0.4,
+        },
       },
       pickers = {
         colorscheme = {
@@ -60,9 +57,9 @@ return { -- Fuzzy Finder (files, lsp, etc)
     pcall(telescope.load_extension, 'fzf')
     pcall(telescope.load_extension, 'ui-select')
 
-    keymap('n', '<leader>gd', builtin.lsp_definitions, { desc = '[G]oto [D]efinition' })
-    keymap('n', '<leader>gr', builtin.lsp_references, { desc = '[G]oto [R]eferences' })
-    keymap('n', '<leader>gI', builtin.lsp_implementations, { desc = '[G]oto [I]mplementation' })
+    keymap('n', 'gd', builtin.lsp_definitions, { desc = '[G]oto [D]efinition' })
+    keymap('n', 'gr', builtin.lsp_references, { desc = '[G]oto [R]eferences' })
+    keymap('n', 'gI', builtin.lsp_implementations, { desc = '[G]oto [I]mplementation' })
     keymap('n', '<leader>D', builtin.lsp_type_definitions, { desc = 'Type [D]efinition' })
     keymap('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
     keymap('n', '<leader>ss', builtin.lsp_document_symbols, { desc = '[S]earch [S]ymbols' })
@@ -77,7 +74,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     keymap('n', '<leader>so', builtin.oldfiles, { desc = '[T]elescope [O]ld Files' })
     keymap('n', '<leader>st', builtin.colorscheme, { desc = '[T]elescope [T]heme' })
     keymap('n', '<leader>sk', builtin.keymaps, { desc = '[T]elescope [K]eymaps' })
-    keymap('n', '<leader>ss', builtin.builtin, { desc = '[T]elescope [S]elect Telescope picker' })
+    keymap('n', '<leader>sb', builtin.builtin, { desc = '[T]elescope [S]elect Telescope picker' })
     keymap('n', '<leader>sw', builtin.grep_string, { desc = '[T]elescope grep current [W]ord' })
     keymap('n', '<leader>sd', builtin.diagnostics, { desc = '[T]elescope [D]iagnostics' })
     keymap('n', '<leader>sr', builtin.resume, { desc = '[T]elescope [R]esume last picker' })

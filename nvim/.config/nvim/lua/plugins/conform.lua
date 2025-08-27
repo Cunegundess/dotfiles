@@ -4,7 +4,7 @@ return {
   cmd = { 'ConformInfo' },
   keys = {
     {
-      '<leader>f',
+      '<leader>cf',
       function()
         require('conform').format {
           async = true,
@@ -12,7 +12,7 @@ return {
         }
       end,
       mode = '',
-      desc = '[F]ormat buffer',
+      desc = '[C]ode Format',
     },
   },
   opts = {
@@ -27,6 +27,7 @@ return {
 
     formatters_by_ft = {
       lua = { 'stylua' },
+      -- python = { 'ruff' },
     },
   },
 }

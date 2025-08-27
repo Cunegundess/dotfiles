@@ -2,8 +2,8 @@
 # font-family = GeistMono NF
 # font-family = Dank Mono
 # font-family = SF Mono
-
 font-family = Cascadia Code NF
+
 font-size = 11
 # font-thicken = true
 
@@ -19,3 +19,6 @@ window-colorspace = "display-p3"
 
 adjust-cell-height = "50%"
 copy-on-select = clipboard
+shell-integration-features = true
+auto-update = check
+auto-update-channel = stable
