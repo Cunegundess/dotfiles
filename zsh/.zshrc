@@ -46,6 +46,7 @@ zinit light MichaelAquilina/zsh-auto-notify
 ### └───────────────────────────────────────────────┘
 
 bindkey -e
+fastfetch
 
 # Editor padrão
 export EDITOR="nvim"
