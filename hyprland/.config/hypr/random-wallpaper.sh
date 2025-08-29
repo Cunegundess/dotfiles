@@ -1,10 +1,15 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 WALLPAPER_DIR="$HOME/wallpapers/"
-CURRENT_WALL=$(hyprctl hyprpaper listloaded)
 
-# Get a random wallpaper that is not the current one
-WALLPAPER=$(find "$WALLPAPER_DIR" -type f ! -name "$(basename "$CURRENT_WALL")" | shuf -n 1)
+while true; do
+    ALL_WALLS=($(find "$WALLPAPER_DIR" -type f))
 
-# Apply the selected wallpaper
-hyprctl hyprpaper reload ,"$WALLPAPER"
+    CURRENT_WALL=$(swww query | grep 'Image path:' | cut -d':' -f2- | xargs)
+
+    NEW_WALL=$(printf "%s\n" "${ALL_WALLS[@]}" | grep -vF "$CURRENT_WALL" | shuf -n 1)
+
+    swww img "$NEW_WALL" --transition-type any
+
+    sleep 60
+done
