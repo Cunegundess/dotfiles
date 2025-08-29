@@ -1,1 +1,0 @@
-../../home/vm/dotfiles/nixos/configuration.nix
