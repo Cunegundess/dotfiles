@@ -1,0 +1,13 @@
+[config]
+allow_images=true
+width=1000
+height=500
+show=drun
+prompt=Search
+term=ghostty
+hide_scroll=true
+print_command=true
+insensitive=true
+columns=2
+no_actions=false
+pre_display_exec=true

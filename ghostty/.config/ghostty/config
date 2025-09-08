@@ -1,10 +1,11 @@
-# font-family = JetBrains Mono Nerd Font
+font-family = JetBrains Mono Nerd Font
 # font-family = GeistMono NF
 # font-family = Dank Mono
 # font-family = SF Mono
-font-family = Cascadia Code NF
+# font-family = Cascadia Code NF
 
 font-size = 11
+font-style = SemiBold
 # font-thicken = true
 
 theme = vesper
@@ -12,6 +13,7 @@ theme = vesper
 # theme = vague
 # theme = detuned
 
+background-opacity = 0.8
 window-decoration = none
 window-padding-x = 15
 window-padding-y = 15
@@ -22,3 +24,5 @@ copy-on-select = clipboard
 shell-integration-features = true
 auto-update = check
 auto-update-channel = stable
+confirm-close-surface = false
+

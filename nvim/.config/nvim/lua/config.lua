@@ -13,7 +13,7 @@ vim.g.termguicolors = true
 -- Interface and Visual Settings
 vim.opt.number = true
 vim.opt.relativenumber = true
--- vim.opt.colorcolumn = '100' -- Visual guide at column 80
+vim.opt.colorcolumn = '130' -- Visual guide at column 80
 vim.opt.signcolumn = 'yes' -- Keep signcolumn on by default
 vim.opt.cursorline = true -- Show which line your cursor is on
 vim.opt.wrap = false -- Don't wrap long lines

@@ -93,17 +93,17 @@ return {
 
     dap.adapters.python = {
       type = 'server',
-      host = 'localhost',
+      host = '127.0.0.1',
       port = 5678,
     }
 
     dap.configurations.python = {
       {
-        name = '🐳 Docker dap',
+        name = 'Docker',
         type = 'python',
         request = 'attach',
         connect = {
-          host = 'localhost',
+          host = '127.0.0.1',
           port = 5678,
         },
         pathMappings = {
@@ -112,6 +112,23 @@ return {
             remoteRoot = '/app',
           },
         },
+        justMyCode = true,
+      },
+      {
+        name = 'Jalles',
+        type = 'python',
+        request = 'attach',
+        connect = {
+          host = '127.0.0.1',
+          port = 5678,
+        },
+        pathMappings = {
+          {
+            localRoot = vim.fn.getcwd() .. '/apps/backend',
+            remoteRoot = vim.fn.getcwd() .. '/apps/backend',
+          },
+        },
+        cwd = vim.fn.getcwd() .. '/apps/backend',
         justMyCode = true,
       },
     }
@@ -128,7 +145,7 @@ return {
       {
         type = 'nlua',
         request = 'attach',
-        name = '🪛 Attach to running Neovim instance',
+        name = 'Attach to running Neovim instance',
         host = '127.0.0.1',
         port = 8086,
       },

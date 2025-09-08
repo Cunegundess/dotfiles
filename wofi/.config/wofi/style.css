@@ -1,0 +1,78 @@
+@import url('/home/lucas/.cache/wal/colors.css');
+
+* {
+    all: unset;
+    font-family: 'JetBrainsMono Nerd Font';
+    font-size: 14px;
+    outline: none;
+    border: none;
+    text-shadow: none;
+    transition: all 0.25s ease;
+}
+
+window {
+    background-color: rgba(0, 0, 0, 0.92); /* fundo preto com transparência */
+    border-radius: 16px;
+    border: 1px solid rgba(80, 80, 80, 0.6); /* borda discreta cinza */
+    padding: 10px;
+}
+
+#inner-box {
+    padding: 10px;
+}
+
+#input {
+    margin: 15px;
+    padding: 12px 18px;
+    color: #e5e5e5; /* texto claro */
+    background-color: rgba(40, 40, 40, 0.9);
+    border-radius: 12px;
+    border: 1px solid rgba(120, 120, 120, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+#input image {
+    color: #c5c5c5;
+    padding-right: 12px;
+}
+
+#input:focus {
+    border: 1px solid #ffffff; /* foco destacado */
+}
+
+#scroll {
+    padding: 5px 15px 15px;
+}
+
+#entry {
+    margin: 6px 0;
+    padding: 10px 12px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    transition: background 0.2s ease;
+}
+
+#entry #img {
+    padding-right: 12px;
+    color: #bbbbbb;
+    min-width: 20px;
+}
+
+#text {
+    color: #e5e5e5;
+}
+
+#entry:selected {
+    background-color: rgba(200, 200, 200, 0.15); /* fundo cinza no hover/seleção */
+    border: 1px solid rgba(200, 200, 200, 0.4);
+}
+
+#entry:selected #text {
+    color: #ffffff;
+}
+
+#entry:selected #img {
+    color: #ffffff;
+}
+

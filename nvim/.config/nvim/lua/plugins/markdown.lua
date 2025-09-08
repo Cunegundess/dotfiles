@@ -26,12 +26,12 @@ return {
         },
       },
       daily_notes = {
-        folder = '~/Documentos/notes/0-inbox/',
+        folder = '0-inbox',
         -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
         template = nil,
       },
       templates = {
-        folder = '~/Documentos/notes/4-templates/',
+        folder = '4-templates',
         date_format = '%Y-%m-%d-%a',
         time_format = '%H:%M',
       },

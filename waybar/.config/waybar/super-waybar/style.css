@@ -1,0 +1,130 @@
+/* =======================
+   Fonts & Base
+======================= */
+* {
+  font-family: "JetBrains Mono Nerd Font";
+  font-weight: bold;
+  font-size: 15px;
+}
+
+window#waybar {
+  background: #0F0F17;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+/* Tooltip */
+tooltip {
+  background: #171717;
+  color: #A1BDCE;
+  font-size: 13px;
+  border-radius: 7px;
+  border: 2px solid #101a24;
+}
+
+/* =======================
+   Workspaces
+======================= */
+#workspaces,
+#workspaces button {
+  background: transparent;
+  box-shadow: none;
+  text-shadow: none;
+  border-radius: 9px;
+  transition: 0.2s ease;
+  padding: 2px 6px;
+}
+
+#workspaces {
+  color: #888789;
+}
+
+#workspaces button {
+  color: #A1BDCE;
+}
+
+#workspaces button.active {
+  color: #A1BDCE;
+  transition: all 0.3s ease;
+}
+
+#workspaces button:hover {
+  color: #72D792;
+  transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
+}
+
+/* =======================
+   Taskbar
+======================= */
+#taskbar button {
+  font-size: 14px;
+  border-radius: 9px;
+  margin: 0 2px;
+  padding: 2px 6px;
+  box-shadow: none;
+  text-shadow: none;
+  color: @wb-color;
+}
+
+#taskbar button.active {
+  background: @wb-act-bg;
+  color: @wb-act-color;
+  transition: all 0.4s cubic-bezier(.55,-0.68,.48,1.682);
+}
+
+/* =======================
+   System Modules
+======================= */
+
+/* Espaçamento geral entre ícones */
+#backlight,
+#bluetooth,
+#custom-cliphist,
+#battery,
+#idle_inhibitor,
+#clock,
+#pulseaudio,
+#cpu,
+#memory,
+#network {
+  margin: 0 6px;
+}
+
+/* Ajuste de tamanho e cor */
+#backlight { font-size: 18px; color: #2096C0; }
+#bluetooth,
+#custom-cliphist { background: #161320; color: #E6E7E7; }
+#battery { font-size: 20px; color: #a6d189; }
+#battery.charging,
+#battery.plugged { color: #E8EDF0; }
+#battery.critical:not(.charging) { color: red; }
+#clock { font-size: 15px; font-weight: 900; color: #A1BDCE; }
+#pulseaudio { font-size: 18px; color: #6F8FDB; }
+#cpu { font-size: 20px; color: #915CAF; }
+#memory { font-size: 20px; color: #E4C9AF; }
+#network { font-size: 18px; color: #A1BDCE; }
+
+/* =======================
+   Sliders
+======================= */
+#backlight-slider trough,
+#pulseaudio-slider trough {
+  min-width: 90px;
+  min-height: 10px;
+  border-radius: 8px;
+  background: #343434;
+}
+
+#backlight-slider highlight,
+#pulseaudio-slider highlight {
+  border-radius: 8px;
+  background-color: #2096C0;
+}
+
+#backlight-slider slider,
+#pulseaudio-slider slider {
+  background: #A1BDCE;
+  box-shadow: none;
+  margin-right: 7px;
+}
+

@@ -1,1 +1,1 @@
-return "vesper"
+return "rose-pine"
