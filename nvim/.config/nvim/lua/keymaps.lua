@@ -1,6 +1,9 @@
 -- [[ Keymaps ]]
 local keymap = vim.keymap.set
 
+-- diagnostics (LSP)
+keymap("n", "gl", vim.diagnostic.open_float, opts)
+
 -- Clear highlights on search when pressing <Esc> in normal mode
 keymap('n', '<Esc>', '<cmd>nohlsearch<CR>')
 

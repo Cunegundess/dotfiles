@@ -85,116 +85,117 @@ return {
   },
   {
     'MeanderingProgrammer/render-markdown.nvim',
-    enabled = false,
+    enabled = true,
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' },
     ---@module 'render-markdown'
     config = function()
-      local colors = require 'vesper.colors'
-
-      -- Headings com cores do Vesper
-      vim.cmd(string.format([[highlight Headline1Bg guifg=%s guibg=%s gui=bold]], colors.info, colors.bgDark))
-      vim.cmd(string.format([[highlight Headline2Bg guifg=%s guibg=%s gui=bold]], colors.purple, colors.bgDark))
-      vim.cmd(string.format([[highlight Headline3Bg guifg=%s guibg=%s gui=bold]], colors.primary, colors.bgDark))
-      vim.cmd(string.format([[highlight Headline4Bg guifg=%s guibg=%s gui=bold]], colors.green, colors.bgDark))
-      vim.cmd(string.format([[highlight Headline5Bg guifg=%s guibg=%s gui=bold]], colors.yellowDark, colors.bgDark))
-      vim.cmd(string.format([[highlight Headline6Bg guifg=%s guibg=%s gui=bold]], colors.orange, colors.bgDark))
-
-      -- Headings somente FG
-      vim.cmd(string.format([[highlight Headline1Fg guifg=%s gui=bold]], colors.info))
-      vim.cmd(string.format([[highlight Headline2Fg guifg=%s gui=bold]], colors.purple))
-      vim.cmd(string.format([[highlight Headline3Fg guifg=%s gui=bold]], colors.primary))
-      vim.cmd(string.format([[highlight Headline4Fg guifg=%s gui=bold]], colors.green))
-      vim.cmd(string.format([[highlight Headline5Fg guifg=%s gui=bold]], colors.yellowDark))
-      vim.cmd(string.format([[highlight Headline6Fg guifg=%s gui=bold]], colors.orange))
-
-      -- Code Blocks
-      vim.cmd(string.format([[highlight! RenderMarkdownCode guibg=%s ctermbg=NONE]], colors.bgDarker))
-      vim.cmd(string.format([[highlight! RenderMarkdownCodeInline guibg=%s ctermbg=NONE]], colors.border))
-
-      -- Lists
-      vim.cmd(string.format([[highlight RenderMarkdownBullet guifg=%s gui=bold]], colors.info))
-      vim.cmd(string.format([[highlight @markup.list.markdown guifg=%s]], colors.fg))
-
-      -- Callouts
-      vim.cmd(string.format([[highlight RenderMarkdownInfo guifg=%s guibg=%s gui=bold]], colors.info, colors.bgFloat))
-      vim.cmd(string.format([[highlight RenderMarkdownHint guifg=%s guibg=%s gui=bold]], colors.green, colors.bgFloat))
-      vim.cmd(string.format([[highlight RenderMarkdownWarn guifg=%s guibg=%s gui=bold]], colors.yellowDark, colors.bgFloat))
-      vim.cmd(string.format([[highlight RenderMarkdownError guifg=%s guibg=%s gui=bold]], colors.error, colors.bgFloat))
-      vim.cmd(string.format([[highlight RenderMarkdownNote guifg=%s guibg=%s gui=bold]], colors.purple, colors.bgFloat))
-
-      -- Links
-      vim.cmd(string.format([[highlight RenderMarkdownLink guifg=%s gui=underline]], colors.primary))
-      vim.cmd(string.format([[highlight @markup.link.markdown_inline guifg=%s gui=underline]], colors.primary))
-
-      -- Quotes
-      vim.cmd(string.format([[highlight RenderMarkdownQuote guifg=%s guibg=%s gui=italic]], colors.fg, colors.bgDark))
-      vim.cmd(string.format([[highlight @markup.quote.markdown guifg=%s gui=italic]], colors.comment))
-
-      -- Cabeçalho da Tabela
-      vim.api.nvim_set_hl(0, 'RenderMarkdownTableHead', {
-        fg = colors.primary, -- texto mais claro
-        bg = colors.bgDark, -- fundo mais escuro
-        bold = true,
-      })
-
-      -- Linhas pares
-      vim.api.nvim_set_hl(0, 'RenderMarkdownTableRowEven', {
-        bg = colors.bgDarker, -- sutilmente mais escuro
-      })
-
-      -- Linhas ímpares
-      vim.api.nvim_set_hl(0, 'RenderMarkdownTableRowOdd', {
-        bg = colors.bg, -- mantém o fundo padrão
-      })
-
-      -- Checkboxes
-      vim.cmd(string.format([[highlight RenderMarkdownChecked guifg=%s gui=bold]], colors.green))
-      vim.cmd(string.format([[highlight RenderMarkdownUnchecked guifg=%s]], colors.comment))
-
-      -- Separadores
-      vim.cmd(string.format([[highlight RenderMarkdownDash guifg=%s]], colors.border))
-
-      -- Texto forte e itálico
-      vim.cmd(string.format([[highlight @markup.strong.markdown_inline guifg=%s gui=bold]], colors.secondary))
-      vim.cmd(string.format([[highlight @markup.italic.markdown_inline guifg=%s gui=italic]], colors.purple))
-
-      -- Math
-      vim.cmd(string.format([[highlight RenderMarkdownMath guifg=%s guibg=%s]], colors.orange, colors.bgFloat))
+      -- local colors = require 'vesper.colors'
+      --
+      -- -- Headings com cores do Vesper
+      -- vim.cmd(string.format([[highlight Headline1Bg guifg=%s guibg=%s gui=bold]], colors.info, colors.bgDark))
+      -- vim.cmd(string.format([[highlight Headline2Bg guifg=%s guibg=%s gui=bold]], colors.purple, colors.bgDark))
+      -- vim.cmd(string.format([[highlight Headline3Bg guifg=%s guibg=%s gui=bold]], colors.primary, colors.bgDark))
+      -- vim.cmd(string.format([[highlight Headline4Bg guifg=%s guibg=%s gui=bold]], colors.green, colors.bgDark))
+      -- vim.cmd(string.format([[highlight Headline5Bg guifg=%s guibg=%s gui=bold]], colors.yellowDark, colors.bgDark))
+      -- vim.cmd(string.format([[highlight Headline6Bg guifg=%s guibg=%s gui=bold]], colors.orange, colors.bgDark))
+      --
+      -- -- Headings somente FG
+      -- vim.cmd(string.format([[highlight Headline1Fg guifg=%s gui=bold]], colors.info))
+      -- vim.cmd(string.format([[highlight Headline2Fg guifg=%s gui=bold]], colors.purple))
+      -- vim.cmd(string.format([[highlight Headline3Fg guifg=%s gui=bold]], colors.primary))
+      -- vim.cmd(string.format([[highlight Headline4Fg guifg=%s gui=bold]], colors.green))
+      -- vim.cmd(string.format([[highlight Headline5Fg guifg=%s gui=bold]], colors.yellowDark))
+      -- vim.cmd(string.format([[highlight Headline6Fg guifg=%s gui=bold]], colors.orange))
+      --
+      -- -- Code Blocks
+      -- vim.cmd(string.format([[highlight! RenderMarkdownCode guibg=%s ctermbg=NONE]], colors.bgDarker))
+      -- vim.cmd(string.format([[highlight! RenderMarkdownCodeInline guibg=%s ctermbg=NONE]], colors.border))
+      --
+      -- -- Lists
+      -- vim.cmd(string.format([[highlight RenderMarkdownBullet guifg=%s gui=bold]], colors.info))
+      -- vim.cmd(string.format([[highlight @markup.list.markdown guifg=%s]], colors.fg))
+      --
+      -- -- Callouts
+      -- vim.cmd(string.format([[highlight RenderMarkdownInfo guifg=%s guibg=%s gui=bold]], colors.info, colors.bgFloat))
+      -- vim.cmd(string.format([[highlight RenderMarkdownHint guifg=%s guibg=%s gui=bold]], colors.green, colors.bgFloat))
+      -- vim.cmd(string.format([[highlight RenderMarkdownWarn guifg=%s guibg=%s gui=bold]], colors.yellowDark,
+      --   colors.bgFloat))
+      -- vim.cmd(string.format([[highlight RenderMarkdownError guifg=%s guibg=%s gui=bold]], colors.error, colors.bgFloat))
+      -- vim.cmd(string.format([[highlight RenderMarkdownNote guifg=%s guibg=%s gui=bold]], colors.purple, colors.bgFloat))
+      --
+      -- -- Links
+      -- vim.cmd(string.format([[highlight RenderMarkdownLink guifg=%s gui=underline]], colors.primary))
+      -- vim.cmd(string.format([[highlight @markup.link.markdown_inline guifg=%s gui=underline]], colors.primary))
+      --
+      -- -- Quotes
+      -- vim.cmd(string.format([[highlight RenderMarkdownQuote guifg=%s guibg=%s gui=italic]], colors.fg, colors.bgDark))
+      -- vim.cmd(string.format([[highlight @markup.quote.markdown guifg=%s gui=italic]], colors.comment))
+      --
+      -- -- Cabeçalho da Tabela
+      -- vim.api.nvim_set_hl(0, 'RenderMarkdownTableHead', {
+      --   fg = colors.primary, -- texto mais claro
+      --   bg = colors.bgDark,  -- fundo mais escuro
+      --   bold = true,
+      -- })
+      --
+      -- -- Linhas pares
+      -- vim.api.nvim_set_hl(0, 'RenderMarkdownTableRowEven', {
+      --   bg = colors.bgDarker, -- sutilmente mais escuro
+      -- })
+      --
+      -- -- Linhas ímpares
+      -- vim.api.nvim_set_hl(0, 'RenderMarkdownTableRowOdd', {
+      --   bg = colors.bg, -- mantém o fundo padrão
+      -- })
+      --
+      -- -- Checkboxes
+      -- vim.cmd(string.format([[highlight RenderMarkdownChecked guifg=%s gui=bold]], colors.green))
+      -- vim.cmd(string.format([[highlight RenderMarkdownUnchecked guifg=%s]], colors.comment))
+      --
+      -- -- Separadores
+      -- vim.cmd(string.format([[highlight RenderMarkdownDash guifg=%s]], colors.border))
+      --
+      -- -- Texto forte e itálico
+      -- vim.cmd(string.format([[highlight @markup.strong.markdown_inline guifg=%s gui=bold]], colors.secondary))
+      -- vim.cmd(string.format([[highlight @markup.italic.markdown_inline guifg=%s gui=italic]], colors.purple))
+      --
+      -- -- Math
+      -- vim.cmd(string.format([[highlight RenderMarkdownMath guifg=%s guibg=%s]], colors.orange, colors.bgFloat))
 
       require('render-markdown').setup {
         heading = {
           -- render_modes = true,
           icons = { '󰬺  ', '󰬻  ', '󰬼  ', '󰬽  ', '󰬾  ', '󰬿  ' },
           position = 'inline',
-          backgrounds = {
-            'Headline1Bg',
-            'Headline2Bg',
-            'Headline3Bg',
-            'Headline4Bg',
-            'Headline5Bg',
-            'Headline6Bg',
-          },
-          foregrounds = {
-            'Headline1Fg',
-            'Headline2Fg',
-            'Headline3Fg',
-            'Headline4Fg',
-            'Headline5Fg',
-            'Headline6Fg',
-          },
+          -- backgrounds = {
+          --   'Headline1Bg',
+          --   'Headline2Bg',
+          --   'Headline3Bg',
+          --   'Headline4Bg',
+          --   'Headline5Bg',
+          --   'Headline6Bg',
+          -- },
+          -- foregrounds = {
+          --   'Headline1Fg',
+          --   'Headline2Fg',
+          --   'Headline3Fg',
+          --   'Headline4Fg',
+          --   'Headline5Fg',
+          --   'Headline6Fg',
+          -- },
         },
         code = {
-          sign = false,
-          border = 'thin',
-          position = 'right',
-          width = 'block',
-          above = '▁',
-          below = '▔',
-          language_left = '█',
-          language_right = '█',
-          language_border = '▁',
-          left_pad = 1,
-          right_pad = 1,
+          -- sign = false,
+          -- border = 'thin',
+          -- position = 'right',
+          -- width = 'block',
+          -- above = '▁',
+          -- below = '▔',
+          -- language_left = '█',
+          -- language_right = '█',
+          -- language_border = '▁',
+          -- left_pad = 1,
+          -- right_pad = 1,
         },
         bullet = {
           enabled = true,
