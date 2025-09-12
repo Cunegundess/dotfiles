@@ -10,12 +10,13 @@ font-style = SemiBold
 
 # theme = vesper
 # theme = tokyonight_night
+theme = catppuccin-mocha
 # theme = dark:GruvboxDarkHard,light:GruvboxLightHard
-theme = vague
+# theme = vague
 # theme = detuned
 
-background-opacity = 0.8
-window-decoration = none
+background-opacity = 1.0
+window-decoration = server
 window-padding-x = 15
 window-padding-y = 15
 window-colorspace = "display-p3"

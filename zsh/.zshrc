@@ -125,7 +125,7 @@ export PATH="$HOME/.config/emacs/bin/doom:$PATH"
 eval "$(zoxide init zsh)"
 
 # Starship prompt
-# eval "$(starship init zsh)"
+eval "$(starship init zsh)"
 
 # Comando wrapper para yazi (alternativa ao ranger)
 function y() {
