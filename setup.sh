@@ -40,7 +40,7 @@ sync_git() {
     echo "[$(date)] Sync completo!"
 }
 
-FIRST_RUN_FILE="$REPO_PATH/.dotfiles_auto_configured"
+FIRST_RUN_FILE="$REPO_PATH/.setup.done"
 
 if [ ! -f "$FIRST_RUN_FILE" ]; then
     echo "🔧 Primeira execução - Configurando auto-sync..."
