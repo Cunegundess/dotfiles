@@ -3,7 +3,7 @@
 REPO_PATH="$HOME/dotfiles"
 BRANCH="main"
 SYNC_EVERY_MINUTES=30
-PROGRAMS="nvim tmux zsh fonts ghostty gtk-icons gtk-themes starship wallpapapers"
+PROGRAMS="nvim tmux zsh fonts ghostty gtk-icons gtk-themes starship wallpapers"
 
 sync_stow() {
     cd "$REPO_PATH" || exit 1
@@ -55,8 +55,8 @@ if [ ! -f "$FIRST_RUN_FILE" ]; then
     }
 
     setup_cron
+    sync_stow
     touch "$FIRST_RUN_FILE"
 fi
 
-sync_stow
 sync_git
