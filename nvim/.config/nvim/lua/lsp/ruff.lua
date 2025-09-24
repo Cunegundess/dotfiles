@@ -1,5 +1,5 @@
 return {
-  cmd = { '/run/current-system/sw/bin/ruff', 'server' },
+  cmd = { 'ruff', 'server' },
   root_dir = vim.fn.getcwd(),
   filetypes = { 'python' },
   init_options = {

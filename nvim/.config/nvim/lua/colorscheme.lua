@@ -1,1 +1,1 @@
-return "tokyonight"
+return "github_dark_dimmed"

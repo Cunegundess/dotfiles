@@ -99,7 +99,7 @@ return {
 
     dap.configurations.python = {
       {
-        name = "🐳 Docker dap",
+        name = "Docker dap",
         type = "python",
         request = "attach",
         connect = {

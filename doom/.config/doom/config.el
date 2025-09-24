@@ -32,7 +32,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-nord-aurora)
+(setq doom-theme 'doom-tokyo-night)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -49,50 +49,150 @@
 ;;   (after! PACKAGE
 ;;     (setq x y))
 ;;
-(after! org
-  (setq org-directory "~/Documentos/org/")
-  (setq org-agenda-files "~/Documentos/org/agenda.org")
-  (setq org-log-done 'time)
-  (require 'org-bullets)
-  (add-hook 'org-mode-hook (lambda() (org-bullets-mode 1)))
-)
-
-(after! dap-mode
-  (setq dap-python-debugger 'debugpy)
-  (setq dap-python-executable "python3"))
-
-(map! :map dap-mode-map
-      :leader
-      :prefix ("d" . "dap")
-      ;; basics
-      :desc "dap next"          "n" #'dap-next
-      :desc "dap step in"       "i" #'dap-step-in
-      :desc "dap step out"      "o" #'dap-step-out
-      :desc "dap continue"      "c" #'dap-continue
-      :desc "dap hydra"         "h" #'dap-hydra
-      :desc "dap debug restart" "r" #'dap-debug-restart
-      :desc "dap debug"         "s" #'dap-debug
-
-      ;; debug
-      :prefix ("dd" . "Debug")
-      :desc "dap debug recent"  "r" #'dap-debug-recent
-      :desc "dap debug last"    "l" #'dap-debug-last
-
-      ;; eval
-      :prefix ("de" . "Eval")
-      :desc "eval"                "e" #'dap-eval
-      :desc "eval region"         "r" #'dap-eval-region
-      :desc "eval thing at point" "s" #'dap-eval-thing-at-point
-      :desc "add expression"      "a" #'dap-ui-expressions-add
-      :desc "remove expression"   "d" #'dap-ui-expressions-remove
-
-      :prefix ("db" . "Breakpoint")
-      :desc "dap breakpoint toggle"      "b" #'dap-breakpoint-toggle
-      :desc "dap breakpoint condition"   "c" #'dap-breakpoint-condition
-      :desc "dap breakpoint hit count"   "h" #'dap-breakpoint-hit-condition
-      :desc "dap breakpoint log message" "l" #'dap-breakpoint-log-message)
-
 ;;
+
+;; Org mode configuration with org-bullets
+(use-package! org
+  :config
+  (setq org-directory "~/Documentos/org/")
+  (setq org-agenda-files (list "~/Documentos/org/agenda.org"))
+  (setq org-log-done 'time)
+
+  ;; Enable org-bullets
+  (add-hook 'org-mode-hook 'org-bullets-mode))
+
+;; Configuração para Python com pyright + ruff
+(after! python
+  ;; Configurar pyright (LSP)
+  (setq lsp-pyright-use-library-code-for-types t)
+  (setq lsp-pyright-auto-import-completions t)
+
+  ;; Configurar ruff (linter + formatter)
+  (setq flycheck-python-ruff-executable "ruff")
+  (add-hook 'python-mode-hook 'flycheck-mode))
+
+;; Configuração do LSP mode para Python
+(after! lsp-mode
+  (setq lsp-pyright-multi-root nil)
+  (setq lsp-enable-snippet nil)
+
+  ;; Adicionar ruff como provider de formatção
+  (add-to-list 'lsp-enabled-clients 'pyright))
+
+;; DAP Mode configuration - CONFIGURAÇÃO CORRIGIDA
+(use-package! dap-mode
+  :ensure nil  ; Já instalado via packages.el
+  :after (lsp-mode python)
+  :config
+  ;; Carregar primeiro os módulos necessários
+  (require 'dap-python)
+  (require 'dap-hydra)
+
+  ;; Inicializar DAP mode
+  (dap-mode 1)
+  (dap-ui-mode 1)
+  (dap-tooltip-mode 1)
+  (tooltip-mode 1)
+
+  ;; Python-specific configuration
+  (setq dap-python-debugger 'debugpy)
+  (setq dap-python-executable "python3")
+
+  ;; Helper function to get workspace directory
+  (defun my/dap-get-workspace-root ()
+    (or (if (buffer-file-name)
+            (projectile-project-root)
+          default-directory)
+        default-directory))
+
+  ;; Docker debug template
+  (dap-register-debug-template
+   "Python Docker"
+   (list :type "python"
+         :request "attach"
+         :name "Python Docker"
+         :host "localhost"
+         :port 5678
+         :pathMappings (vector (list :localRoot (my/dap-get-workspace-root)
+                                    :remoteRoot "/app"))
+         :justMyCode :json-false))
+
+  ;; Keybindings DAP
+  (map! :leader
+        (:prefix ("d" . "debug")
+         :desc "Start debug"       "s" #'dap-debug
+         :desc "Next"              "n" #'dap-next
+         :desc "Step in"           "i" #'dap-step-in
+         :desc "Step out"          "o" #'dap-step-out
+         :desc "Continue"          "c" #'dap-continue
+         :desc "Toggle breakpoint" "b" #'dap-breakpoint-toggle
+         :desc "Debug hydra"       "h" #'dap-hydra)))
+
+;; Configuração do formatador ruff
+(use-package! format-all
+  :hook (python-mode . format-all-mode)
+  :config
+  (setq format-all-formatters
+        '(("Python" (ruff-format))))
+
+  ;; Função para formatar com ruff
+  (defun my/python-format-buffer ()
+    "Format current Python buffer with ruff"
+    (interactive)
+    (when (executable-find "ruff")
+      (call-process-shell-command
+       (format "ruff format --line-length 88 %s" (buffer-file-name))
+       nil 0)))
+
+  (add-hook 'before-save-hook 'my/python-format-buffer nil t))
+
+;; Improved Docker debug function with error handling
+(defun my/debug-docker ()
+  "Connect to Docker debugpy with proper error handling"
+  (interactive)
+  (let ((config (list :type "python"
+                      :request "attach"
+                      :name "Docker Debug"
+                      :host "localhost"
+                      :port 5678
+                      :pathMappings (vector (list :localRoot (my/dap-get-workspace-root)
+                                                 :remoteRoot "/app"))
+                      :justMyCode :json-false)))
+    (condition-case err
+        (dap-debug config)
+      (error (message "Debug connection failed: %s" (error-message-string err))))))
+
+;; Add keybinding for Docker debug
+(map! :leader :desc "Docker debug" "d D" #'my/debug-docker)
+
+;; Keybindings úteis para Python development
+(map! :leader
+      (:prefix ("c" . "code")
+       :desc "Organize imports" "i" #'lsp-organize-imports
+       :desc "Format buffer"    "f" #'my/python-format-buffer
+       :desc "Ruff check"       "r" #'flycheck-checker))
+
+;; Função para verificar se DAP está carregado corretamente
+(defun my/check-dap-load ()
+  "Check if DAP is properly loaded"
+  (interactive)
+  (if (featurep 'dap-mode)
+      (message "✅ DAP mode is loaded")
+    (message "❌ DAP mode is NOT loaded"))
+  (if (fboundp 'dap-debug)
+      (message "✅ dap-debug function is available")
+    (message "❌ dap-debug function is NOT available")))
+
+;; Configuração de fallback se DAP não carregar
+(defun my/safe-dap-debug ()
+  "Safe wrapper for dap-debug that handles loading issues"
+  (interactive)
+  (unless (featurep 'dap-mode)
+    (require 'dap-mode)
+    (require 'dap-python)
+    (dap-mode 1))
+  (call-interactively 'dap-debug))
+
 ;; The exceptions to this rule:
 ;;
 ;;   - Setting file/directory variables (like `org-directory')

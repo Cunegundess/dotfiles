@@ -6,6 +6,7 @@ return {
   dependencies = {
     { 'echasnovski/mini.icons' },
     { 'refractalize/oil-git-status.nvim' },
+    { 'benomahony/oil-git.nvim' },
     { 'JezerM/oil-lsp-diagnostics.nvim' },
   },
   -- dependencies = { 'nvim-tree/nvim-web-devicons' }, -- use if you prefer nvim-web-devicons

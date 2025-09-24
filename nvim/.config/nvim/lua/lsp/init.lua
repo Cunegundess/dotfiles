@@ -1,13 +1,12 @@
-vim.lsp.config('nixd', require 'lsp.nixd')
 vim.lsp.config('pyright', require 'lsp.pyright')
 vim.lsp.config('ruff', require 'lsp.ruff')
+vim.lsp.config('tsserver', require 'lsp.tsserver')
 -- vim.lsp.config('pylsp', require 'lsp.python-lsp-server')
 vim.lsp.config('lua_ls', require 'lsp.lua-ls')
 vim.lsp.config('sqlls', require 'lsp.sqlls')
-vim.lsp.config('qmlls', require 'lsp.qmlls')
 vim.lsp.config('jdtls', require 'lsp.jdtls')
 
-vim.lsp.enable { 'lua_ls', 'pyright', 'ruff', 'sqlls', 'qmlls', 'jdtls' }
+vim.lsp.enable { 'lua_ls', 'pyright', 'ruff', 'sqlls', 'jdtls', 'tsserver' }
 
 vim.diagnostic.config {
   virtual_lines = false,
@@ -125,24 +124,24 @@ local function check_lsp_capabilities()
     local caps = client.server_capabilities
 
     local capability_list = {
-      { 'Completion',                caps.completionProvider },
-      { 'Hover',                     caps.hoverProvider },
-      { 'Signature Help',            caps.signatureHelpProvider },
-      { 'Go to Definition',          caps.definitionProvider },
-      { 'Go to Declaration',         caps.declarationProvider },
-      { 'Go to Implementation',      caps.implementationProvider },
-      { 'Go to Type Definition',     caps.typeDefinitionProvider },
-      { 'Find References',           caps.referencesProvider },
-      { 'Document Highlight',        caps.documentHighlightProvider },
-      { 'Document Symbol',           caps.documentSymbolProvider },
-      { 'Workspace Symbol',          caps.workspaceSymbolProvider },
-      { 'Code Action',               caps.codeActionProvider },
-      { 'Code Lens',                 caps.codeLensProvider },
-      { 'Document Formatting',       caps.documentFormattingProvider },
+      { 'Completion', caps.completionProvider },
+      { 'Hover', caps.hoverProvider },
+      { 'Signature Help', caps.signatureHelpProvider },
+      { 'Go to Definition', caps.definitionProvider },
+      { 'Go to Declaration', caps.declarationProvider },
+      { 'Go to Implementation', caps.implementationProvider },
+      { 'Go to Type Definition', caps.typeDefinitionProvider },
+      { 'Find References', caps.referencesProvider },
+      { 'Document Highlight', caps.documentHighlightProvider },
+      { 'Document Symbol', caps.documentSymbolProvider },
+      { 'Workspace Symbol', caps.workspaceSymbolProvider },
+      { 'Code Action', caps.codeActionProvider },
+      { 'Code Lens', caps.codeLensProvider },
+      { 'Document Formatting', caps.documentFormattingProvider },
       { 'Document Range Formatting', caps.documentRangeFormattingProvider },
-      { 'Rename',                    caps.renameProvider },
-      { 'Folding Range',             caps.foldingRangeProvider },
-      { 'Selection Range',           caps.selectionRangeProvider },
+      { 'Rename', caps.renameProvider },
+      { 'Folding Range', caps.foldingRangeProvider },
+      { 'Selection Range', caps.selectionRangeProvider },
     }
 
     for _, cap in ipairs(capability_list) do
