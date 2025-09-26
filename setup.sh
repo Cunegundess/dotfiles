@@ -2,7 +2,7 @@
 
 REPO_PATH="$HOME/dotfiles"
 BRANCH="main"
-SYNC_EVERY_MINUTES=30
+SYNC_EVERY_MINUTES=15
 PROGRAMS="nvim tmux zsh fonts ghostty gtk-icons gtk-themes starship wallpapers"
 
 sync_stow() {
@@ -28,16 +28,21 @@ sync_stow() {
 sync_git() {
     cd "$REPO_PATH" || exit 1
 
-    if git diff-index --quiet HEAD --; then
-        echo "[$(date)] Nada pra commitar"
-        return
+    echo "[$(date)] Sincronizando repositório..."
+
+    if ! git pull --rebase --autostash; then
+        echo "[$(date)] ⚠️ Conflitos detectados! Resolva manualmente antes de continuar."
+        return 1
     fi
 
-    git pull --rebase
-    git add .
-    git commit -m "Auto-sync: $(date '+%Y-%m-%d %H:%M:%S')"
-    git push origin "$BRANCH"
-    echo "[$(date)] Sync completo!"
+    if git diff-index --quiet HEAD --; then
+        echo "[$(date)] Nada pra commitar"
+    else
+        git add .
+        git commit -m "Auto-sync: $(date '+%Y-%m-%d %H:%M:%S')"
+        git push origin "$BRANCH"
+        echo "[$(date)] Sync completo!"
+    fi
 }
 
 FIRST_RUN_FILE="$REPO_PATH/.setup.done"
