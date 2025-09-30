@@ -79,119 +79,132 @@
   ;; Adicionar ruff como provider de formatção
   (add-to-list 'lsp-enabled-clients 'pyright))
 
-;; DAP Mode configuration - CONFIGURAÇÃO CORRIGIDA
-(use-package! dap-mode
-  :ensure nil  ; Já instalado via packages.el
+
+(use-package dap-mode
   :after (lsp-mode python)
   :config
-  ;; Carregar primeiro os módulos necessários
+  ;; Carregar módulos necessários
   (require 'dap-python)
+  (require 'dap-ui)
   (require 'dap-hydra)
 
-  ;; Inicializar DAP mode
+  ;; Inicializar modos
   (dap-mode 1)
   (dap-ui-mode 1)
   (dap-tooltip-mode 1)
   (tooltip-mode 1)
 
-  ;; Python-specific configuration
+  ;; Configuração do debugpy
   (setq dap-python-debugger 'debugpy)
-  (setq dap-python-executable "python3")
 
-  ;; Helper function to get workspace directory
+  ;; Função para obter workspace root
   (defun my/dap-get-workspace-root ()
-    (or (if (buffer-file-name)
-            (projectile-project-root)
-          default-directory)
+    (or (when (fboundp 'projectile-project-root)
+          (projectile-project-root))
         default-directory))
 
-  ;; Docker debug template
-  (dap-register-debug-template
-   "Python Docker"
-   (list :type "python"
-         :request "attach"
-         :name "Python Docker"
-         :host "localhost"
-         :port 5678
-         :pathMappings (vector (list :localRoot (my/dap-get-workspace-root)
-                                    :remoteRoot "/app"))
-         :justMyCode :json-false))
+  ;; Templates de debug
+  (defun my/dap-python-docker-config ()
+    "Python Docker configuration"
+    (list :type "python"
+          :request "attach"
+          :name "Python Docker"
+          :host "127.0.0.1"
+          :port 5678
+          :pathMappings (vector (list :localRoot (my/dap-get-workspace-root)
+                                     :remoteRoot "/app"))
+          :justMyCode :json-false))
 
-  ;; Keybindings DAP
+  (defun my/dap-python-custom-config ()
+    "Python Custom configuration"
+    (list :type "python"
+          :request "attach"
+          :name "Python Custom"
+          :host "127.0.0.1"
+          :port 5678
+          :pathMappings (vector (list :localRoot (lambda () (concat (my/dap-get-workspace-root) "/apps/backend"))
+                                     :remoteRoot (lambda () (concat (my/dap-get-workspace-root) "/apps/backend"))))
+          :cwd (lambda () (concat (my/dap-get-workspace-root) "/apps/backend"))
+          :justMyCode :json-false))
+
+  ;; Registrar templates (opcional - para uso com dap-debug)
+  (dap-register-debug-template "Python Docker" (my/dap-python-docker-config))
+  (dap-register-debug-template "Python Custom" (my/dap-python-custom-config))
+
+  ;; Listeners para UI
+  (add-hook 'dap-session-created-hook (lambda (_) (dap-ui-mode 1)))
+  (add-hook 'dap-terminated-hook (lambda (_) (dap-ui-mode -1)))
+
+  ;; Keybindings equivalentes ao Neovim
   (map! :leader
         (:prefix ("d" . "debug")
-         :desc "Start debug"       "s" #'dap-debug
-         :desc "Next"              "n" #'dap-next
-         :desc "Step in"           "i" #'dap-step-in
-         :desc "Step out"          "o" #'dap-step-out
-         :desc "Continue"          "c" #'dap-continue
-         :desc "Toggle breakpoint" "b" #'dap-breakpoint-toggle
-         :desc "Debug hydra"       "h" #'dap-hydra)))
+         "c" #'dap-continue
+         "i" #'dap-step-in
+         "n" #'dap-next
+         "o" #'dap-step-out
+         "b" #'dap-breakpoint-toggle
+         "B" (lambda ()
+               (interactive)
+               (let ((condition (read-string "Breakpoint condition: ")))
+                 (dap-breakpoint-condition condition)))
+         "t" #'dap-ui-toggle
+         "e" (lambda ()
+               (interactive)
+               (dap-ui-eval (thing-at-point 'symbol t)))
+         "s" #'dap-debug
+         "h" #'dap-hydra))
 
-;; Configuração do formatador ruff
-(use-package! format-all
-  :hook (python-mode . format-all-mode)
-  :config
-  (setq format-all-formatters
-        '(("Python" (ruff-format))))
-
-  ;; Função para formatar com ruff
-  (defun my/python-format-buffer ()
-    "Format current Python buffer with ruff"
+  ;; Funções específicas para cada tipo de debug
+  (defun my/dap-docker-debug ()
+    "Start Docker debug session"
     (interactive)
-    (when (executable-find "ruff")
-      (call-process-shell-command
-       (format "ruff format --line-length 88 %s" (buffer-file-name))
-       nil 0)))
+    (dap-debug (my/dap-python-docker-config)))
 
-  (add-hook 'before-save-hook 'my/python-format-buffer nil t))
+  (defun my/dap-custom-debug ()
+    "Start Custom debug session"
+    (interactive)
+    (dap-debug (my/dap-python-custom-config)))
 
-;; Improved Docker debug function with error handling
-(defun my/debug-docker ()
-  "Connect to Docker debugpy with proper error handling"
+  (map! :leader "d D" #'my/dap-docker-debug
+        :leader "d C" #'my/dap-custom-debug))
+
+;; Configuração do dap-python
+(use-package dap-python
+  :after dap-mode
+  :config
+  (setq dap-python-executable "python3"))
+
+;; Configuração do dap-ui
+(use-package dap-ui
+  :after dap-mode
+  :config
+  (setq dap-ui-controls-mode t
+        dap-ui-sideline-mode t
+        dap-ui-buffer-mode t
+        dap-ui-sideline-show-hover t))
+
+;; Função corrigida para selecionar configuração
+(defun my/dap-select-configuration ()
+  "Select debug configuration"
   (interactive)
-  (let ((config (list :type "python"
-                      :request "attach"
-                      :name "Docker Debug"
-                      :host "localhost"
-                      :port 5678
-                      :pathMappings (vector (list :localRoot (my/dap-get-workspace-root)
-                                                 :remoteRoot "/app"))
-                      :justMyCode :json-false)))
-    (condition-case err
-        (dap-debug config)
-      (error (message "Debug connection failed: %s" (error-message-string err))))))
+  (let ((configs '(("Python Docker" . my/dap-python-docker-config)
+                   ("Python Custom" . my/dap-python-custom-config))))
+    (let ((selected (completing-read "Select debug configuration: "
+                                    (mapcar 'car configs))))
+      (let ((config-func (cdr (assoc selected configs))))
+        (when config-func
+          (dap-debug (funcall config-func)))))))
 
-;; Add keybinding for Docker debug
-(map! :leader :desc "Docker debug" "d D" #'my/debug-docker)
+(map! :leader "d s" #'my/dap-select-configuration)
 
-;; Keybindings úteis para Python development
-(map! :leader
-      (:prefix ("c" . "code")
-       :desc "Organize imports" "i" #'lsp-organize-imports
-       :desc "Format buffer"    "f" #'my/python-format-buffer
-       :desc "Ruff check"       "r" #'flycheck-checker))
-
-;; Função para verificar se DAP está carregado corretamente
-(defun my/check-dap-load ()
-  "Check if DAP is properly loaded"
+;; Comando para ajudar no setup
+(defun my/dap-docker-help ()
+  "Show Docker debugging help"
   (interactive)
-  (if (featurep 'dap-mode)
-      (message "✅ DAP mode is loaded")
-    (message "❌ DAP mode is NOT loaded"))
-  (if (fboundp 'dap-debug)
-      (message "✅ dap-debug function is available")
-    (message "❌ dap-debug function is NOT available")))
+  (my/dap-python-docker-setup))
 
-;; Configuração de fallback se DAP não carregar
-(defun my/safe-dap-debug ()
-  "Safe wrapper for dap-debug that handles loading issues"
-  (interactive)
-  (unless (featurep 'dap-mode)
-    (require 'dap-mode)
-    (require 'dap-python)
-    (dap-mode 1))
-  (call-interactively 'dap-debug))
+(map! :leader "d H" #'my/dap-docker-help)
+
 
 ;; The exceptions to this rule:
 ;;

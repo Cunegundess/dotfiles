@@ -1,1 +1,1 @@
-return "github_dark_dimmed"
+return "github_dark"
