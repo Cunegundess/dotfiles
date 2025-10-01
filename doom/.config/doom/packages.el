@@ -10,6 +10,7 @@
 (package! org-bullets)
 (package! projectile)
 (package! dap-mode)
+(package! beacon)
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:

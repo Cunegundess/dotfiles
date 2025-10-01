@@ -21,8 +21,17 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "JetBrains Mono Nerd Font" :size 13 :weight 'bold)
-      doom-variable-pitch-font (font-spec :family "JetBrains Mono Nerd Font" :size 13))
+
+;; (setq doom-font (font-spec :family "JetBrains Mono Nerd Font" :size 13 :weight 'bold)
+;;       doom-variable-pitch-font (font-spec :family "JetBrains Mono Nerd Font" :size 13))
+
+(setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 15))
+
+(custom-set-faces!
+  '(italic :slant italic)
+  '(bold :weight bold)
+  '(bold-italic :weight bold :slant italic))
+
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -33,15 +42,27 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-tokyo-night)
+;; (setq doom-theme 'doom-meltbus)
+;; (setq doom-theme 'doom-ayu-dark)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
 
+(beacon-mode 1)
+
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+;; (setq org-directory "~/org/")
+;; Org mode configuration with org-bullets
+(use-package! org
+  :config
+  (setq org-directory "~/Documentos/")
+  (setq org-agenda-files (list "~/Documentos/agenda.org"))
+  (setq org-log-done 'time)
 
+  ;; Enable org-bullets
+  (add-hook 'org-mode-hook 'org-bullets-mode))
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -50,16 +71,6 @@
 ;;     (setq x y))
 ;;
 ;;
-
-;; Org mode configuration with org-bullets
-(use-package! org
-  :config
-  (setq org-directory "~/Documentos/org/")
-  (setq org-agenda-files (list "~/Documentos/org/agenda.org"))
-  (setq org-log-done 'time)
-
-  ;; Enable org-bullets
-  (add-hook 'org-mode-hook 'org-bullets-mode))
 
 ;; Configuração para Python com pyright + ruff
 (after! python
@@ -205,6 +216,7 @@
 
 (map! :leader "d H" #'my/dap-docker-help)
 
+(map! :leader :desc "Comment line" "c ;" #'comment-line)
 
 ;; The exceptions to this rule:
 ;;
