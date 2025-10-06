@@ -82,6 +82,7 @@
   (setq flycheck-python-ruff-executable "ruff")
   (add-hook 'python-mode-hook 'flycheck-mode))
 
+
 ;; Configuração do LSP mode para Python
 (after! lsp-mode
   (setq lsp-pyright-multi-root nil)
@@ -90,63 +91,41 @@
   ;; Adicionar ruff como provider de formatção
   (add-to-list 'lsp-enabled-clients 'pyright))
 
-
 (use-package dap-mode
-  :after (lsp-mode python)
+  :after lsp-mode
   :config
-  ;; Carregar módulos necessários
   (require 'dap-python)
   (require 'dap-ui)
   (require 'dap-hydra)
-
-  ;; Inicializar modos
+  
+  ;; Ativa o modo
   (dap-mode 1)
+  
+  ;; Ativa UI components
   (dap-ui-mode 1)
-  (dap-tooltip-mode 1)
-  (tooltip-mode 1)
-
-  ;; Configuração do debugpy
+  (dap-ui-show-many-windows)
+  
+  ;; Debugger padrão
   (setq dap-python-debugger 'debugpy)
 
   ;; Função para obter workspace root
-  (defun my/dap-get-workspace-root ()
-    (or (when (fboundp 'projectile-project-root)
-          (projectile-project-root))
+  (defun my/dap-get-workspace-root () 
+    (or (when (fboundp 'projectile-project-root) 
+          (projectile-project-root)) 
         default-directory))
 
-  ;; Templates de debug
-  (defun my/dap-python-docker-config ()
-    "Python Docker configuration"
-    (list :type "python"
-          :request "attach"
-          :name "Python Docker"
-          :host "127.0.0.1"
-          :port 5678
-          :pathMappings (vector (list :localRoot (my/dap-get-workspace-root)
-                                     :remoteRoot "/app"))
-          :justMyCode :json-false))
+   (dap-register-debug-template
+     "Python Docker Backend"
+        (list :type "python"
+        :request "attach"
+        :name "Python Docker Backend"
+        :connect (list :host "127.0.0.1" :port 5678)
+        :pathMappings (vector 
+                        (list :localRoot "/home/lucas/Projects/work/alianca/apps/backend/apps"
+                                :remoteRoot "/app/apps"))
+        :justMyCode nil))
 
-  (defun my/dap-python-custom-config ()
-    "Python Custom configuration"
-    (list :type "python"
-          :request "attach"
-          :name "Python Custom"
-          :host "127.0.0.1"
-          :port 5678
-          :pathMappings (vector (list :localRoot (lambda () (concat (my/dap-get-workspace-root) "/apps/backend"))
-                                     :remoteRoot (lambda () (concat (my/dap-get-workspace-root) "/apps/backend"))))
-          :cwd (lambda () (concat (my/dap-get-workspace-root) "/apps/backend"))
-          :justMyCode :json-false))
-
-  ;; Registrar templates (opcional - para uso com dap-debug)
-  (dap-register-debug-template "Python Docker" (my/dap-python-docker-config))
-  (dap-register-debug-template "Python Custom" (my/dap-python-custom-config))
-
-  ;; Listeners para UI
-  (add-hook 'dap-session-created-hook (lambda (_) (dap-ui-mode 1)))
-  (add-hook 'dap-terminated-hook (lambda (_) (dap-ui-mode -1)))
-
-  ;; Keybindings equivalentes ao Neovim
+;; Keybindings completos
   (map! :leader
         (:prefix ("d" . "debug")
          "c" #'dap-continue
@@ -154,69 +133,21 @@
          "n" #'dap-next
          "o" #'dap-step-out
          "b" #'dap-breakpoint-toggle
-         "B" (lambda ()
-               (interactive)
-               (let ((condition (read-string "Breakpoint condition: ")))
-                 (dap-breakpoint-condition condition)))
-         "t" #'dap-ui-toggle
-         "e" (lambda ()
-               (interactive)
-               (dap-ui-eval (thing-at-point 'symbol t)))
+         "B" #'dap-breakpoint-condition
+         "l" #'dap-ui-locals
+         "w" #'dap-ui-watches
          "s" #'dap-debug
-         "h" #'dap-hydra))
+         "S" #'dap-disconnect
+         "r" #'dap-restart
+         "t" #'dap-ui-show-many-windows
+         "T" #'dap-ui-hide-many-windows
+         "h" #'dap-hydra
+         "q" #'dap-disconnect)))
 
-  ;; Funções específicas para cada tipo de debug
-  (defun my/dap-docker-debug ()
-    "Start Docker debug session"
-    (interactive)
-    (dap-debug (my/dap-python-docker-config)))
-
-  (defun my/dap-custom-debug ()
-    "Start Custom debug session"
-    (interactive)
-    (dap-debug (my/dap-python-custom-config)))
-
-  (map! :leader "d D" #'my/dap-docker-debug
-        :leader "d C" #'my/dap-custom-debug))
-
-;; Configuração do dap-python
-(use-package dap-python
-  :after dap-mode
+(use-package vterm
+  :commands vterm
   :config
-  (setq dap-python-executable "python3"))
-
-;; Configuração do dap-ui
-(use-package dap-ui
-  :after dap-mode
-  :config
-  (setq dap-ui-controls-mode t
-        dap-ui-sideline-mode t
-        dap-ui-buffer-mode t
-        dap-ui-sideline-show-hover t))
-
-;; Função corrigida para selecionar configuração
-(defun my/dap-select-configuration ()
-  "Select debug configuration"
-  (interactive)
-  (let ((configs '(("Python Docker" . my/dap-python-docker-config)
-                   ("Python Custom" . my/dap-python-custom-config))))
-    (let ((selected (completing-read "Select debug configuration: "
-                                    (mapcar 'car configs))))
-      (let ((config-func (cdr (assoc selected configs))))
-        (when config-func
-          (dap-debug (funcall config-func)))))))
-
-(map! :leader "d s" #'my/dap-select-configuration)
-
-;; Comando para ajudar no setup
-(defun my/dap-docker-help ()
-  "Show Docker debugging help"
-  (interactive)
-  (my/dap-python-docker-setup))
-
-(map! :leader "d H" #'my/dap-docker-help)
-
-(map! :leader :desc "Comment line" "c ;" #'comment-line)
+  (setq vterm-shell "/bin/zsh"))
 
 ;; The exceptions to this rule:
 ;;

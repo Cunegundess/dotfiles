@@ -31,7 +31,7 @@ return {
         { name = 'jcn-dev', url = 'postgres://postgres:jmalianca2023@localhost:5432/JCN' },
         { name = 'edp-dev', url = 'postgresql://DB_DEV_USER:DB_DEV_PASSWORD@localhost:5432/DB_DEV' },
         { name = 'jalles-dev-sqlite', url = 'sqlite:////home/lucas-proxion/Projects/alianca/apps/backend/db.sqlite3' },
-        { name = 'jalles-dev-postgres', url = 'postgres://DB_DEV_USER:DB_DEV_PASSWORD@localhost:5432/DB_DEV' },
+        { name = 'jalles-dev-postgres', url = 'postgres://postgres:jmalianca2023@localhost:5432/alianca_rfid' },
       }
     end,
   },

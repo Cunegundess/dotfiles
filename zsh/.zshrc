@@ -111,8 +111,9 @@ fi
 ### │               Ferramentas extras              │
 ### └───────────────────────────────────────────────┘
 
-export PATH="$HOME/.config/emacs/bin:$PATH"
-export PATH="$HOME/.config/emacs/bin/doom:$PATH"
+export PATH="$HOME/.emacs.d/emacs/bin:$PATH"
+export PATH="$HOME/.emacs.d/emacs/bin/doom:$PATH"
+export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 
 # FZF (se instalado)
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -151,4 +152,4 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-. "$HOME/.local/bin/env"
+# . "$HOME/.local/bin/env"

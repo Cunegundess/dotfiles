@@ -13,21 +13,14 @@ theme = GitHub-Dark-High-Contrast
 # theme = GitHub Dark
 # theme = vesper
 # theme = tokyonight_night
-<<<<<<< HEAD
-theme = catppuccin-mocha
-=======
 # theme = catppuccin-mocha
->>>>>>> df859b74 (Auto-sync: 2025-09-24 15:46:19)
 # theme = dark:GruvboxDarkHard,light:GruvboxLightHard
 # theme = vague
 # theme = detuned
 
 background-opacity = 1.0
-<<<<<<< HEAD
+# window-decoration = client
 window-decoration = server
-=======
-window-decoration = client
->>>>>>> df859b74 (Auto-sync: 2025-09-24 15:46:19)
 window-padding-x = 15
 window-padding-y = 15
 window-colorspace = "display-p3"
