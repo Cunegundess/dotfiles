@@ -8,7 +8,8 @@ font-size = 11
 font-style = Bold
 # font-thicken = true
 
-theme = GitHub-Dark-High-Contrast
+theme = Atom
+# theme = GitHub-Dark-High-Contrast
 # theme = GitHub-Dark-Default
 # theme = GitHub Dark
 # theme = vesper
