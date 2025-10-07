@@ -7,7 +7,7 @@ vim.lsp.config('lua_ls', require 'lsp.lua-ls')
 vim.lsp.config('sqlls', require 'lsp.sqlls')
 vim.lsp.config('jdtls', require 'lsp.jdtls')
 
-vim.lsp.enable { 'lua_ls', 'pyright', 'ruff', 'sqlls', 'jdtls', 'tsserver', 'dartls' }
+vim.lsp.enable { 'lua_ls', 'pyright', 'ruff', 'sqlls', 'jdtls', 'tsserver' }
 
 vim.diagnostic.config {
   virtual_lines = false,

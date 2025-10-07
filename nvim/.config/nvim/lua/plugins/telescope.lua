@@ -56,6 +56,7 @@ return {
     -- Enable Telescope extensions if they are installed
     pcall(telescope.load_extension, 'fzf')
     pcall(telescope.load_extension, 'ui-select')
+    pcall(telescope.load_extension, 'flutter')
 
     keymap('n', 'gd', builtin.lsp_definitions, { desc = '[G]oto [D]efinition' })
     keymap('n', 'gr', builtin.lsp_references, { desc = '[G]oto [R]eferences' })
