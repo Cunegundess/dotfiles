@@ -1,12 +1,13 @@
 vim.lsp.config('pyright', require 'lsp.pyright')
 vim.lsp.config('ruff', require 'lsp.ruff')
 vim.lsp.config('tsserver', require 'lsp.tsserver')
+vim.lsp.config('dartls', require 'lsp.dartls')
 -- vim.lsp.config('pylsp', require 'lsp.python-lsp-server')
 vim.lsp.config('lua_ls', require 'lsp.lua-ls')
 vim.lsp.config('sqlls', require 'lsp.sqlls')
 vim.lsp.config('jdtls', require 'lsp.jdtls')
 
-vim.lsp.enable { 'lua_ls', 'pyright', 'ruff', 'sqlls', 'jdtls', 'tsserver' }
+vim.lsp.enable { 'lua_ls', 'pyright', 'ruff', 'sqlls', 'jdtls', 'tsserver', 'dartls' }
 
 vim.diagnostic.config {
   virtual_lines = false,
