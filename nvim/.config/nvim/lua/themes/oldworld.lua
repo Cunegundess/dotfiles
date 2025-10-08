@@ -3,7 +3,7 @@ return {
   lazy = false,
   priority = 1000,
   opts = {
-    variant = 'oled', -- default, oled, cooler
+    variant = 'default', -- default, oled, cooler
     integrations = { -- You can disable/enable integrations
       neo_tree = true,
       neogit = true,
