@@ -1,6 +1,6 @@
-require 'config'
-require 'keymaps'
 require 'lsp'
+require 'core.config'
+require 'core.keymaps'
 
 -- [[ Configure lazy.nvim ]]
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'

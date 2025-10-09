@@ -2,7 +2,10 @@
 local keymap = vim.keymap.set
 
 -- diagnostics (LSP)
-keymap("n", "gl", vim.diagnostic.open_float, opts)
+keymap('n', 'gl', vim.diagnostic.open_float, opts)
+
+-- LSP Code Actions
+keymap('n', '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ctions' })
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 keymap('n', '<Esc>', '<cmd>nohlsearch<CR>')
@@ -40,12 +43,3 @@ keymap('n', 'J', 'mzJ`z')
 
 -- Replace word under cursor
 keymap('n', '<leader>r', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
-
--- Yank highlight
-vim.api.nvim_create_autocmd('TextYankPost', {
-  desc = 'Highlight when yanking (copying) text',
-  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-})

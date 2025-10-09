@@ -1,3 +1,0 @@
-return {
-  'erikbackman/brightburn.vim',
-}
