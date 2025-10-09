@@ -128,9 +128,16 @@ return {
     local alpha = require 'alpha'
     local tetha = require 'alpha.themes.theta'
 
-    local logo = Headers.neovim_modern
-    tetha.header.val = vim.split(logo, '\n')
-    alpha.setup(tetha.config)
+    -- Escolhe um header aleatório
+    local header_keys = {}
+    for k in pairs(Headers) do
+      table.insert(header_keys, k)
+    end
 
+    math.randomseed(os.time()) -- garante aleatório a cada abertura
+    local random_header = Headers[header_keys[math.random(#header_keys)]]
+
+    tetha.header.val = vim.split(random_header, '\n')
+    alpha.setup(tetha.config)
   end,
 }
