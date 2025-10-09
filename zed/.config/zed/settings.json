@@ -1,0 +1,41 @@
+{
+  "git_panel": {
+    "sort_by_path": false
+  },
+  "inlay_hints": {
+    "enabled": true
+  },
+  "format_on_save": "off",
+  "buffer_font_family": "Cascadia Code NF",
+  "buffer_line_height": {
+    "custom": 1.7
+  },
+  "terminal": {
+    "font_size": 7,
+    "line_height": {
+      "custom": 1.7
+    }
+  },
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  },
+  "vim_mode": true,
+  "relative_line_numbers": true,
+  "cursor_blink": false,
+  "scrollbar": {
+    "show": "never"
+  },
+  "ui_font_size": 9.0,
+  "buffer_font_size": 8.0,
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "VSCode Dark Modern"
+  },
+  "languages": {
+    "Python": {
+      "language_servers": ["pyright"]
+    }
+  }
+}

@@ -1,0 +1,122 @@
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      // File and search operations (Telescope equivalents)
+      "leader s f": "file_finder::Toggle",
+      "leader s g": "workspace::NewSearch",
+      "leader s h": "assistant::ToggleFocus",
+      "leader s o": "recent_projects::OpenRecent",
+      "leader s k": "zed::OpenKeymap",
+      "leader s w": "workspace::NewSearch",
+      "leader s d": "diagnostics::Deploy",
+      "leader s r": "search::ToggleReplace",
+      "leader leader": "tab_switcher::Toggle",
+      "leader s .": "recent_projects::OpenRecent",
+
+      // Git operations
+      "leader g s": "git::OpenRepository",
+      "leader g c": "git::OpenRepository",
+      "leader g b": "branches::OpenRecent",
+
+      // Window/Pane navigation
+      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
+      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
+
+      // Pane resizing with Alt+hjkl
+      "alt-h": ["workspace::ResizePaneInDirection", "Left"],
+      "alt-l": ["workspace::ResizePaneInDirection", "Right"],
+      "alt-j": ["workspace::ResizePaneInDirection", "Down"],
+      "alt-k": ["workspace::ResizePaneInDirection", "Up"],
+
+      // Project tree toggle
+      "leader e": "project_panel::ToggleFocus",
+
+      // Terminal
+      "leader t t": "terminal_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == normal",
+    "bindings": {
+      // Clear search highlights
+      "escape": "editor::Cancel",
+
+      // Diagnostics
+      "g l": "editor::Hover",
+      "leader q": "diagnostics::Deploy",
+
+      // LSP navigation
+      "g d": "editor::GoToDefinition",
+      "g r": "editor::FindAllReferences",
+      "g i": "editor::GoToImplementation",
+      "leader D": "editor::GoToTypeDefinition",
+
+      // Replace word under cursor
+      "leader r": "search::ToggleReplace",
+
+      // Window navigation (same as workspace)
+      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
+      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
+
+      // Pane resizing
+      "alt-h": ["workspace::ResizePaneInDirection", "Left"],
+      "alt-l": ["workspace::ResizePaneInDirection", "Right"],
+      "alt-j": ["workspace::ResizePaneInDirection", "Down"],
+      "alt-k": ["workspace::ResizePaneInDirection", "Up"],
+
+      // Disable arrow keys in normal mode
+      "left": "zed::NoOp",
+      "right": "zed::NoOp",
+      "up": "zed::NoOp",
+      "down": "zed::NoOp"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == visual",
+    "bindings": {
+      // Move selected lines up/down (using J/K like in Neovim)
+      "shift-j": "editor::MoveLineDown",
+      "shift-k": "editor::MoveLineUp"
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      // Terminal escape (double escape like Neovim)
+      "escape escape": "workspace::ToggleBottomDock",
+
+      // Allow tmux prefix keys to pass through
+      "alt-p": null,
+      "ctrl-space": null,
+      "ctrl-b": null,
+
+      // Window navigation from terminal
+      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
+      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"]
+    }
+  },
+  {
+    "context": "Editor && vim_mode == insert",
+    "bindings": {
+      // Window navigation even in insert mode
+      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
+      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"]
+    }
+  },
+  {
+    "context": "ProjectPanel",
+    "bindings": {
+      // Easy escape from project panel
+      "escape": "project_panel::ToggleFocus"
+    }
+  }
+]
