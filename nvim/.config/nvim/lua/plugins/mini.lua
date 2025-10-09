@@ -15,7 +15,7 @@ return { -- Collection of various small independent plugins/modules
     -- - sd'   - [S]urround [D]elete [']quotes
     -- - sr)'  - [S]urround [R]eplace [)] [']
     require('mini.surround').setup()
-    -- require('mini.pairs').setup()
+    require('mini.pairs').setup()
 
     require('mini.comment').setup {
       mappings = {
@@ -26,34 +26,34 @@ return { -- Collection of various small independent plugins/modules
       },
     }
 
-    -- require('mini.files').setup {
-    --   mappings = {
-    --     close = 'q',
-    --     go_in = '<CR>',
-    --     go_out = '<ESC>',
-    --     mark_goto = "'",
-    --     mark_set = 'm',
-    --     reset = '<BS>',
-    --     reveal_cwd = '@',
-    --     show_help = 'g?',
-    --     synchronize = '=',
-    --     trim_left = '<',
-    --     trim_right = '>',
-    --   },
+    require('mini.files').setup {
+      mappings = {
+        close = 'q',
+        go_in = '<CR>',
+        go_out = '<ESC>',
+        mark_goto = "'",
+        mark_set = 'm',
+        reset = '<BS>',
+        reveal_cwd = '@',
+        show_help = 'g?',
+        synchronize = '=',
+        trim_left = '<',
+        trim_right = '>',
+      },
 
-    -- vim.keymap.set('n', '<leader>e', '<cmd>lua MiniFiles.open()<CR>'),
-    -- }
+      vim.keymap.set('n', '<leader>e', '<cmd>lua MiniFiles.open()<CR>'),
+    }
 
-    -- local statusline = require 'mini.statusline'
-    -- -- set use_icons to true if you have a Nerd Font
-    -- statusline.setup { use_icons = vim.g.have_nerd_font }
-    --
-    -- -- You can configure sections in the statusline by overriding their
-    -- -- default behavior. For example, here we set the section for
-    -- -- cursor location to LINE:COLUMN
-    -- ---@diagnostic disable-next-line: duplicate-set-field
-    -- statusline.section_location = function()
-    --   return '%2l:%-2v'
-    -- end
+    local statusline = require 'mini.statusline'
+    -- set use_icons to true if you have a Nerd Font
+    statusline.setup { use_icons = vim.g.have_nerd_font }
+
+    -- You can configure sections in the statusline by overriding their
+    -- default behavior. For example, here we set the section for
+    -- cursor location to LINE:COLUMN
+    ---@diagnostic disable-next-line: duplicate-set-field
+    statusline.section_location = function()
+      return '%2l:%-2v'
+    end
   end,
 }

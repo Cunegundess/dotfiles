@@ -114,41 +114,6 @@ return {
         },
         justMyCode = true,
       },
-      {
-        name = 'Jalles',
-        type = 'python',
-        request = 'attach',
-        connect = {
-          host = '127.0.0.1',
-          port = 5678,
-        },
-        pathMappings = {
-          {
-            localRoot = vim.fn.getcwd() .. '/apps/backend',
-            remoteRoot = vim.fn.getcwd() .. '/apps/backend',
-          },
-        },
-        cwd = vim.fn.getcwd() .. '/apps/backend',
-        justMyCode = true,
-      },
-    }
-
-    dap.adapters.nlua = function(callback, config)
-      callback {
-        type = 'server',
-        host = config.host or '127.0.0.1',
-        port = config.port or 8086,
-      }
-    end
-
-    dap.configurations.lua = {
-      {
-        type = 'nlua',
-        request = 'attach',
-        name = 'Attach to running Neovim instance',
-        host = '127.0.0.1',
-        port = 8086,
-      },
     }
   end,
 }
