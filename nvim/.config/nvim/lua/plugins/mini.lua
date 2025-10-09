@@ -16,6 +16,9 @@ return { -- Collection of various small independent plugins/modules
     -- - sr)'  - [S]urround [R]eplace [)] [']
     require('mini.surround').setup()
     require('mini.pairs').setup()
+    require('mini.animate').setup()
+    require('mini.clue').setup()
+    require('mini.diff').setup()
 
     require('mini.comment').setup {
       mappings = {
@@ -44,9 +47,8 @@ return { -- Collection of various small independent plugins/modules
       vim.keymap.set('n', '<leader>e', '<cmd>lua MiniFiles.open()<CR>'),
     }
 
-    local statusline = require 'mini.statusline'
     -- set use_icons to true if you have a Nerd Font
-    statusline.setup { use_icons = vim.g.have_nerd_font }
+    require('mini.statusline').setup { use_icons = vim.g.have_nerd_font }
 
     -- You can configure sections in the statusline by overriding their
     -- default behavior. For example, here we set the section for
