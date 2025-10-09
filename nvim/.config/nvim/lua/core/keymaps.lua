@@ -8,10 +8,14 @@ local keymap = vim.keymap.set
 --   require('oil').open()
 -- end, { desc = 'Open Oil' })
 
--- diagnostics (LSP)
+-- LSP
 keymap('n', 'gl', vim.diagnostic.open_float, opts)
-
--- LSP Code Actions
+keymap('n', 'gd', vim.lsp.buf.definition, opts) -- Go to Definition
+keymap('n', 'gr', vim.lsp.buf.references, opts) -- Go to References
+keymap('n', 'gi', vim.lsp.buf.implementation, opts) -- Go to Implementation
+keymap('n', 'gt', vim.lsp.buf.type_definition, opts) -- Go to Type Definition
+keymap('n', 'K', vim.lsp.buf.hover, opts) -- Hover
+keymap('n', '<leader>rn', vim.lsp.buf.rename, opts) -- Rename symbol
 keymap('n', '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ctions' })
 
 -- Clear highlights on search when pressing <Esc> in normal mode
