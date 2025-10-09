@@ -27,19 +27,10 @@ return {
         trim_left = '<',
         trim_right = '>',
       },
+      vim.keymap.set('n', '<leader>e', require('mini.files').open, { desc = 'Abrir explorador de arquivos (mini.files)' }),
     }
 
-    vim.keymap.set('n', '<leader>e', require('mini.files').open, { desc = 'Abrir explorador de arquivos (mini.files)' })
-
     require('mini.pick').setup {
-      mappings = {
-        move_down = '<C-j>',
-        move_up = '<C-k>',
-        scroll_down = '<C-d>',
-        scroll_up = '<C-u>',
-        confirm = '<CR>',
-        close = '<Esc>',
-      },
       options = {
         use_cache = true,
       },
