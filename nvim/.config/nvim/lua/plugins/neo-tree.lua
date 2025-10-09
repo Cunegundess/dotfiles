@@ -34,7 +34,7 @@ return {
   },
   config = function()
     require('neo-tree').setup {
-      vim.keymap.set('n', '<leader>E', ':Neotree reveal float<CR>', { desc = 'Neotree reveal' }),
+      vim.keymap.set('n', '<leader>ee', ':Neotree toggle left<CR>', { desc = 'Neotree' }),
     }
   end,
 }

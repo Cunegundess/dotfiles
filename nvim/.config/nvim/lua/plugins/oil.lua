@@ -134,6 +134,5 @@ return {
         },
       },
     }
-    vim.keymap.set('n', '<leader>e', oil.open, { desc = 'Open parent directory' })
   end,
 }

@@ -1,6 +1,13 @@
 -- [[ Keymaps ]]
 local keymap = vim.keymap.set
 
+-- Oil
+vim.keymap.set('n', '<leader>e', function()
+  vim.g.oil_disable_git = true
+  vim.g.oil_disable_diagnostics = true
+  require('oil').open()
+end, { desc = 'Open Oil' })
+
 -- diagnostics (LSP)
 keymap('n', 'gl', vim.diagnostic.open_float, opts)
 
