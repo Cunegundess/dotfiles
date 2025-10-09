@@ -132,6 +132,5 @@ return {
     tetha.header.val = vim.split(logo, '\n')
     alpha.setup(tetha.config)
 
-    vim.api.nvim_create_augroup('alpha_on_empty', { clear = true })
   end,
 }

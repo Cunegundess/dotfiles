@@ -42,8 +42,6 @@ vim.lsp.util.open_floating_preview = function(contents, syntax, opts, ...)
 end
 
 -- Extras
-
-
 local function restart_lsp(bufnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
   local clients = vim.lsp.get_clients { bufnr = bufnr }
@@ -141,3 +139,4 @@ local function lsp_info()
 
     print ''
   end
+end
