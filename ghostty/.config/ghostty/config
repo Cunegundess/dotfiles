@@ -33,4 +33,3 @@ shell-integration-features = true
 auto-update = check
 auto-update-channel = stable
 confirm-close-surface = false
-

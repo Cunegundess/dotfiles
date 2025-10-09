@@ -3,7 +3,7 @@
 REPO_PATH="$HOME/dotfiles"
 BRANCH="main"
 SYNC_EVERY_MINUTES=15
-PROGRAMS="nvim tmux zsh fonts ghostty gtk-icons gtk-themes starship wallpapers"
+STOW_PROGRAMS="nvim tmux zsh fonts ghostty gtk-icons gtk-themes starship wallpapers"
 
 sync_stow() {
     cd "$REPO_PATH" || exit 1
@@ -21,8 +21,8 @@ sync_stow() {
     fi
 
     echo "[$(date)] Aplicando stow..."
-    stow -t $HOME $PROGRAMS
-    echo "[$(date)] Stow completo: $PROGRAMS"
+    stow -t $HOME $STOW_PROGRAMS
+    echo "[$(date)] Stow completo: $STOW_PROGRAMS"
 }
 
 sync_git() {
