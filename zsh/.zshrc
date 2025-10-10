@@ -113,7 +113,6 @@ fi
 
 export PATH="$HOME/.emacs.d/emacs/bin:$PATH"
 export PATH="$HOME/.emacs.d/emacs/bin/doom:$PATH"
-export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 
 # FZF (se instalado)
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
