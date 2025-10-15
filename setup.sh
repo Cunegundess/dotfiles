@@ -3,7 +3,7 @@
 REPO_PATH="$HOME/dotfiles"
 BRANCH="main"
 SYNC_EVERY_MINUTES=15
-STOW_PROGRAMS="nvim tmux zsh fonts starship"
+STOW_PROGRAMS="nvim tmux zsh fonts ghostty starship"
 
 sync_stow() {
     cd "$REPO_PATH" || exit 1
