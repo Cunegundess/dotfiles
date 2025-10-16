@@ -1,6 +1,6 @@
-if true then
-  return {}
-end
+-- if true then
+--   return {}
+-- end
 
 return {
   -- Fuzzy Finder (files, lsp, etc)
