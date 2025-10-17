@@ -211,7 +211,7 @@ return {
     require('mini.pairs').setup()
     require('mini.comment').setup()
     require('mini.indentscope').setup { delay = 50, symbol = '│' }
-    require('mini.notify').setup()
+    -- require('mini.notify').setup()
     require('mini.diff').setup()
     require('mini.animate').setup()
     require('mini.fuzzy').setup()
