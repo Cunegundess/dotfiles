@@ -1,7 +1,7 @@
--- if true then
---   return {}
--- end
---
+if true then
+  return {}
+end
+
 return {
   'ibhagwan/fzf-lua',
   -- dependencies = { 'nvim-tree/nvim-web-devicons' },
