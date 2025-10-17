@@ -191,7 +191,6 @@ return {
       {
         { name = "Mason",          action = "Mason",                 section = "Updaters"},
         { name = "Update plugins", action = "lua vim.pack.update()", section = "Updaters"},
-        { name = "New Meeting",    action = "ZkNewMeeting",          section = "Actions"},
         { name = "Visited files",  action = "Pick visit_paths",      section = "Actions"},
         { name = "Quit Neovim",    action = "qall",                  section = "Actions"},
       },
@@ -216,7 +215,7 @@ return {
     require('mini.diff').setup()
     require('mini.animate').setup()
     require('mini.fuzzy').setup()
-    require('mini.statusline').setup { use_icons = vim.g.have_nerd_font }
+    -- require('mini.statusline').setup { use_icons = vim.g.have_nerd_font }
 
     require('mini.files').setup {
       mappings = {
