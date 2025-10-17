@@ -4,9 +4,12 @@ vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true
 vim.g.termguicolors = true
 
--- Disable netrw (use if you have a file explorer plugin)
--- vim.g.loaded_netrw = 1
--- vim.g.loaded_netrwPlugin = 1
+-- Netrw
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+vim.g.netrw_keepdir = 0
+vim.g.netrw_winsize = 30
+vim.g.netrw_localcopydircmd = 'cp -r'
 
 -- [[ Setting options ]]
 --

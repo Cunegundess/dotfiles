@@ -216,23 +216,23 @@ return {
     require('mini.animate').setup()
     require('mini.fuzzy').setup()
     -- require('mini.statusline').setup { use_icons = vim.g.have_nerd_font }
-
-    require('mini.files').setup {
-      mappings = {
-        close = 'q',
-        go_in = '<CR>',
-        go_out = '<ESC>',
-        mark_goto = "'",
-        mark_set = 'm',
-        reset = '<BS>',
-        reveal_cwd = '@',
-        show_help = 'g?',
-        synchronize = '=',
-        trim_left = '<',
-        trim_right = '>',
-      },
-      vim.keymap.set('n', '<leader>e', require('mini.files').open, { desc = 'Abrir explorador de arquivos (mini.files)' }),
-    }
+    --
+    -- require('mini.files').setup {
+    --   mappings = {
+    --     close = 'q',
+    --     go_in = '<CR>',
+    --     go_out = '<ESC>',
+    --     mark_goto = "'",
+    --     mark_set = 'm',
+    --     reset = '<BS>',
+    --     reveal_cwd = '@',
+    --     show_help = 'g?',
+    --     synchronize = '=',
+    --     trim_left = '<',
+    --     trim_right = '>',
+    --   },
+    --   vim.keymap.set('n', '<leader>e', require('mini.files').open, { desc = 'Abrir explorador de arquivos (mini.files)' }),
+    -- }
 
     -- require('mini.pick').setup {
     --   options = {
