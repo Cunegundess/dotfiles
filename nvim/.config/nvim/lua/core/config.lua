@@ -12,6 +12,8 @@ vim.g.netrw_liststyle = 1
 vim.g.netrw_winsize = 41
 vim.g.netrw_altv = 1
 vim.g.netrw_localcopydircmd = 'cp -r'
+vim.g.netrw_hide = 0
+vim.g.netrw_sizestyle = 'H'
 
 -- [[ Setting options ]]
 --
