@@ -1,6 +1,9 @@
 -- [[ Keymaps ]]
 local keymap = vim.keymap.set
 
+-- Netrw
+keymap('n', '<leader>e', '<cmd>Explore<CR>')
+
 -- Oil
 -- vim.keymap.set('n', '<leader>e', function()
 --   vim.g.oil_disable_git = true
@@ -9,15 +12,15 @@ local keymap = vim.keymap.set
 -- end, { desc = 'Open Oil' })
 
 -- LSP
-keymap('n', 'gl', vim.diagnostic.open_float, opts)
-keymap('n', 'gd', vim.lsp.buf.definition, opts) -- Go to Definition
-keymap('n', 'gr', vim.lsp.buf.references, opts) -- Go to References
-keymap('n', 'gi', vim.lsp.buf.implementation, opts) -- Go to Implementation
-keymap('n', 'gt', vim.lsp.buf.type_definition, opts) -- Go to Type Definition
-keymap('n', 'K', vim.lsp.buf.hover, opts) -- Hover
-keymap('n', '<leader>rn', vim.lsp.buf.rename, opts) -- Rename symbol
-keymap('n', '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ctions' })
-
+-- keymap('n', 'gl', vim.diagnostic.open_float, opts)
+-- keymap('n', 'gd', vim.lsp.buf.definition, opts) -- Go to Definition
+-- keymap('n', 'gr', vim.lsp.buf.references, opts) -- Go to References
+-- keymap('n', 'gi', vim.lsp.buf.implementation, opts) -- Go to Implementation
+-- keymap('n', 'gt', vim.lsp.buf.type_definition, opts) -- Go to Type Definition
+-- keymap('n', 'K', vim.lsp.buf.hover, opts) -- Hover
+-- keymap('n', '<leader>rn', vim.lsp.buf.rename, opts) -- Rename symbol
+-- keymap('n', '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ctions' })
+--
 -- Clear highlights on search when pressing <Esc> in normal mode
 keymap('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
