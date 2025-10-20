@@ -40,6 +40,9 @@ zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light Aloxaf/fzf-tab
 zinit light MichaelAquilina/zsh-auto-notify
+zinit light jeffreytse/zsh-vi-mode
+
+ZVM_SYSTEM_CLIPBOARD_ENABLED=true
 
 ### ┌───────────────────────────────────────────────┐
 ### │           Comportamento e Estilo             │
