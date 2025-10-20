@@ -13,25 +13,32 @@ return {
     local dap = require 'dap'
     local dapui = require 'dapui'
     return {
-      -- Eval var under cursor
-      vim.keymap.set('n', '<space>?', function()
-        dapui.eval(nil, { enter = true })
-      end),
+      {
+        '<space>?',
+        function()
+          dapui.eval(nil, { enter = true })
+        end,
+        desc = 'Debug: Evaluate variable under cursor',
+        mode = 'n',
+      },
 
       { '<leader>bc', dap.continue, desc = 'Debug: Start/Continue' },
       { '<leader>bi', dap.step_into, desc = 'Debug: Step Into' },
       { '<leader>bo', dap.step_over, desc = 'Debug: Step Over' },
       { '<leader>bO', dap.step_out, desc = 'Debug: Step Out' },
-      { '<leader>b', dap.toggle_breakpoint, desc = 'Debug: Toggle Breakpoint' },
+      { '<leader>bb', dap.toggle_breakpoint, desc = 'Debug: Toggle Breakpoint' },
       {
-        '<leader>B',
+        '<leader>bB',
         function()
           dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
         end,
-        desc = 'Debug: Set Breakpoint',
+        desc = 'Debug: Set Conditional Breakpoint',
       },
-      -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
-      { '<F7>', dapui.toggle, desc = 'Debug: See last session result.' },
+      {
+        '<F7>',
+        dapui.toggle,
+        desc = 'Debug: Toggle DAP UI (View last session result)',
+      },
       unpack(keys),
     }
   end,
@@ -61,26 +68,19 @@ return {
       only_first_definition = true,
       all_references = false,
       clear_on_continue = false,
-      -- virt_text_pos = vim.fn.has 'nvim-0.10' == 1 and 'inline' or 'eol',
       virt_text_pos = 'eol',
 
       -- experimental features:
-      all_frames = false, -- show virtual text for all stack frames not only current. Only works for debugpy on my machine.
-      virt_lines = false, -- show virtual lines instead of virtual text (will flicker!)
+      all_frames = false,
+      virt_lines = false,
       virt_text_win_col = nil,
 
-      -- This just tries to mitigate the chance that I leak tokens here. Probably won't stop it from happening...
       display_callback = function(variable)
         local name = string.lower(variable.name)
         local value = string.lower(variable.value)
         if name:match 'secret' or name:match 'api' or value:match 'secret' or value:match 'api' then
           return '*****'
         end
-
-        -- if #variable.value > 15 then
-        --   return ' ' .. string.sub(variable.value, 1, 50) .. '... '
-        -- end
-
         return ' ' .. variable.value
       end,
     }

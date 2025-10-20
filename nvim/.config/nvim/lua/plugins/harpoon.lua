@@ -8,10 +8,14 @@ return {
       },
     }
 
-    vim.keymap.set('n', '<leader>ha', require('harpoon.mark').add_file)
-    vim.keymap.set('n', '<leader>ht', require('harpoon.ui').toggle_quick_menu)
-    vim.keymap.set('n', '<leader>hn', require('harpoon.ui').nav_next)
-    vim.keymap.set('n', '<leader>hp', require('harpoon.ui').nav_prev)
+    local mark = require 'harpoon.mark'
+    local ui = require 'harpoon.ui'
+
+    -- Keymaps com descrições para o which-key
+    vim.keymap.set('n', '<leader>ha', mark.add_file, { desc = 'Harpoon: Add file' })
+    vim.keymap.set('n', '<leader>ht', ui.toggle_quick_menu, { desc = 'Harpoon: Toggle menu' })
+    vim.keymap.set('n', '<leader>hn', ui.nav_next, { desc = 'Harpoon: Next file' })
+    vim.keymap.set('n', '<leader>hp', ui.nav_prev, { desc = 'Harpoon: Previous file' })
 
     require('telescope').load_extension 'harpoon'
   end,

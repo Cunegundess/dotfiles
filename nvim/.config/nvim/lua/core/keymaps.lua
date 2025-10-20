@@ -2,27 +2,10 @@
 local keymap = vim.keymap.set
 
 -- Netrw
-keymap('n', '<leader>e', '<cmd>Explore<CR>')
+keymap('n', '<leader>e', '<cmd>Explore<CR>', { desc = 'Open Netrw' })
 
--- Oil
--- vim.keymap.set('n', '<leader>e', function()
---   vim.g.oil_disable_git = true
---   vim.g.oil_disable_diagnostics = true
---   require('oil').open()
--- end, { desc = 'Open Oil' })
-
--- LSP
--- keymap('n', 'gl', vim.diagnostic.open_float, opts)
--- keymap('n', 'gd', vim.lsp.buf.definition, opts) -- Go to Definition
--- keymap('n', 'gr', vim.lsp.buf.references, opts) -- Go to References
--- keymap('n', 'gi', vim.lsp.buf.implementation, opts) -- Go to Implementation
--- keymap('n', 'gt', vim.lsp.buf.type_definition, opts) -- Go to Type Definition
--- keymap('n', 'K', vim.lsp.buf.hover, opts) -- Hover
--- keymap('n', '<leader>rn', vim.lsp.buf.rename, opts) -- Rename symbol
--- keymap('n', '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ctions' })
---
 -- Clear highlights on search when pressing <Esc> in normal mode
-keymap('n', '<Esc>', '<cmd>nohlsearch<CR>')
+keymap('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear search highlights' })
 
 -- Diagnostic keymaps
 keymap('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
@@ -31,10 +14,10 @@ keymap('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q
 keymap('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- Disable arrow keys in normal mode
-keymap('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
-keymap('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
-keymap('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
-keymap('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
+keymap('n', '<left>', '<cmd>echo "Use h to move!!"<CR>', { desc = 'Disable Left Arrow' })
+keymap('n', '<right>', '<cmd>echo "Use l to move!!"<CR>', { desc = 'Disable Right Arrow' })
+keymap('n', '<up>', '<cmd>echo "Use k to move!!"<CR>', { desc = 'Disable Up Arrow' })
+keymap('n', '<down>', '<cmd>echo "Use j to move!!"<CR>', { desc = 'Disable Down Arrow' })
 
 -- Window navigation
 keymap('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
@@ -49,11 +32,11 @@ keymap('n', '<M-k>', '<cmd>resize +2<CR>', { desc = 'Resize split down' })
 keymap('n', '<M-j>', '<cmd>resize -2<CR>', { desc = 'Resize split up' })
 
 -- Move selected text up/down
-keymap('v', 'J', ":m '>+1<CR>gv=gv")
-keymap('v', 'K', ":m '<-2<CR>gv=gv")
+keymap('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move selection down' })
+keymap('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move selection up' })
 
 -- Join lines and maintain cursor
-keymap('n', 'J', 'mzJ`z')
+keymap('n', 'J', 'mzJ`z', { desc = 'Join lines and keep cursor' })
 
 -- Replace word under cursor
-keymap('n', '<leader>r', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+keymap('n', '<leader>r', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = 'Replace word under cursor' })

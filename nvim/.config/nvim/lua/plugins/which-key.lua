@@ -1,7 +1,3 @@
--- if true then
---   return {}
--- end
-
 return {
   'folke/which-key.nvim',
   event = 'VimEnter',
