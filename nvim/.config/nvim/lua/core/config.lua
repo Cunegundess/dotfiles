@@ -16,32 +16,32 @@ vim.g.netrw_hide = 0
 vim.g.netrw_sizestyle = 'H'
 
 -- [[ Setting options ]]
---
--- _G.git_branch = function()
---   local handle = io.popen 'git branch --show-current 2>/dev/null'
---   if handle then
---     local result = handle:read '*a' or ''
---     handle:close()
---     result = result:gsub('%s+', '') -- remove quebras de linha
---     if result ~= '' then
---       return ' ' .. result .. ' '
---     end
---   end
---   return ''
--- end
---
--- -- Define a statusline
--- vim.o.statusline = table.concat({
---   '%f', -- caminho/nome do arquivo
---   ' %m', -- indicador de modificado [+]
---   ' %r', -- indicador de somente leitura
---   ' %h', -- help file flag
---   ' %w', -- preview window flag
---   ' %=', -- separador (alinha a direita)
---   '%{v:lua.git_branch()}', -- branch git
---   ' %y', -- tipo de arquivo
---   ' %p%%', -- percentual no buffer
--- }, '')
+
+_G.git_branch = function()
+  local handle = io.popen 'git branch --show-current 2>/dev/null'
+  if handle then
+    local result = handle:read '*a' or ''
+    handle:close()
+    result = result:gsub('%s+', '') -- remove quebras de linha
+    if result ~= '' then
+      return ' ' .. result .. ' '
+    end
+  end
+  return ''
+end
+
+-- Define a statusline
+vim.o.statusline = table.concat({
+  '%f', -- caminho/nome do arquivo
+  ' %m', -- indicador de modificado [+]
+  ' %r', -- indicador de somente leitura
+  ' %h', -- help file flag
+  ' %w', -- preview window flag
+  ' %=', -- separador (alinha a direita)
+  '%{v:lua.git_branch()}', -- branch git
+  ' %y', -- tipo de arquivo
+  ' %p%%', -- percentual no buffer
+}, '')
 
 -- Interface and Visual Settings
 vim.opt.number = true
