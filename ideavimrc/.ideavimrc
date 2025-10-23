@@ -16,17 +16,90 @@ let mapleader = ' '
 " Do incremental searching.
 set incsearch
 
+" highlight search results
+set hlsearch
+
+" remove search highlights
+nnoremap <Esc> :nohlsearch<cr>
+
+" case-insensitive search
+set ignorecase
+
+" enable case-sensitive search when uppercased letter is present
+set smartcase
+
+" search while typing
+set incsearch
+
 " Don't use Ex mode, use Q for formatting.
 map Q gq
 
-nmap <leader>fg <Action>(FindInPath)
-nmap <leader>ff <Action>(GotoFile)
-nmap <leader>gd <Action>(GotoDeclaration)
-nmap <leader>gi <Action>(GotoImplementation)
-nmap <leader>gt <Action>(GotoTypeDeclaration)
-nmap <leader>gr <Action>(GotoRelated)
-nmap <leader>ft <Action>(ChangeLaf)
-nmap <leader>ca <Action>(CodeEditorViewGroup)
+" Open config
+noremap <leader>cc :edit ~/.ideavimrc<cr>
+
+" source config
+noremap <leader>cs :source ~/.ideavimrc<cr>:nohlsearch<cr>
+
+map <leader>wv <Action>(SplitVertically)
+map <leader>wh <Action>(SplitHorizontally)
+map <leader>ww <Action>(Unsplit)
+map <leader>wa <Action>(UnsplitAll)
+
+map <leader>fc <Action>(GotoClass)
+map <leader>ff <Action>(GotoFile)
+map <leader>fs <Action>(GotoSymbol)
+map <leader>fa <Action>(GotoAction)
+map <leader>fg <Action>(FindInPath)
+map <leader>ft <Action>(ChangeLaf)
+map <leader>gd <Action>(GotoDeclaration)
+map <leader>gD <Action>(GotoTypeDeclaration)
+map <leader>gi <Action>(GotoImplementation)
+map <leader>gr <Action>(GotoRelated)
+map <leader>gt <Action>(GotoTest)
+map <leader>gm <Action>(GotoSuperMethod)
+map <leader>gl <Action>(GotoLine)
+map <leader>ca <Action>(CodeEditorViewGroup)
+
+map <leader>ug <Action>(FindUsages)
+map <leader>uu <Action>(ShowUsages)
+map <leader>vs <Action>(ViewSource)
+map <leader>im <Action>(QuickImplementations)
+map <leader>td <Action>(QuickTypeDefinition)
+map <leader>ti <Action>(ExpressionTypeInfo)
+map <leader>sh <Action>(ShowHoverInfo)
+map <leader>oo <Action>(FileStructurePopup)
+
+map <S-f> <Action>(Find)
+map <S-r> <Action>(Replace)
+map <leader>fp <Action>(FindInPath)
+map <leader>fr <Action>(ReplaceInPath)
+
+map <leader>rr <Action>(Refactorings.QuickListPopupAction)
+
+map <leader>aa <Action>(ShowIntentionActions)
+
+map <leader>cf <Action>(ReformatCode)
+map <leader>ci <Action>(OptimizeImports)
+
+map <leader>e <Action>(ActivateProjectToolWindow)
+
+" Buffers
+map <leader>bb <Action>(Switcher)
+map <leader>bd <Action>(CloseContent)
+map <leader>bn <Action>(NextTab)
+map <leader>bp <Action>(PreviousTab)
+
+" Terminal
+map <leader>tt <Action>(ActivateTerminalToolWindow)
+
+" Search Everywhere
+map <leader><space> <Action>(SearchEverywhere)
+
+" Git (se tiver integração)
+map <leader>gs <Action>(ActivateVersionControlToolWindow)
+map <leader>gc <Action>(CheckinProject)
+map <leader>gb <Action>(Git.Branches)
+map <leader>gl <Action>(Git.Log)
 
 " --- Enable IdeaVim plugins https://jb.gg/ideavim-plugins
 
