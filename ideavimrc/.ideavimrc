@@ -95,7 +95,7 @@ map <leader>tt <Action>(ActivateTerminalToolWindow)
 " Search Everywhere
 map <leader><space> <Action>(SearchEverywhere)
 
-" Git (se tiver integração)
+" Git
 map <leader>gs <Action>(ActivateVersionControlToolWindow)
 map <leader>gc <Action>(CheckinProject)
 map <leader>gb <Action>(Git.Branches)
