@@ -1,6 +1,9 @@
 -- [[ Keymaps ]]
 local keymap = vim.keymap.set
 
+-- Code actions
+keymap('n', '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ctions' })
+
 -- Netrw
 keymap('n', '<leader>e', '<cmd>Explore<CR>', { desc = 'Open Netrw' })
 

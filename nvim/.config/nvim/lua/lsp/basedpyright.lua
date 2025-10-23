@@ -23,10 +23,10 @@ return {
 
       analysis = {
         -- Modo de diagnóstico: "openFilesOnly" ou "workspace"
-        diagnosticMode = 'openFilesOnly',
+        diagnosticMode = 'workspace',
 
         -- Nível de verificação: "off", "basic", "standard", "strict", "recommended", "all"
-        typeCheckingMode = 'standard',
+        typeCheckingMode = 'strict',
 
         -- Configurações de auto-importação e paths
         autoImportCompletions = true, -- Sugestões de auto-import
