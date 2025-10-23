@@ -9,7 +9,7 @@ set which-key
 " text scroll if you mouse-click near the start or end of the window.
 set scrolloff=5
 set timeoutlen=8000
-set clipboard+=unnamedplus
+set clipboard^=unnamed,unnamedplus
 
 let mapleader = ' '
 
@@ -19,15 +19,14 @@ set incsearch
 " Don't use Ex mode, use Q for formatting.
 map Q gq
 
-nmap <leader>sg <Action>(FindInPath)
-nmap <leader>sf <Action>(GotoFile)
+nmap <leader>fg <Action>(FindInPath)
+nmap <leader>ff <Action>(GotoFile)
 nmap <leader>gd <Action>(GotoDeclaration)
 nmap <leader>gi <Action>(GotoImplementation)
 nmap <leader>gt <Action>(GotoTypeDeclaration)
 nmap <leader>gr <Action>(GotoRelated)
-nmap <leader>th <Action>(ChangeLaf)
+nmap <leader>ft <Action>(ChangeLaf)
 nmap <leader>ca <Action>(CodeEditorViewGroup)
-nmap <leader>em <Action>(EmojiPicker.Open)
 
 " --- Enable IdeaVim plugins https://jb.gg/ideavim-plugins
 
