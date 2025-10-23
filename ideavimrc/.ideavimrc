@@ -58,7 +58,7 @@ map <leader>gr <Action>(GotoRelated)
 map <leader>gt <Action>(GotoTest)
 map <leader>gm <Action>(GotoSuperMethod)
 map <leader>gl <Action>(GotoLine)
-map <leader>ca <Action>(CodeEditorViewGroup)
+map <leader>ca <Action>(ShowIntentionActions)
 
 map <leader>ug <Action>(FindUsages)
 map <leader>uu <Action>(ShowUsages)
@@ -75,8 +75,6 @@ map <leader>fp <Action>(FindInPath)
 map <leader>fr <Action>(ReplaceInPath)
 
 map <leader>rr <Action>(Refactorings.QuickListPopupAction)
-
-map <leader>aa <Action>(ShowIntentionActions)
 
 map <leader>cf <Action>(ReformatCode)
 map <leader>ci <Action>(OptimizeImports)
