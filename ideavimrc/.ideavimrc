@@ -29,7 +29,8 @@ set ignorecase
 set smartcase
 
 " search while typing
-set incsearch
+set noincsearch
+set nosearch
 
 " Don't use Ex mode, use Q for formatting.
 map Q gq
@@ -79,7 +80,8 @@ map <leader>rr <Action>(Refactorings.QuickListPopupAction)
 map <leader>cf <Action>(ReformatCode)
 map <leader>ci <Action>(OptimizeImports)
 
-map <leader>e <Action>(ActivateProjectToolWindow)
+" map <leader>e <Action>(ActivateProjectToolWindow)
+map <leader>e :action ActivateProjectToolWindow<CR>
 
 " Buffers
 map <leader>bb <Action>(Switcher)
