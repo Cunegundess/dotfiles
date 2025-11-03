@@ -74,7 +74,8 @@ return {
           },
         },
         sections = {
-          lualine_a = { { 'mode', fmt = formatMode } },
+          -- lualine_a = { { 'mode', fmt = formatMode } },
+          lualine_a = { { 'mode' } },
           -- lualine_a = { '' },
           lualine_b = { '' },
           lualine_c = { '' },
