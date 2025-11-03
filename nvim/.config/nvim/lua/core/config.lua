@@ -7,7 +7,7 @@ vim.g.termguicolors = true
 -- Netrw
 -- vim.g.loaded_netrw = 0
 -- vim.g.loaded_netrwPlugin = 0
-vim.g.netrw_keepdir = 0
+vim.g.netrw_keepdir = 1
 vim.g.netrw_liststyle = 1
 vim.g.netrw_winsize = 41
 vim.g.netrw_altv = 1
@@ -16,32 +16,32 @@ vim.g.netrw_hide = 0
 vim.g.netrw_sizestyle = 'H'
 
 -- [[ Setting options ]]
-
-_G.git_branch = function()
-  local handle = io.popen 'git branch --show-current 2>/dev/null'
-  if handle then
-    local result = handle:read '*a' or ''
-    handle:close()
-    result = result:gsub('%s+', '') -- remove quebras de linha
-    if result ~= '' then
-      return ' ' .. result .. ' '
-    end
-  end
-  return ''
-end
-
--- Define a statusline
-vim.o.statusline = table.concat({
-  '%f', -- caminho/nome do arquivo
-  ' %m', -- indicador de modificado [+]
-  ' %r', -- indicador de somente leitura
-  ' %h', -- help file flag
-  ' %w', -- preview window flag
-  ' %=', -- separador (alinha a direita)
-  '%{v:lua.git_branch()}', -- branch git
-  ' %y', -- tipo de arquivo
-  ' %p%%', -- percentual no buffer
-}, '')
+--
+-- _G.git_branch = function()
+--   local handle = io.popen 'git branch --show-current 2>/dev/null'
+--   if handle then
+--     local result = handle:read '*a' or ''
+--     handle:close()
+--     result = result:gsub('%s+', '') -- remove quebras de linha
+--     if result ~= '' then
+--       return ' ' .. result .. ' '
+--     end
+--   end
+--   return ''
+-- end
+--
+-- -- Define a statusline
+-- vim.o.statusline = table.concat({
+--   '%f', -- caminho/nome do arquivo
+--   ' %m', -- indicador de modificado [+]
+--   ' %r', -- indicador de somente leitura
+--   ' %h', -- help file flag
+--   ' %w', -- preview window flag
+--   ' %=', -- separador (alinha a direita)
+--   '%{v:lua.git_branch()}', -- branch git
+--   ' %y', -- tipo de arquivo
+--   ' %p%%', -- percentual no buffer
+-- }, '')
 
 -- Interface and Visual Settings
 vim.opt.number = true
@@ -51,10 +51,10 @@ vim.opt.signcolumn = 'yes' -- Keep signcolumn on by default
 vim.opt.cursorline = false -- Show which line your cursor is on
 vim.opt.wrap = false -- Don't wrap long lines
 vim.opt.linebreak = true -- Break at word boundaries if wrap is enabled
-vim.opt.showmode = true -- Don't show the mode, since it's already in status line
-vim.opt.showcmd = true -- Show partial command in status line
+vim.opt.showmode = false -- Don't show the mode, since it's already in status line
+vim.opt.showcmd = false -- Show partial command in status line
 vim.opt.cmdheight = 1 -- Height of command line
-vim.opt.laststatus = 3 -- Global statusline (Neovim 0.7+)
+-- vim.opt.laststatus = 3 -- Global statusline (Neovim 0.7+)
 vim.opt.pumheight = 10 -- Maximum height of popup menu
 vim.opt.pumblend = 10 -- Popup menu transparency
 
