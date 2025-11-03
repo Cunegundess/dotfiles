@@ -3,7 +3,6 @@ return {
     'folke/sidekick.nvim',
     lazy = false,
     opts = {
-      -- add any options here
       cli = {
         mux = {
           backend = 'tmux',
@@ -15,9 +14,8 @@ return {
       {
         '<tab>',
         function()
-          -- if there is a next edit, jump to it, otherwise apply it if any
           if not require('sidekick').nes_jump_or_apply() then
-            return '<Tab>' -- fallback to normal tab
+            return '<Tab>'
           end
         end,
         expr = true,
@@ -43,8 +41,6 @@ return {
         function()
           require('sidekick.cli').select()
         end,
-        -- Or to select only installed tools:
-        -- require("sidekick.cli").select({ filter = { installed = true } })
         desc = 'Select CLI',
       },
       {
@@ -85,7 +81,6 @@ return {
         mode = { 'n', 'x' },
         desc = 'Sidekick Select Prompt',
       },
-      -- Example of a keybinding to open Claude directly
       {
         '<leader>ac',
         function()
@@ -96,48 +91,9 @@ return {
     },
   },
 
-  {
-    'github/copilot.vim',
-    enabled = true,
-    lazy = false,
-    config = function()
-      -- Mapping tab is already used by NvChad
-      -- vim.g.copilot_no_tab_map = true
-      -- vim.g.copilot_assume_mapped = true
-      -- vim.g.copilot_tab_fallback = ''
-      -- -- The mapping is set to other key, see custom/lua/mappings
-      -- or run <leader>ch to see copilot mapping section
-    end,
-  },
-
-  {
-    'CopilotC-Nvim/CopilotChat.nvim',
-    enabled = false,
-    dependencies = {
-      { 'github/copilot.vim' }, -- or zbirenbaum/copilot.lua
-      { 'nvim-lua/plenary.nvim', branch = 'master' }, -- for curl, log and async functions
-    },
-    build = 'make tiktoken', -- Only on MacOS or Linux
-    opts = {
-      -- See Configuration section for options
-    },
-    keys = {
-      { '<leader>Zc', ':CopilotChat<CR>', mode = 'n', desc = '[C]hat with Copilot' },
-      { '<leader>Ze', ':CopilotChatExplain<CR>', mode = 'v', desc = '[E]xplain Code' },
-      { '<leader>Zr', ':CopilotChatReview<CR>', mode = 'v', desc = '[R]eview Code' },
-      { '<leader>Zf', ':CopilotChatFix<CR>', mode = 'v', desc = '[F]ix code issue' },
-      { '<leader>Zo', ':CopilotChatOptimize<CR>', mode = 'v', desc = '[O]ptimize Code' },
-      -- { '<C-r>', ':CopilotChatReset<CR>', mode = 'n', desc = 'Reset Chat window' },
-      -- See Commands section for default commands if you want to lazy load on them
-    },
-  },
-
-  ----------------------------------------
-  --- OLD STUFF ::: disabled
-  --- ------------------------------------
+  -- Copilot moderno e funcional
   {
     'zbirenbaum/copilot.lua',
-    enabled = false,
     event = 'InsertEnter',
     cmd = 'Copilot',
     build = ':Copilot auth',
@@ -148,6 +104,9 @@ return {
         hide_during_completion = true,
         keymap = {
           accept = '<C-l>',
+          next = '<C-]>',
+          prev = '<C-[>',
+          dismiss = '<C-e>',
         },
       },
       panel = {
@@ -161,21 +120,26 @@ return {
           open = '<S-CR>',
         },
         layout = {
-          position = 'right', -- | top | left | right | bottom |
+          position = 'right',
           ratio = 0.4,
         },
       },
       filetypes = {
         markdown = true,
-        help = true,
+        help = false,
       },
     },
   },
+
+  -- Chat opcional (mantido desativado até autenticar o Copilot)
   {
-    'giuxtaposition/blink-cmp-copilot',
+    'CopilotC-Nvim/CopilotChat.nvim',
     enabled = false,
     dependencies = {
-      'zbirenbaum/copilot.lua',
+      { 'zbirenbaum/copilot.lua' },
+      { 'nvim-lua/plenary.nvim' },
     },
+    build = 'make tiktoken',
+    opts = {},
   },
 }
