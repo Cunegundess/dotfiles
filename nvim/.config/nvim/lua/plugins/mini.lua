@@ -9,6 +9,6 @@ return {
     require('mini.indentscope').setup { delay = 50, symbol = '│' }
     require('mini.diff').setup()
     -- require('mini.animate').setup()
-    require('mini.fuzzy').setup()
+    -- require('mini.fuzzy').setup()
   end,
 }

@@ -5,7 +5,7 @@ local keymap = vim.keymap.set
 keymap('n', '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ctions' })
 
 -- Netrw
-keymap('n', '<leader>e', '<cmd>Explore<CR>', { desc = 'Open Netrw' })
+keymap('n', '<leader>e', '<cmd>Lexplore!<CR>', { desc = 'Open Netrw' })
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 keymap('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear search highlights' })
