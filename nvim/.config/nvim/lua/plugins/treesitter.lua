@@ -1,6 +1,6 @@
 return {
   'nvim-treesitter/nvim-treesitter',
-  -- build = ":TSUpdate",
+  build = ':TSUpdate',
   event = { 'BufReadPre', 'BufNewFile' },
   dependencies = {
     'nvim-treesitter/nvim-treesitter-textobjects',
@@ -75,6 +75,12 @@ return {
         },
         swap = {},
       },
+    }
+    require('treesitter-context').setup {
+      enable = true,
+      max_lines = 3,
+      multiline_threshold = 2,
+      trim_scope = 'outer',
     }
   end,
 }
