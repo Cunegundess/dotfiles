@@ -6,12 +6,14 @@ return {
       italics = {
         comments = true,
         keywords = true,
-        functions = true,
+        functions = false,
         strings = true,
-        variables = true,
+        variables = false,
       },
-      overrides = {}, -- A dictionary of group names, can be a function returning a dictionary or a table.
-      palette_overrides = {},
     }
+
+    vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
+    vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
+    vim.api.nvim_set_hl(0, 'FloatBorder', { bg = 'none' })
   end,
 }
