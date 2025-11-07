@@ -110,21 +110,9 @@ return {
         adapters = {
           require 'neotest-python' {
             dap = { justMyCode = false },
-            runner = function()
-              -- Pega o primeiro container cujo nome contém "app"
-              local handle = io.popen "docker ps --filter 'name=app' --format '{{.Names}}' | head -n 1"
-              local container = handle:read('*a'):gsub('%s+', '')
-              handle:close()
-
-              if container == '' then
-                vim.notify("Nenhum container com 'app' no nome foi encontrado.", vim.log.levels.ERROR)
-                return 'python3'
-              end
-
-              return 'docker exec -i ' .. container .. ' pytest'
-            end,
-            args = { '--maxfail=1', '--disable-warnings', '-q' },
+            runner = 'pytest',
             python = 'python3',
+            args = { '--maxfail=1', '--disable-warnings', '-q' },
           },
         },
       }
