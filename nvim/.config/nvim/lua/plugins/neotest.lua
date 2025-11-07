@@ -1,13 +1,57 @@
 return {
   {
     'nvim-neotest/neotest',
-    lazy = true,
+    lazy = false,
     dependencies = {
       'nvim-neotest/nvim-nio',
       'nvim-lua/plenary.nvim',
       'nvim-treesitter/nvim-treesitter',
       'nvim-neotest/neotest-python',
       'antoinemadec/FixCursorHold.nvim',
+    },
+    keys = {
+      {
+        '<leader>tn',
+        function()
+          require('neotest').run.run()
+        end,
+        desc = 'Neotest: Run Nearest',
+      },
+      {
+        '<leader>tf',
+        function()
+          require('neotest').run.run(vim.fn.expand '%')
+        end,
+        desc = 'Neotest: Run File',
+      },
+      {
+        '<leader>ts',
+        function()
+          require('neotest').summary.toggle()
+        end,
+        desc = 'Neotest: Toggle Summary',
+      },
+      {
+        '<leader>to',
+        function()
+          require('neotest').output.open { enter = true }
+        end,
+        desc = 'Neotest: Open Output',
+      },
+      {
+        '<leader>tl',
+        function()
+          require('neotest').run.run_last()
+        end,
+        desc = 'Neotest: Run Last',
+      },
+      {
+        '<leader>ta',
+        function()
+          require('neotest').run.attach()
+        end,
+        desc = 'Neotest: Attach to Nearest',
+      },
     },
     config = function()
       require('neotest').setup {
@@ -69,10 +113,6 @@ return {
             runner = 'pytest',
             args = { '--maxfail=1', '--disable-warnings', '-q' },
             python = 'python3',
-          },
-          require 'neotest-plenary',
-          require 'neotest-vim-test' {
-            ignore_file_types = { 'python', 'vim', 'lua' },
           },
         },
       }
