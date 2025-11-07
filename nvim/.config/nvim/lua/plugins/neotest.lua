@@ -7,10 +7,10 @@ return {
       'nvim-lua/plenary.nvim',
       'nvim-treesitter/nvim-treesitter',
       'nvim-neotest/neotest-python',
+      'antoinemadec/FixCursorHold.nvim',
     },
     config = function()
       require('neotest').setup {
-
         icons = {
           expanded = '',
           child_prefix = ' ',
@@ -18,9 +18,7 @@ return {
           final_child_prefix = ' ',
           non_collapsible = ' ',
           collapsed = '',
-
           running_animated = { '󰄰', '󰪞', '󰪟', '󰪠', '󰪡', '󰪢', '󰪣', '󰪤', '󰪥', '󰪥' },
-
           passed = '',
           running = '',
           failed = '',
@@ -71,6 +69,10 @@ return {
             runner = 'pytest',
             args = { '--maxfail=1', '--disable-warnings', '-q' },
             python = 'python3',
+          },
+          require 'neotest-plenary',
+          require 'neotest-vim-test' {
+            ignore_file_types = { 'python', 'vim', 'lua' },
           },
         },
       }

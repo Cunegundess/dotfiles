@@ -2,10 +2,9 @@
 vim.lsp.config('basedpyright', require 'lsp.basedpyright')
 vim.lsp.config('ruff', require 'lsp.ruff')
 vim.lsp.config('tsserver', require 'lsp.tsserver')
-vim.lsp.config('dartls', require 'lsp.dartls')
 -- vim.lsp.config('pylsp', require 'lsp.python-lsp-server')
 vim.lsp.config('lua_ls', require 'lsp.lua-ls')
-vim.lsp.config('jdtls', require 'lsp.jdtls')
+-- vim.lsp.config('jdtls', require 'lsp.jdtls')
 
 vim.lsp.enable { 'lua_ls', 'basedpyright', 'ruff', 'jdtls', 'tsserver' }
 
