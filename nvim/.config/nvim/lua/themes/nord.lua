@@ -9,5 +9,20 @@ return {
     vim.g.nord_italic_comments = 1
     vim.g.nord_italic = 1
     vim.g.nord_underline = 1
+
+    vim.api.nvim_create_autocmd('ColorScheme', {
+      pattern = 'nord',
+      callback = function()
+        local bg = '#1F232B'
+        vim.api.nvim_set_hl(0, 'Normal', { bg = bg })
+        vim.api.nvim_set_hl(0, 'NormalNC', { bg = bg })
+        vim.api.nvim_set_hl(0, 'SignColumn', { bg = bg })
+        vim.api.nvim_set_hl(0, 'NormalFloat', { bg = bg })
+
+        vim.api.nvim_set_hl(0, 'FloatBorder', { bg = bg })
+        vim.api.nvim_set_hl(0, 'Pmenu', { bg = bg })
+        vim.api.nvim_set_hl(0, 'StatusLine', { bg = bg })
+      end,
+    })
   end,
 }
