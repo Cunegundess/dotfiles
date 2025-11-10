@@ -54,6 +54,13 @@ else
 end
 
 function _G.save_colorscheme(name)
+  if type(name) == 'table' and name.value then
+    name = name.value
+  elseif type(name) ~= 'string' then
+    vim.notify('Invalid colorscheme name', vim.log.levels.ERROR)
+    return
+  end
+
   local file = vim.fn.stdpath 'config' .. '/lua/colorscheme.lua'
   local f = io.open(file, 'w')
   if f then
