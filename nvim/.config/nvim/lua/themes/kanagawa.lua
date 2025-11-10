@@ -9,7 +9,7 @@ return {
       keywordStyle = { italic = true },
       statementStyle = { bold = true },
       typeStyle = { bold = true },
-      transparent = true,
+      transparent = false,
       dimInactive = false,
       terminalColors = true,
       colors = {

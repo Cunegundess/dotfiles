@@ -2471,6 +2471,6 @@ map kitty_mod+, load_config_file
 
 
 # BEGIN_KITTY_THEME
-# IR Black
+# Kanagawa_dragon
 include current-theme.conf
 # END_KITTY_THEME

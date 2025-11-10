@@ -20,7 +20,7 @@ return {
     local keymap = vim.keymap.set
 
     telescope.setup {
-      defaults = require('telescope.themes').get_ivy {
+      defaults = {
         file_ignore_patterns = {
           'node_modules',
           'git',
@@ -31,7 +31,8 @@ return {
         },
         previewer = true,
         layout_config = {
-          height = 0.4,
+          height = 0.8,
+          width = 0.8,
         },
       },
       pickers = {
@@ -43,9 +44,7 @@ return {
         },
       },
       extensions = {
-        ['ui-select'] = {
-          require('telescope.themes').get_ivy(),
-        },
+        ['ui-select'] = {},
       },
     }
 
