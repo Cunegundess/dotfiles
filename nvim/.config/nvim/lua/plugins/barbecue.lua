@@ -9,7 +9,7 @@ return {
   opts = {
     kinds = false,
     theme = {
-      normal = { bg = 'none' },
+      -- normal = { bg = 'none' },
     },
   },
 }
