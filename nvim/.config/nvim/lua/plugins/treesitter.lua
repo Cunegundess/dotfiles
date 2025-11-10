@@ -133,7 +133,7 @@ return {
       },
     }
     require('treesitter-context').setup {
-      enable = true,
+      enable = false,
       max_lines = 3,
       multiline_threshold = 2,
       trim_scope = 'outer',

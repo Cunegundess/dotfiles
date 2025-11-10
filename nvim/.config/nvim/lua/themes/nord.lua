@@ -1,11 +1,13 @@
 return {
-  'shaunsingh/nord.nvim',
+  'arcticicestudio/nord-vim',
   config = function()
-    vim.g.nord_contrast = true
-    vim.g.nord_borders = false
-    vim.g.nord_disable_background = true
-    vim.g.nord_italic = true
-    vim.g.nord_uniform_diff_background = true
-    vim.g.nord_bold = true
+    vim.g.nord_cursor_line_number_background = 1
+    vim.g.nord_uniform_status_lines = 1
+    vim.g.nord_bold_vertical_split_line = 1
+    vim.g.nord_uniform_diff_background = 1
+    vim.g.nord_bold = 1
+    vim.g.nord_italic_comments = 1
+    vim.g.nord_italic = 1
+    vim.g.nord_underline = 1
   end,
 }
