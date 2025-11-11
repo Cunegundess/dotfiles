@@ -30,9 +30,9 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 -- auto resize splits when the terminal's window is resized
-vim.api.nvim_create_autocmd('VimResized', {
-  command = 'wincmd =',
-})
+-- vim.api.nvim_create_autocmd('VimResized', {
+--   command = 'wincmd =',
+-- })
 
 -- no auto continue comments on new line
 vim.api.nvim_create_autocmd('FileType', {
