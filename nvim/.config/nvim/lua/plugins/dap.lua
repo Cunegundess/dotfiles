@@ -90,19 +90,19 @@ return {
           elements = {
             {
               id = 'scopes',
-              size = 0.60,
+              size = 0.55,
             },
             {
               id = 'breakpoints',
-              size = 0.30,
+              size = 0.33,
             },
             {
               id = 'repl',
-              size = 0.10,
+              size = 0.12,
             },
           },
           position = 'bottom',
-          size = 5,
+          size = 10,
         },
       },
       mappings = {
