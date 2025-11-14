@@ -35,7 +35,7 @@ return {
         desc = 'Debug: Set Conditional Breakpoint',
       },
       {
-        '<F7>',
+        'bt',
         dapui.toggle,
         desc = 'Debug: Toggle DAP UI (View last session result)',
       },
@@ -55,16 +55,85 @@ return {
     }
 
     dapui.setup {
-      icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
+      controls = {
+        element = 'repl',
+        enabled = true,
+        icons = {
+          disconnect = '',
+          pause = '',
+          play = '',
+          run_last = '',
+          step_back = '',
+          step_into = '',
+          step_out = '',
+          step_over = '',
+          terminate = '',
+        },
+      },
+      expand_lines = true,
+      floating = {
+        border = 'single',
+        mappings = {
+          close = { 'q', '<Esc>' },
+        },
+      },
+      force_buffers = true,
+      icons = {
+        collapsed = '',
+        current_frame = '',
+        expanded = '',
+      },
       layouts = {
         {
-          name = 'scopes_only',
           elements = {
             { id = 'scopes', size = 1 },
           },
+          position = 'right',
           size = 40,
-          position = 'left',
         },
+        -- layouts = {
+        --   {
+        --     elements = {
+        --       {
+        --         id = 'scopes',
+        --         size = 0.25,
+        --       },
+        --       {
+        --         id = 'breakpoints',
+        --         size = 0.25,
+        --       },
+        --       {
+        --         id = 'stacks',
+        --         size = 0.25,
+        --       },
+        --       {
+        --         id = 'watches',
+        --         size = 0.25,
+        --       },
+        --     },
+        --     position = 'left',
+        --     size = 40,
+        --   },
+        {
+          elements = { {
+            id = 'repl',
+            size = 0.5,
+          } },
+          position = 'top',
+          size = 10,
+        },
+      },
+      mappings = {
+        edit = 'e',
+        expand = { '<CR>', '<2-LeftMouse>' },
+        open = 'o',
+        remove = 'd',
+        repl = 'r',
+        toggle = 't',
+      },
+      render = {
+        indent = 1,
+        max_value_lines = 100,
       },
     }
 
@@ -95,10 +164,7 @@ return {
       end,
     }
 
-    -- dap.listeners.after.event_initialized['dapui_config'] = dapui.open
-    dap.listeners.after.event_initialized['dapui_config'] = function()
-      dapui.open { layouts = 'scopes_only' }
-    end
+    dap.listeners.after.event_initialized['dapui_config'] = dapui.open
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
 

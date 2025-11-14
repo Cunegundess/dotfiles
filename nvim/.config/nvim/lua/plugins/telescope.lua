@@ -6,7 +6,7 @@ return {
     { 'nvim-lua/plenary.nvim' },
     { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     { 'nvim-telescope/telescope-ui-select.nvim' },
-    { 'nvim-telescope/telescope-dap.nvim ' },
+    { 'nvim-telescope/telescope-dap.nvim' },
     {
       'nvim-telescope/telescope-live-grep-args.nvim',
       version = '^1.0.0',
@@ -21,7 +21,6 @@ return {
   },
   config = function()
     local telescope = require 'telescope'
-    local extensions = require 'telescope.extensions'
     local builtin = require 'telescope.builtin'
     local keymap = vim.keymap.set
 
@@ -104,7 +103,7 @@ return {
 
     keymap('n', '<leader>ff', builtin.find_files, { desc = '[T]elescope [F]ind Files' })
     keymap('n', '<leader>fg', builtin.live_grep, { desc = '[T]elescope [G]rep' })
-    keymap('n', '<leader>fG', extensions.live_grep_args.live_grep_args, { desc = '[T]elescope Live [G]rep with args' })
+    keymap('n', '<leader>fG', ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
     keymap('n', '<leader>fh', builtin.help_tags, { desc = '[T]elescope [H]elp' })
     keymap('n', '<leader>fo', builtin.oldfiles, { desc = '[T]elescope [O]ld Files' })
     keymap('n', '<leader>ft', builtin.colorscheme, { desc = '[T]elescope [T]heme' })
