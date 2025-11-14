@@ -70,6 +70,7 @@ return {
           terminate = '',
         },
       },
+      element_mappings = {},
       expand_lines = true,
       floating = {
         border = 'single',
@@ -85,42 +86,23 @@ return {
       },
       layouts = {
         {
+
           elements = {
-            { id = 'scopes', size = 1 },
+            {
+              id = 'scopes',
+              size = 0.60,
+            },
+            {
+              id = 'breakpoints',
+              size = 0.30,
+            },
+            {
+              id = 'repl',
+              size = 0.10,
+            },
           },
-          position = 'right',
-          size = 40,
-        },
-        -- layouts = {
-        --   {
-        --     elements = {
-        --       {
-        --         id = 'scopes',
-        --         size = 0.25,
-        --       },
-        --       {
-        --         id = 'breakpoints',
-        --         size = 0.25,
-        --       },
-        --       {
-        --         id = 'stacks',
-        --         size = 0.25,
-        --       },
-        --       {
-        --         id = 'watches',
-        --         size = 0.25,
-        --       },
-        --     },
-        --     position = 'left',
-        --     size = 40,
-        --   },
-        {
-          elements = { {
-            id = 'repl',
-            size = 0.5,
-          } },
-          position = 'top',
-          size = 10,
+          position = 'bottom',
+          size = 5,
         },
       },
       mappings = {
