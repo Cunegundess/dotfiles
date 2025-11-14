@@ -3,7 +3,10 @@ return {
   event = 'VimEnter',
   branch = '0.1.x',
   dependencies = {
-    'nvim-lua/plenary.nvim',
+    { 'nvim-lua/plenary.nvim' },
+    { 'nvim-telescope/telescope-ui-select.nvim' },
+    { 'nvim-telescope/telescope-dap.nvim ' },
+    { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     {
       'nvim-telescope/telescope-fzf-native.nvim',
       build = 'make',
@@ -11,8 +14,6 @@ return {
         return vim.fn.executable 'make' == 1
       end,
     },
-    { 'nvim-telescope/telescope-ui-select.nvim' },
-    { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
   },
   config = function()
     local telescope = require 'telescope'
@@ -82,7 +83,7 @@ return {
 
     pcall(telescope.load_extension, 'fzf')
     pcall(telescope.load_extension, 'ui-select')
-    pcall(telescope.load_extension, 'flutter')
+    pcall(telescope.load_extension, 'dap')
 
     keymap('n', 'gd', builtin.lsp_definitions, { desc = '[G]oto [D]efinition' })
     keymap('n', 'gr', builtin.lsp_references, { desc = '[G]oto [R]eferences' })
