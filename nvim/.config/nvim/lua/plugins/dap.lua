@@ -56,6 +56,16 @@ return {
 
     dapui.setup {
       icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
+      layouts = {
+        {
+          name = 'scopes_only',
+          elements = {
+            { id = 'scopes', size = 1 },
+          },
+          size = 40,
+          position = 'right',
+        },
+      },
     }
 
     require('nvim-dap-virtual-text').setup {
