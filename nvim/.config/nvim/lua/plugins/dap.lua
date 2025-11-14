@@ -63,7 +63,7 @@ return {
             { id = 'scopes', size = 1 },
           },
           size = 40,
-          position = 'right',
+          position = 'left',
         },
       },
     }
