@@ -55,8 +55,8 @@ return {
         },
         previewer = true,
         layout_config = {
-          height = 0.8,
-          width = 0.8,
+          height = 0.9,
+          width = 0.9,
         },
       },
       pickers = {
