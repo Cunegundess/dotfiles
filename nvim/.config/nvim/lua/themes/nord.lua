@@ -13,7 +13,7 @@ return {
     vim.api.nvim_create_autocmd('ColorScheme', {
       pattern = 'nord',
       callback = function()
-        local bg = '#1F232B'
+        local bg = '#161A1F'
         vim.api.nvim_set_hl(0, 'Normal', { bg = bg })
         vim.api.nvim_set_hl(0, 'NormalNC', { bg = bg })
         vim.api.nvim_set_hl(0, 'SignColumn', { bg = bg })
