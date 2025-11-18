@@ -1,115 +1,68 @@
+---@brief
+---
+--- https://detachhead.github.io/basedpyright
+---
+--- `basedpyright`, a static type checker and language server for python
+
+local function set_python_path(command)
+  local path = command.args
+  local clients = vim.lsp.get_clients {
+    bufnr = vim.api.nvim_get_current_buf(),
+    name = 'basedpyright',
+  }
+  for _, client in ipairs(clients) do
+    if client.settings then
+      ---@diagnostic disable-next-line: param-type-mismatch
+      client.settings.python = vim.tbl_deep_extend('force', client.settings.python or {}, { pythonPath = path })
+    else
+      client.config.settings = vim.tbl_deep_extend('force', client.config.settings, { python = { pythonPath = path } })
+    end
+    client:notify('workspace/didChangeConfiguration', { settings = nil })
+  end
+end
+
+---@type vim.lsp.Config
 return {
-  name = 'basedpyright',
   cmd = { 'basedpyright-langserver', '--stdio' },
   filetypes = { 'python' },
   root_markers = {
+    'pyrightconfig.json',
     'pyproject.toml',
     'setup.py',
     'setup.cfg',
     'requirements.txt',
     'Pipfile',
-    'pyrightconfig.json',
     '.git',
-    'venv',
-    'env',
   },
-
   settings = {
     basedpyright = {
-      -- Configurações gerais do servidor
-      disableLanguageServices = false, -- Desabilita hover, completion, etc
-      disableOrganizeImports = false, -- Desabilita "Organize Imports"
-      disableTaggedHints = false, -- Desabilita hints de código inalcançável/deprecado
-
       analysis = {
-        -- Modo de diagnóstico: "openFilesOnly" ou "workspace"
-        diagnosticMode = 'workspace',
-
-        -- Nível de verificação: "off", "basic", "standard", "strict", "recommended", "all"
-        typeCheckingMode = 'strict',
-
-        -- Configurações de auto-importação e paths
-        autoImportCompletions = true, -- Sugestões de auto-import
-        autoSearchPaths = true, -- Adiciona "src" automaticamente
-        useLibraryCodeForTypes = true, -- Analisa código de bibliotecas
-
-        -- Log level: "Error", "Warning", "Information", "Trace"
-        logLevel = 'Information',
-
-        -- ===== CONFIGURAÇÕES EXCLUSIVAS DO BASEDPYRIGHT =====
-
-        -- Inlay hints (dicas visuais inline)
-        inlayHints = {
-          variableTypes = true, -- Mostra tipos em variáveis
-          callArgumentNames = true, -- Mostra nomes de argumentos
-          callArgumentNamesMatching = false, -- Mostra quando nome coincide
-          functionReturnTypes = true, -- Mostra tipos de retorno
-          genericTypes = false, -- Mostra tipos genéricos inferidos
-        },
-
-        -- Outras configurações exclusivas
-        useTypingExtensions = false, -- Usa typing_extensions para versões antigas
-        fileEnumerationTimeout = 10, -- Timeout para scan de arquivos (segundos)
-        autoFormatStrings = true, -- Auto-insere 'f' em f-strings
-
-        -- Baseline file (ignorar diagnósticos conhecidos)
-        -- baselineFile = ".basedpyright/baseline.json",
-
-        -- ===== CONFIGURAÇÕES DESENCORAJADAS (use pyproject.toml) =====
-        -- Recomenda-se configurar estas no pyproject.toml ou pyrightconfig.json
-        -- Deixo aqui como exemplo, mas comente se usar arquivo de config
-
-        -- Severidade de diagnósticos específicos
-        diagnosticSeverityOverrides = {
-          reportUnusedImport = 'warning',
-          reportUnusedVariable = 'warning',
-          reportDuplicateImport = 'warning',
-          reportUnusedClass = 'information',
-          reportUnusedFunction = 'information',
-          reportMissingTypeStubs = 'none',
-          reportImportCycles = 'warning',
-          reportPrivateUsage = 'warning',
-          reportConstantRedefinition = 'error',
-          reportIncompatibleMethodOverride = 'error',
-          reportIncompatibleVariableOverride = 'error',
-          reportUntypedFunctionDecorator = 'none',
-          reportUntypedClassDecorator = 'none',
-          reportUntypedBaseClass = 'none',
-          reportUnknownParameterType = 'none',
-          reportUnknownArgumentType = 'none',
-          reportUnknownLambdaType = 'none',
-          reportUnknownVariableType = 'none',
-          reportUnknownMemberType = 'none',
-          reportMissingParameterType = 'none',
-          reportMissingTypeArgument = 'none',
-        },
-
-        -- Paths extras
-        extraPaths = {},
-
-        -- Stub path
-        -- stubPath = 'typings',
-
-        -- Exclusões e inclusões
-        exclude = {
-          '**/node_modules',
-          '**/__pycache__',
-          '.venv',
-          'venv',
-        },
-
-        ignore = {}, -- Arquivos para suprimir diagnósticos
-        include = {}, -- Arquivos para incluir
+        autoSearchPaths = true,
+        useLibraryCodeForTypes = true,
+        diagnosticMode = 'openFilesOnly',
       },
     },
-
-    -- Configurações do Python (se necessário)
-    python = {
-      -- pythonPath = ".venv/bin/python",  -- Path do interpretador Python
-      -- venvPath = ".",  -- Path para virtual environments (desencorajado)
-    },
   },
+  on_attach = function(client, bufnr)
+    vim.api.nvim_buf_create_user_command(bufnr, 'LspPyrightOrganizeImports', function()
+      local params = {
+        command = 'basedpyright.organizeimports',
+        arguments = { vim.uri_from_bufnr(bufnr) },
+      }
 
-  -- Capacidades do cliente
-  capabilities = vim.lsp.protocol.make_client_capabilities(),
+      -- Using client.request() directly because "basedpyright.organizeimports" is private
+      -- (not advertised via capabilities), which client:exec_cmd() refuses to call.
+      -- https://github.com/neovim/neovim/blob/c333d64663d3b6e0dd9aa440e433d346af4a3d81/runtime/lua/vim/lsp/client.lua#L1024-L1030
+      ---@diagnostic disable-next-line: param-type-mismatch
+      client.request('workspace/executeCommand', params, nil, bufnr)
+    end, {
+      desc = 'Organize Imports',
+    })
+
+    vim.api.nvim_buf_create_user_command(bufnr, 'LspPyrightSetPythonPath', set_python_path, {
+      desc = 'Reconfigure basedpyright with the provided python path',
+      nargs = 1,
+      complete = 'file',
+    })
+  end,
 }

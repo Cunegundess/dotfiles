@@ -4,9 +4,12 @@ vim.lsp.config('ruff', require 'lsp.ruff')
 vim.lsp.config('tsserver', require 'lsp.tsserver')
 -- vim.lsp.config('pylsp', require 'lsp.python-lsp-server')
 vim.lsp.config('lua_ls', require 'lsp.lua-ls')
+vim.lsp.config('yamlls', require 'lsp.yamlls')
+vim.lsp.config('marksman', require 'lsp.marksman')
+vim.lsp.config('nginx_language_server', require 'lsp.nginx_language_server')
 -- vim.lsp.config('jdtls', require 'lsp.jdtls')
 
-vim.lsp.enable { 'lua_ls', 'basedpyright', 'ruff', 'jdtls', 'tsserver' }
+vim.lsp.enable { 'lua_ls', 'basedpyright', 'ruff', 'tsserver', 'yamlls', 'marksman', 'nginx_language_server' }
 
 vim.diagnostic.config {
   virtual_lines = false,
