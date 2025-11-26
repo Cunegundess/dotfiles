@@ -72,82 +72,85 @@
 ;;
 ;;
 
-;; Configuração para Python com pyright + ruff
-(after! python
-  ;; Configurar pyright (LSP)
-  (setq lsp-pyright-use-library-code-for-types t)
+(after! lsp-pyright
+  (setq lsp-pyright-langserver-command "basedpyright")
   (setq lsp-pyright-auto-import-completions t)
+  (setq lsp-pyright-type-checking-mode "basic"))
 
-  ;; Configurar ruff (linter + formatter)
-  (setq flycheck-python-ruff-executable "ruff")
-  (add-hook 'python-mode-hook 'flycheck-mode))
-
-
-;; Configuração do LSP mode para Python
-(after! lsp-mode
-  (setq lsp-pyright-multi-root nil)
-  (setq lsp-enable-snippet nil)
-
-  ;; Adicionar ruff como provider de formatção
-  (add-to-list 'lsp-enabled-clients 'pyright))
-
-(use-package dap-mode
-  :after lsp-mode
-  :config
+;; DAP com localRoot dinâmico
+(after! dap-mode
   (require 'dap-python)
-  (require 'dap-ui)
-  (require 'dap-hydra)
   
-  ;; Ativa o modo
-  (dap-mode 1)
-  
-  ;; Ativa UI components
-  (dap-ui-mode 1)
-  (dap-ui-show-many-windows)
-  
-  ;; Debugger padrão
-  (setq dap-python-debugger 'debugpy)
-
-  ;; Função para obter workspace root
-  (defun my/dap-get-workspace-root () 
-    (or (when (fboundp 'projectile-project-root) 
-          (projectile-project-root)) 
+  ;; Função para detectar o root do projeto atual
+  (defun my/get-project-root ()
+    "Retorna o root do projeto atual"
+    (or (projectile-project-root)
+        (when (featurep 'project)
+          (cdr (project-current)))
         default-directory))
-
-   (dap-register-debug-template
-     "Python Docker Backend"
-        (list :type "python"
-        :request "attach"
-        :name "Python Docker Backend"
-        :connect (list :host "127.0.0.1" :port 5678)
-        :pathMappings (vector 
-                        (list :localRoot "/home/lucas/Projects/work/alianca/apps/backend/apps"
-                                :remoteRoot "/app/apps"))
-        :justMyCode nil))
-
-;; Keybindings completos
-  (map! :leader
-        (:prefix ("d" . "debug")
-         "c" #'dap-continue
-         "i" #'dap-step-in
-         "n" #'dap-next
-         "o" #'dap-step-out
-         "b" #'dap-breakpoint-toggle
-         "B" #'dap-breakpoint-condition
-         "l" #'dap-ui-locals
-         "w" #'dap-ui-watches
-         "s" #'dap-debug
-         "S" #'dap-disconnect
-         "r" #'dap-restart
-         "t" #'dap-ui-show-many-windows
-         "T" #'dap-ui-hide-many-windows
-         "h" #'dap-hydra
-         "q" #'dap-disconnect)))
+  
+  ;; Template com localRoot dinâmico
+  (dap-register-debug-template
+   "Python Docker Attach"
+   (list :type "python"
+         :request "attach"
+         :name "Python Docker Attach"
+         :connect (list :host "127.0.0.1" :port 5678)
+         ;; Função executada quando iniciar o debug
+         :pathMappings (lambda ()
+                        (vector 
+                         (list :localRoot (my/get-project-root)
+                               :remoteRoot "/app")))
+         :justMyCode :json-false))
+  
+  ;; Ou template mais específico se seus projetos tiverem estrutura parecida
+  (dap-register-debug-template
+   "Python Docker Django"
+   (list :type "python"
+         :request "attach"
+         :name "Python Docker"
+         :connect (list :host "127.0.0.1" :port 5678)
+         :pathMappings (lambda ()
+                        (let ((root (my/get-project-root)))
+                          (vector 
+                           (list :localRoot (expand-file-name "apps" root)
+                                 :remoteRoot "/app/apps"))))
+         :justMyCode :json-false)))
 
 (use-package vterm
   :commands vterm
   :config
   (setq vterm-shell "/bin/zsh"))
+
+;; SQL com múltiplas conexões
+(after! sql
+  (setq sql-connection-alist
+        '((postgres-local
+           (sql-product 'postgres)
+           (sql-server "localhost")
+           (sql-user "seu_user")
+           (sql-database "seu_db")
+           (sql-port 5432))
+          
+          (postgres-docker
+           (sql-product 'postgres)
+           (sql-server "localhost")
+           (sql-user "postgres")
+           (sql-database "postgres")
+           (sql-port 5433))))
+  
+  ;; Truncate long lines
+  (add-hook 'sql-interactive-mode-hook
+            (lambda ()
+              (toggle-truncate-lines t)))
+  
+  ;; Keybindings
+  (map! :map sql-mode-map
+        :localleader
+        "c" #'sql-connect
+        "s" #'sql-send-paragraph
+        "b" #'sql-send-buffer
+        "r" #'sql-send-region))
 
 ;; The exceptions to this rule:
 ;;
