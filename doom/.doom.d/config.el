@@ -77,11 +77,9 @@
   (setq lsp-pyright-auto-import-completions t)
   (setq lsp-pyright-type-checking-mode "basic"))
 
-;; DAP com localRoot dinâmico
 (after! dap-mode
   (require 'dap-python)
   
-  ;; Função para detectar o root do projeto atual
   (defun my/get-project-root ()
     "Retorna o root do projeto atual"
     (or (projectile-project-root)
@@ -89,21 +87,18 @@
           (cdr (project-current)))
         default-directory))
   
-  ;; Template com localRoot dinâmico
   (dap-register-debug-template
    "Python Docker Attach"
    (list :type "python"
          :request "attach"
          :name "Python Docker Attach"
          :connect (list :host "127.0.0.1" :port 5678)
-         ;; Função executada quando iniciar o debug
          :pathMappings (lambda ()
                         (vector 
                          (list :localRoot (my/get-project-root)
                                :remoteRoot "/app")))
          :justMyCode :json-false))
   
-  ;; Ou template mais específico se seus projetos tiverem estrutura parecida
   (dap-register-debug-template
    "Python Docker Django"
    (list :type "python"
@@ -122,29 +117,26 @@
   :config
   (setq vterm-shell "/bin/zsh"))
 
-;; SQL com múltiplas conexões
 (after! sql
   (setq sql-connection-alist
         '((postgres-local
            (sql-product 'postgres)
            (sql-server "localhost")
-           (sql-user "seu_user")
-           (sql-database "seu_db")
+           (sql-user "postgres")
+           (sql-database "alianca_rfid")
            (sql-port 5432))
           
           (postgres-docker
            (sql-product 'postgres)
            (sql-server "localhost")
            (sql-user "postgres")
-           (sql-database "postgres")
+           (sql-database "nexus_rfid")
            (sql-port 5433))))
   
-  ;; Truncate long lines
   (add-hook 'sql-interactive-mode-hook
             (lambda ()
               (toggle-truncate-lines t)))
   
-  ;; Keybindings
   (map! :map sql-mode-map
         :localleader
         "c" #'sql-connect
