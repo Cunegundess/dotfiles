@@ -33,14 +33,23 @@ return {
     'requirements.txt',
     'Pipfile',
     '.git',
+    'manage.py',
   },
   settings = {
     basedpyright = {
       analysis = {
         autoSearchPaths = true,
+        autoImportCompletions = true,
         useLibraryCodeForTypes = true,
         diagnosticMode = 'openFilesOnly',
         typeCheckingMode = 'basic',
+        inlayHints = {
+          variableTypes = true,
+          functionReturnTypes = true,
+          paramTypes = true,
+          genericTypes = true,
+          callArgumentNames = true,
+        },
       },
     },
   },
