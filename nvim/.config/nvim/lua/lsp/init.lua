@@ -11,6 +11,8 @@ vim.lsp.config('nginx_language_server', require 'lsp.nginx_language_server')
 
 vim.lsp.enable { 'lua_ls', 'basedpyright', 'ruff', 'tsserver', 'yamlls', 'marksman', 'nginx_language_server' }
 
+vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+
 vim.diagnostic.config {
   virtual_lines = false,
   virtual_text = false,

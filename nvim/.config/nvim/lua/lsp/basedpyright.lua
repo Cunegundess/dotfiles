@@ -45,9 +45,9 @@ return {
         typeCheckingMode = 'basic',
         inlayHints = {
           variableTypes = true,
-          functionReturnTypes = true,
-          paramTypes = true,
-          genericTypes = true,
+          functionReturnTypes = false,
+          paramTypes = false,
+          genericTypes = false,
           callArgumentNames = true,
         },
       },
