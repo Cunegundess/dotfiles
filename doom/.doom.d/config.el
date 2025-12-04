@@ -176,38 +176,43 @@
               (when (derived-mode-p 'python-mode 'python-ts-mode)
                 (flycheck-add-next-checker 'lsp 'python-ruff)))))
 
-;; Versão mínima para testar
 (use-package! dap-python
   :after dap-mode
   :config
   (setq dap-python-debugger 'debugpy)
-  
+
   (defun my/get-project-root ()
     (or (projectile-project-root) default-directory))
-  
+
   ;; Template Docker padrão
   (dap-register-debug-template
    "Python Docker"
-   (list :type "python"
-         :request "attach"
-         :name "Python Docker"
-         :connect (list :host "127.0.0.1" :port 5678)
-         :pathMappings (vector 
-                        (list :localRoot (my/get-project-root)
-                              :remoteRoot "/app"))
-         :justMyCode nil))
-  
+   (list
+    :type "python"
+    :request "attach"
+    :name "Python Docker"
+    :connect (list :host "127.0.0.1" :port 5678)
+    :pathMappings
+    (list
+     (list
+      (cons "localRoot" (my/get-project-root))
+      (cons "remoteRoot" "/app")))
+    :justMyCode nil))
+
   ;; Template Alianca
   (dap-register-debug-template
    "Python Docker Alianca"
-   (list :type "python"
-         :request "attach"
-         :name "Python Docker Alianca"
-         :connect (list :host "127.0.0.1" :port 5678)
-         :pathMappings (vector 
-                        (list :localRoot (expand-file-name "apps/backend" (my/get-project-root))
-                              :remoteRoot "/app"))
-         :justMyCode nil)))
+   (list
+    :type "python"
+    :request "attach"
+    :name "Python Docker Alianca"
+    :connect (list :host "127.0.0.1" :port 5678)
+    :pathMappings
+    (list
+     (list
+      (cons "localRoot" (expand-file-name "apps/backend" (my/get-project-root)))
+      (cons "remoteRoot" "/app")))
+    :justMyCode nil)))
 
 (use-package vterm
   :commands vterm
