@@ -176,6 +176,10 @@
               (when (derived-mode-p 'python-mode 'python-ts-mode)
                 (flycheck-add-next-checker 'lsp 'python-ruff)))))
 
+(require 'dap-ui)
+(dap-ui-mode 1)
+(dap-ui-controls-mode 1)
+
 (use-package! dap-python
   :after dap-mode
   :config
