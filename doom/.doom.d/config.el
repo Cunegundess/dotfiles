@@ -187,7 +187,9 @@
   (require 'dap-ui)
   (dap-ui-mode 1)
   (dap-ui-controls-mode 1)
+  (dap-ui-show-many-windows)
 
+  ;; Template usando apps/backend (funciona igual VSCode)
   (dap-register-debug-template
    "Python Docker Alianca"
    (list
@@ -195,14 +197,27 @@
     :request "attach"
     :name "Python Docker Alianca"
     :connect (list :host "127.0.0.1" :port 5678)
-
-    ;; IMPORTANTE → VECTOR e palavras-chave
     :pathMappings
     (vector
      (list
       :localRoot (expand-file-name "apps/backend" (my/get-project-root))
       :remoteRoot "/app"))
+    :django t
+    :justMyCode :json-false))
 
+  ;; Template usando a RAIZ do projeto
+  (dap-register-debug-template
+   "Python Docker"
+   (list
+    :type "python"
+    :request "attach"
+    :name "Python Docker"
+    :connect (list :host "127.0.0.1" :port 5678)
+    :pathMappings
+    (vector
+     (list
+      :localRoot (my/get-project-root)
+      :remoteRoot "/app"))
     :django t
     :justMyCode :json-false)))
 
