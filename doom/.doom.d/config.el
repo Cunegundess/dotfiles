@@ -25,7 +25,7 @@
 ;; (setq doom-font (font-spec :family "JetBrains Mono Nerd Font" :size 13 :weight 'bold)
 ;;       doom-variable-pitch-font (font-spec :family "JetBrains Mono Nerd Font" :size 13))
 
-(setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 15))
+(setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 12))
 
 (custom-set-faces!
   '(italic :slant italic)
