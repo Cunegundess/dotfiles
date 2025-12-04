@@ -72,10 +72,104 @@
 ;;
 ;;
 
+(after! lsp-mode
+  ;; Performance - importante para projetos grandes
+  (setq lsp-idle-delay 0.5
+        lsp-log-io nil
+        lsp-enable-file-watchers nil
+        lsp-file-watch-threshold 5000)
+  
+  ;; Desabilita recursos que podem conflitar com ruff
+  (setq lsp-pylsp-plugins-flake8-enabled nil
+        lsp-pylsp-plugins-pycodestyle-enabled nil
+        lsp-pylsp-plugins-pylint-enabled nil
+        lsp-pylsp-plugins-autopep8-enabled nil
+        lsp-pylsp-plugins-yapf-enabled nil
+        lsp-pylsp-plugins-mccabe-enabled nil
+        lsp-pylsp-plugins-pyflakes-enabled nil))
+
 (after! lsp-pyright
+  ;; Usa basedpyright ao invés de pyright
   (setq lsp-pyright-langserver-command "basedpyright")
-  (setq lsp-pyright-auto-import-completions t)
-  (setq lsp-pyright-type-checking-mode "basic"))
+  
+  ;; Configurações de type checking
+  (setq lsp-pyright-type-checking-mode "standard")  ;; ou "basic", "strict"
+  
+  ;; Auto-import
+  (setq lsp-pyright-auto-import-completions t
+        lsp-pyright-auto-search-paths t)
+  
+  ;; Diagnóstico em tempo real
+  (setq lsp-pyright-diagnostic-mode "workspace")
+  
+  ;; Desabilita organize imports (vamos usar ruff pra isso)
+  (setq lsp-pyright-disable-organize-imports t)
+  
+  ;; Configurações adicionais para melhor experiência
+  (setq lsp-pyright-use-library-code-for-types t
+        lsp-pyright-venv-path ".")  ;; procura .venv no diretório do projeto
+  
+  ;; Inlay hints (opcional - mostra tipos inferidos)
+  (setq lsp-pyright-basedpyright-inlay-hints-variable-types t
+        lsp-pyright-basedpyright-inlay-hints-function-return-types t))
+
+(after! python
+  ;; Detecção automática de virtualenv (.venv nos containers)
+  (setq python-shell-virtualenv-root ".venv")
+  
+  ;; Importar automaticamente módulos do projeto
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (when (projectile-project-root)
+                (setq-local lsp-pyright-extra-paths
+                           (vector (expand-file-name "." (projectile-project-root))))))))
+
+(use-package! apheleia
+  :hook (python-mode . apheleia-mode)
+  :config
+  ;; Configura ruff como formatador
+  (setf (alist-get 'python-mode apheleia-mode-alist) 'ruff)
+  (setf (alist-get 'python-ts-mode apheleia-mode-alist) 'ruff)
+  
+  ;; Comando do ruff (formata E organiza imports)
+  (setf (alist-get 'ruff apheleia-formatters)
+        '("ruff" "format" "--stdin-filename" filepath))
+  
+  ;; IMPORTANTE: Formatação manual, não automática
+  (setq apheleia-mode nil)  ;; desabilita formatação ao salvar
+  
+  ;; Keybindings para formatar manualmente
+  (map! :map python-mode-map
+        :localleader
+        :desc "Format buffer" "f" #'apheleia-format-buffer
+        :desc "Format region" "F" #'apheleia-format-region))
+
+;; Adiciona checker do ruff ao flycheck
+(use-package! flycheck
+  :config
+  (flycheck-define-checker python-ruff
+    "A Python syntax and style checker using Ruff."
+    :command ("ruff" "check"
+              "--output-format=text"
+              "--stdin-filename" source-original
+              "-")
+    :standard-input t
+    :error-filter (lambda (errors)
+                    (flycheck-sanitize-errors
+                     (flycheck-increment-error-columns errors)))
+    :error-patterns
+    ((error line-start
+            (file-name) ":" line ":" column ": "
+            (id (one-or-more (not (any ":")))) " "
+            (message (one-or-more not-newline))
+            line-end))
+    :modes (python-mode python-ts-mode))
+  
+  ;; Adiciona ruff após o LSP checker
+  (add-hook 'lsp-managed-mode-hook
+            (lambda ()
+              (when (derived-mode-p 'python-mode 'python-ts-mode)
+                (flycheck-add-next-checker 'lsp 'python-ruff)))))
 
 (after! dap-mode
   (require 'dap-python)
