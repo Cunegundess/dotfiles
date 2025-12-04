@@ -88,6 +88,11 @@
         lsp-pylsp-plugins-mccabe-enabled nil
         lsp-pylsp-plugins-pyflakes-enabled nil))
 
+(after! flycheck
+  ;; (setq flycheck-checker-error-threshold 5000)
+  (setq flycheck-checker-error-threshold nil)
+  )
+
 (after! lsp-pyright
   ;; Usa basedpyright ao invés de pyright
   (setq lsp-pyright-langserver-command "basedpyright")
@@ -100,7 +105,7 @@
         lsp-pyright-auto-search-paths t)
   
   ;; Diagnóstico em tempo real
-  (setq lsp-pyright-diagnostic-mode "workspace")
+  (setq lsp-pyright-diagnostic-mode "openFilesOnly")
   
   ;; Desabilita organize imports (vamos usar ruff pra isso)
   (setq lsp-pyright-disable-organize-imports t)
@@ -174,6 +179,7 @@
 (after! dap-mode
   (require 'dap-python)
   
+  ;; Função helper para obter root do projeto
   (defun my/get-project-root ()
     "Retorna o root do projeto atual"
     (or (projectile-project-root)
@@ -181,6 +187,7 @@
           (cdr (project-current)))
         default-directory))
   
+  ;; Template genérico para Docker Attach
   (dap-register-debug-template
    "Python Docker Attach"
    (list :type "python"
@@ -194,17 +201,56 @@
          :justMyCode :json-false))
   
   (dap-register-debug-template
-   "Python Docker Django"
+   "Alianca"
    (list :type "python"
          :request "attach"
-         :name "Python Docker"
+         :name "Alianca"
          :connect (list :host "127.0.0.1" :port 5678)
          :pathMappings (lambda ()
                         (let ((root (my/get-project-root)))
                           (vector 
-                           (list :localRoot (expand-file-name "apps" root)
-                                 :remoteRoot "/app/apps"))))
-         :justMyCode :json-false)))
+                           (list :localRoot (expand-file-name "apps/backend" root)
+                                 :remoteRoot "/app"))))
+         :justMyCode :json-false))
+  
+  ;; Template com porta customizável (útil para múltiplos containers)
+  (dap-register-debug-template
+   "Python Docker"
+   (list :type "python"
+         :request "attach"
+         :name "Python Docker"
+         :connect (lambda ()
+                   (list :host "127.0.0.1"
+                         :port (read-number "Debug port: " 5678)))
+         :pathMappings (lambda ()
+                        (vector 
+                         (list :localRoot (my/get-project-root)
+                               :remoteRoot "/app")))
+         :justMyCode :json-false))
+  
+  ;; Configurações gerais do DAP
+  (setq dap-python-debugger 'debugpy)
+  
+  ;; UI do debug
+  (setq dap-auto-configure-features '(sessions locals breakpoints expressions tooltip))
+  
+  ;; Keybindings adicionais para debug
+  (map! :map python-mode-map
+        :localleader
+        :prefix ("d" . "debug")
+        :desc "Debug" "d" #'dap-debug
+        :desc "Debug last" "l" #'dap-debug-last
+        :desc "Debug recent" "r" #'dap-debug-recent
+        :desc "Toggle breakpoint" "b" #'dap-breakpoint-toggle
+        :desc "Continue" "c" #'dap-continue
+        :desc "Next" "n" #'dap-next
+        :desc "Step in" "i" #'dap-step-in
+        :desc "Step out" "o" #'dap-step-out
+        :desc "Restart" "R" #'dap-debug-restart
+        :desc "Disconnect" "q" #'dap-disconnect
+        :desc "Eval" "e" #'dap-eval
+        :desc "Eval region" "E" #'dap-eval-region
+        :desc "REPL" "'" #'dap-ui-repl))
 
 (use-package vterm
   :commands vterm
