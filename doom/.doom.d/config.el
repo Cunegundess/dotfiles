@@ -176,10 +176,6 @@
               (when (derived-mode-p 'python-mode 'python-ts-mode)
                 (flycheck-add-next-checker 'lsp 'python-ruff)))))
 
-(require 'dap-ui)
-(dap-ui-mode 1)
-(dap-ui-controls-mode 1)
-
 (use-package! dap-python
   :after dap-mode
   :config
@@ -188,22 +184,10 @@
   (defun my/get-project-root ()
     (or (projectile-project-root) default-directory))
 
-  ;; Template Docker padrão
-  (dap-register-debug-template
-   "Python Docker"
-   (list
-    :type "python"
-    :request "attach"
-    :name "Python Docker"
-    :connect (list :host "127.0.0.1" :port 5678)
-    :pathMappings
-    (list
-     (list
-      (cons "localRoot" (my/get-project-root))
-      (cons "remoteRoot" "/app")))
-    :justMyCode nil))
+  (require 'dap-ui)
+  (dap-ui-mode 1)
+  (dap-ui-controls-mode 1)
 
-  ;; Template Alianca
   (dap-register-debug-template
    "Python Docker Alianca"
    (list
