@@ -195,12 +195,16 @@
     :request "attach"
     :name "Python Docker Alianca"
     :connect (list :host "127.0.0.1" :port 5678)
+
+    ;; IMPORTANTE → VECTOR e palavras-chave
     :pathMappings
-    (list
+    (vector
      (list
-      (cons "localRoot" (expand-file-name "apps/backend" (my/get-project-root)))
-      (cons "remoteRoot" "/app")))
-    :justMyCode nil)))
+      :localRoot (expand-file-name "apps/backend" (my/get-project-root))
+      :remoteRoot "/app"))
+
+    :django t
+    :justMyCode :json-false)))
 
 (use-package vterm
   :commands vterm
