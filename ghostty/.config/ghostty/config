@@ -27,7 +27,7 @@ window-padding-x = 20
 window-padding-y = 20
 window-colorspace = "display-p3"
 
-adjust-cell-height = "70%"
+adjust-cell-height = "5%"
 copy-on-select = clipboard
 shell-integration-features = true
 auto-update = check
