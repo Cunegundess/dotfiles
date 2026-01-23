@@ -30,8 +30,9 @@ return {
         { name = 'hb-tracer-dev', url = 'postgres://DB_DEV_USER:DB_DEV_PASSWORD@localhost:5432/DB_DEV' },
         { name = 'jcn-dev', url = 'postgres://postgres:jmalianca2023@localhost:5432/JCN' },
         { name = 'edp-dev', url = 'postgresql://DB_DEV_USER:DB_DEV_PASSWORD@localhost:5432/DB_DEV' },
-        { name = 'jalles-dev-sqlite', url = 'sqlite:////home/lucas-proxion/Projects/alianca/apps/backend/db.sqlite3' },
-        { name = 'jalles-dev-postgres', url = 'postgres://postgres:jmalianca2023@localhost:5432/alianca_rfid' },
+        { name = 'alianca-dev-sqlite', url = 'sqlite:////home/lucas-proxion/Projects/alianca/apps/backend/db.sqlite3' },
+        { name = 'alianca-dev-postgres', url = 'postgres://postgres:jmalianca2023@localhost:5432/alianca_rfid' },
+        { name = 'nexus-dev-postgres', url = 'postgres://postgres:jmnexus2023@localhost:5432/nexus_rfid' },
       }
     end,
   },
