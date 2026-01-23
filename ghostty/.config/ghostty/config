@@ -5,7 +5,7 @@ font-family = JetBrains Mono Nerd Font
 # font-family = Cascadia Code NF
 
 font-size = 9
-font-style = Bold
+font-style = Regular
 # font-thicken = true
 
 # theme = Atom
