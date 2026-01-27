@@ -185,9 +185,9 @@
     (or (projectile-project-root) default-directory))
 
   (require 'dap-ui)
-  (dap-ui-mode 1)
-  (dap-ui-controls-mode 1)
-  (dap-ui-show-many-windows)
+  ;; (dap-ui-mode 1)
+  ;; (dap-ui-controls-mode 1)
+  ;; (dap-ui-show-many-windows)
 
   ;; Template usando apps/backend (funciona igual VSCode)
   (dap-register-debug-template
