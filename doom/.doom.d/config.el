@@ -76,8 +76,7 @@
         "f" #'apheleia-format-buffer
         "F" #'apheleia-format-region))
 
-(use-package! flycheck
-  :config
+(after! flycheck
   (flycheck-define-checker python-ruff
     "Ruff linter"
     :command ("ruff" "check" "--output-format=text" "--stdin-filename" source-original "-")
@@ -89,54 +88,43 @@
   (add-hook 'lsp-managed-mode-hook
             (lambda ()
               (when (derived-mode-p 'python-mode 'python-ts-mode)
-                (flycheck-add-next-checker 'lsp 'python-ruff))))
+                (flycheck-add-next-checker 'lsp 'python-ruff)))))
 
-  (map! :leader "c a" #'lsp-execute-code-action)
+(map! :leader "c a" #'lsp-execute-code-action)
 
-  ;; --------------------
-  ;; DAP PYTHON (FUNCIONANDO)
-  ;; --------------------
-  (after! dap-mode
-    (dap-mode 1)
-    (dap-auto-configure-mode 1))
+;; --------------------
+;; DAP PYTHON (FUNCIONANDO)
+;; --------------------
+(after! dap-mode
+  (dap-mode 1)
+  (dap-auto-configure-mode 1))
 
-  (after! dap-ui
-    (dap-ui-mode 1))
+(after! dap-ui
+  (dap-ui-mode 1))
 
-  (use-package! dap-python
-    :after dap-mode
-    :config
-    (setq dap-python-debugger 'debugpy)
+(use-package! dap-python
+  :after dap-mode
+  :config
+  (setq dap-python-debugger 'debugpy)
 
-    (defun my/project-root ()
-      (or (projectile-project-root) default-directory))
+  (defun my/project-root ()
+    (or (projectile-project-root) default-directory))
 
-    (dap-register-debug-template
-     "Python Docker"
-     (list
-      :type "python"
-      :request "attach"
-      :name "Python Docker"
-      :connect (list :host "127.0.0.1" :port 5678)
-      :pathMappings
-      (vector
-       (list
-        :localRoot (my/project-root)
-        :remoteRoot "/app"))
-      :django t
-      :justMyCode :json-false)))
-
+  ;; Register debug templates
   (dap-register-debug-template
    "Python Docker"
-   (list :type "python"
-         :request "attach"
-         :name "Python Docker"
-         :connect (list :host "127.0.0.1" :port 5678)
-         :pathMappings
-         (vector (list :localRoot (my/project-root)
-                       :remoteRoot "/app"))
-         :django t
-         :justMyCode :json-false)))
+   (list
+    :type "python"
+    :request "attach"
+    :name "Python Docker"
+    :connect (list :host "127.0.0.1" :port 5678)
+    :pathMappings
+    (vector
+     (list
+      :localRoot (my/project-root)
+      :remoteRoot "/app"))
+    :django t
+    :justMyCode :json-false)))
 
 ;; --------------------
 ;; DATABASE (EJC-SQL)
