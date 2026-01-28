@@ -3,14 +3,15 @@
 (setq user-full-name "Lucas Cunegundes"
       user-mail-address "lucascsantana6@gmail.com")
 
-(setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 12))
+;; (setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 12))
+(setq doom-font (font-spec :family "JetBrains Mono Nerd Font" :size 12))
 
 (custom-set-faces!
   '(italic :slant italic)
   '(bold :weight bold)
   '(bold-italic :weight bold :slant italic))
 
-(setq doom-theme 'doom-tokyo-night)
+(setq doom-theme 'doom-meltbus)
 (setq display-line-numbers-type 'relative)
 (beacon-mode 1)
 
