@@ -148,8 +148,19 @@
                        (list
                         (cons
                          (or (projectile-project-root) default-directory)
-                         "/app")))))))
+                         "/app"))))))
 
+  (add-to-list
+   'dape-configs
+   `(python-docker
+     modes (python-mode python-ts-mode)
+     command "python"
+     command-args ("-m" "debugpy.adapter")
+     port 5678
+     host "127.0.0.1"
+     cwd "/home/lucas/Projects/work/alianca/apps/backend/"
+     path-mappings
+     (("/home/lucas/Projects/work/alianca/apps/backend/" . "/app")))))
 
 ;; --------------------
 ;; DATABASE (EJC-SQL)
