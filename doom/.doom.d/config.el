@@ -96,35 +96,60 @@
 ;; --------------------
 ;; DAP PYTHON
 ;; --------------------
-(after! dap-mode
-  (dap-mode 1)
-  (dap-auto-configure-mode 1))
+;; (after! dap-mode
+;;   (dap-mode 1)
+;;   (dap-auto-configure-mode 1))
 
-(after! dap-ui
-  (dap-ui-mode 1))
+;; (after! dap-ui
+;;   (dap-ui-mode 1))
 
-(use-package! dap-python
-  :after dap-mode
+;; (use-package! dap-python
+;;   :after dap-mode
+;;   :config
+;;   (setq dap-python-debugger 'debugpy)
+
+;;   (defun my/project-root ()
+;;     (or (projectile-project-root) default-directory))
+
+;;   (dap-register-debug-template
+;;    "Python Docker"
+;;    (list
+;;     :type "python"
+;;     :request "attach"
+;;     :name "Python Docker"
+;;     :connect (list :host "127.0.0.1" :port 5678)
+;;     :pathMappings
+;;     (vector
+;;      (list
+;;       :localRoot (my/project-root)
+;;       :remoteRoot "/app"))
+;;     :django t
+    ;; :justMyCode :json-false)))
+
+;; --------------------
+;; DAPE (DEBUG)
+;; --------------------
+(use-package! dape
   :config
-  (setq dap-python-debugger 'debugpy)
+  (setq dape-buffer-window-arrangement 'right
+        dape-info-hide-mode-line t)
 
-  (defun my/project-root ()
-    (or (projectile-project-root) default-directory))
+  ;; Python Docker attach (debugpy)
+  (add-to-list
+   'dape-configs
+   `(python-docker
+     modes (python-mode python-ts-mode)
+     command "python"
+     command-args ("-m" "debugpy.adapter")
+     port 5678
+     host "127.0.0.1"
+     cwd ,(lambda () (or (projectile-project-root) default-directory))
+     path-mappings (,(lambda ()
+                       (list
+                        (cons
+                         (or (projectile-project-root) default-directory)
+                         "/app")))))))
 
-  (dap-register-debug-template
-   "Python Docker"
-   (list
-    :type "python"
-    :request "attach"
-    :name "Python Docker"
-    :connect (list :host "127.0.0.1" :port 5678)
-    :pathMappings
-    (vector
-     (list
-      :localRoot (my/project-root)
-      :remoteRoot "/app"))
-    :django t
-    :justMyCode :json-false)))
 
 ;; --------------------
 ;; DATABASE (EJC-SQL)
