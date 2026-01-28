@@ -47,8 +47,8 @@
         lsp-pyright-auto-import-completions t
         lsp-pyright-auto-search-paths t
         lsp-pyright-diagnostic-mode "openFilesOnly"
-        lsp-pyright-disable-organize-imports t
-        lsp-pyright-use-library-code-for-types t
+        ;; lsp-pyright-disable-organize-imports t
+        ;; lsp-pyright-use-library-code-for-types t
         lsp-pyright-venv-path "."))
 
 (after! python
@@ -93,7 +93,7 @@
 (map! :leader "c a" #'lsp-execute-code-action)
 
 ;; --------------------
-;; DAP PYTHON (FUNCIONANDO)
+;; DAP PYTHON
 ;; --------------------
 (after! dap-mode
   (dap-mode 1)
@@ -110,7 +110,6 @@
   (defun my/project-root ()
     (or (projectile-project-root) default-directory))
 
-  ;; Register debug templates
   (dap-register-debug-template
    "Python Docker"
    (list
@@ -132,7 +131,6 @@
 (use-package! ejc-sql
   :commands ejc-sql-mode ejc-sql-connect
   :config
-  ;; Usa JDBC, não precisa de pacote específico por banco
   (setq ejc-sql-separator ";"
         ejc-use-flx t
         ejc-result-table-impl 'ejc-result-table-tabulated))
