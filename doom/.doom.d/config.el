@@ -10,8 +10,9 @@
   '(bold :weight bold)
   '(bold-italic :weight bold :slant italic))
 
-(setq doom-theme 'doom-tokyo-night)
-(setq display-line-numbers-type 'relative)
+(setq doom-theme 'doom-tokyo-night
+      display-line-numbers-type 'relative)
+
 (beacon-mode 1)
 
 ;; --------------------
@@ -24,9 +25,10 @@
         org-log-done 'time)
   (add-hook 'org-mode-hook #'org-bullets-mode))
 
-;; --------------------
-;; PYTHON + EGLOT + BASEDPYRIGHT (LIMPO)
-;; --------------------
+;; ============================================================
+;; PYTHON + EGLOT (LIMPO)
+;; ============================================================
+
 (after! python
   (setq python-shell-virtualenv-root ".venv")
 
@@ -41,13 +43,15 @@
         eglot-workspace-configuration
         `((:python
            (:analysis
-            :typeCheckingMode "off"
+            :typeCheckingMode "basic"
             :diagnosticMode "openFilesOnly"
             :autoImportCompletions t
-            :autoSearchPaths t
-            :extraPaths [,(projectile-project-root)]))
+            :autoSearchPaths t))
           (:basedpyright
            (:analysis
+            :reportUnknownMemberType "none"
+            :reportUnknownVariableType "none"
+            :reportUnknownArgumentType "none"
             :inlayHints
             (:variableTypes nil
              :functionReturnTypes nil
@@ -59,73 +63,64 @@
                '((python-mode python-ts-mode)
                  "basedpyright-langserver" "--stdio"))
 
-  ;; UX limpa
-  (setq eglot-autoshutdown t
-        eglot-events-buffer-size 0
-        eglot-ignored-server-capabilities
-        '(:inlayHintProvider
-          :documentHighlightProvider
-          :documentOnTypeFormattingProvider)))
+  (setq eglot-autoshutdown t)
 
-;; --------------------
-;; FLYCHECK (DIAGNÓSTICOS LIMPOS)
-;; --------------------
-(after! flycheck
-  ;; Não pintar o código
-  (setq flycheck-highlighting-mode 'symbols
-        flycheck-indication-mode nil
-        flycheck-checker-error-threshold nil)
+;; ============================================================
+;; FLYMAKE (FRINGE DIREITO, SEM INLINE)
+;; ============================================================
 
-  ;; Ruff como único checker
-  (flycheck-define-checker python-ruff
-    "Ruff linter"
-    :command ("ruff" "check" "--output-format=text"
-              "--stdin-filename" source-original "-")
-    :standard-input t
-    :error-patterns
-    ((error line-start (file-name) ":" line ":" column ": " (message) line-end))
-    :modes (python-mode python-ts-mode))
+(setq doom-diagnostic-buffer 'flymake)
 
-  (add-hook 'python-mode-hook
-            (lambda ()
-              (flycheck-select-checker 'python-ruff)))
+(after! flymake
+  (setq flymake-show-diagnostics-at-end-of-line nil
+        flymake-indicator-type 'fringe
+        flymake-fringe-indicator-position 'right-fringe
+        flymake-no-changes-timeout 0.5))
 
-  ;; Painel lateral (estilo lsp-ui)
-  (setq flycheck-display-errors-function
-        #'flycheck-display-error-messages-unless-error-list))
+;; ============================================================
+;; KEYBINDS – DOOM NATIVO
+;; ============================================================
 
-;; --------------------
-;; APHELEIA + RUFF (FORMAT)
-;; --------------------
+(map! :leader
+      (:prefix ("c" . "code")
+       :desc "Code actions"        "a" #'eglot-code-actions
+       :desc "Rename symbol"       "r" #'eglot-rename
+       :desc "Definition"          "d" #'xref-find-definitions
+       :desc "References"          "R" #'xref-find-references
+       :desc "Hover doc"           "h" #'eldoc
+       :desc "Next diagnostic"     "n" #'flymake-goto-next-error
+       :desc "Prev diagnostic"     "p" #'flymake-goto-prev-error
+       :desc "Buffer diagnostics"  "e" #'flymake-show-buffer-diagnostics
+       :desc "Project diagnostics" "E" #'flymake-show-project-diagnostics))
+
+;; ============================================================
+;; FORMATAÇÃO – APHELEIA + RUFF
+;; ============================================================
+
 (use-package! apheleia
   :hook ((python-mode python-ts-mode) . apheleia-mode)
   :config
   (setf (alist-get 'python-mode apheleia-mode-alist) 'ruff)
   (setf (alist-get 'python-ts-mode apheleia-mode-alist) 'ruff)
+
   (setf (alist-get 'ruff apheleia-formatters)
         '("ruff" "format" "--stdin-filename" filepath))
-  (setq apheleia-mode nil))
 
-;; --------------------
-;; KEYBINDS (PADRÃO DOOM)
-;; --------------------
-(map! :leader
-      (:prefix ("c" . "code")
-       :desc "Code actions"     "a" #'eglot-code-actions
-       :desc "Rename symbol"    "r" #'eglot-rename
-       :desc "Format buffer"    "f" #'apheleia-format-buffer
-       :desc "Errors list"      "e" #'flycheck-list-errors
-       :desc "Go to definition" "d" #'xref-find-definitions
-       :desc "References"       "R" #'xref-find-references))
+  (map! :map python-mode-map
+        :localleader
+        "f" #'apheleia-format-buffer
+        "F" #'apheleia-format-region))
 
-;; --------------------
-;; DAPE (DEBUG PYTHON / DOCKER)
-;; --------------------
+;; ============================================================
+;; DEBUG – DAPE (PRESERVADO)
+;; ============================================================
+
 (use-package! dape
   :config
   (setq dape-buffer-window-arrangement 'right
         dape-info-hide-mode-line t)
 
+  ;; Docker genérico
   (add-to-list
    'dape-configs
    `(python-docker
@@ -142,6 +137,7 @@
            (or (projectile-project-root) default-directory)
            "/app"))))))
 
+  ;; === CONFIG FIXA ALIANCA (PRESERVADA) ===
   (add-to-list
    'dape-configs
    `(python-docker-alianca
@@ -154,15 +150,10 @@
      path-mappings
      (("/home/lucas/Projects/work/alianca/apps/backend/" . "/app")))))
 
-;; --------------------
-;; KOTLIN
-;; --------------------
-(use-package! kotlin-mode
-  :mode ("\\.kts?\\'" . kotlin-mode))
+;; ============================================================
+;; DATABASE – EJC-SQL
+;; ============================================================
 
-;; --------------------
-;; DATABASE (EJC-SQL)
-;; --------------------
 (use-package! ejc-sql
   :commands ejc-sql-mode ejc-sql-connect
   :config
@@ -189,9 +180,10 @@
    :port 5432
    :user "postgres"))
 
-;; --------------------
+;; ============================================================
 ;; VTERM
-;; --------------------
+;; ============================================================
+
 (use-package! vterm
   :commands vterm
   :config
