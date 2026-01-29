@@ -1,15 +1,14 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
 
+
 ;; To install a package with Doom you must declare them here and run 'doom sync'
 ;; on the command line, then restart Emacs for the changes to take effect -- or
 
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
-(package! jedi)
 (package! org-bullets)
 (package! projectile)
-(package! dap-mode)
 (package! beacon)
 (package! ejc-sql)
 
