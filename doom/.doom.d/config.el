@@ -3,14 +3,14 @@
 (setq user-full-name "Lucas Cunegundes"
       user-mail-address "lucascsantana6@gmail.com")
 
-(setq doom-font (font-spec :family "JetBrains Mono Nerd Font" :size 12))
+(setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 12))
 
 (custom-set-faces!
   '(italic :slant italic)
   '(bold :weight bold)
   '(bold-italic :weight bold :slant italic))
 
-(setq doom-theme 'doom-meltbus)
+(setq doom-theme 'doom-tokyo-night)
 (setq display-line-numbers-type 'relative)
 (beacon-mode 1)
 
@@ -25,17 +25,14 @@
   (add-hook 'org-mode-hook #'org-bullets-mode))
 
 ;; --------------------
-;; PYTHON + EGLOT + BASEDPYRIGHT
+;; PYTHON + EGLOT + BASEDPYRIGHT (LIMPO)
 ;; --------------------
 (after! python
-  ;; Virtualenv padrão do projeto
   (setq python-shell-virtualenv-root ".venv")
 
-  ;; Eglot automático
   (add-hook 'python-mode-hook #'eglot-ensure)
   (add-hook 'python-ts-mode-hook #'eglot-ensure)
 
-  ;; Extra paths úteis (monorepo / docker)
   (add-hook
    'python-mode-hook
    (lambda ()
@@ -44,63 +41,42 @@
         eglot-workspace-configuration
         `((:python
            (:analysis
-            :typeCheckingMode "standard"
+            :typeCheckingMode "off"
+            :diagnosticMode "openFilesOnly"
             :autoImportCompletions t
             :autoSearchPaths t
-            :diagnosticMode "openFilesOnly"
             :extraPaths [,(projectile-project-root)]))
           (:basedpyright
            (:analysis
             :inlayHints
-            (:variableTypes t
-             :functionReturnTypes t
-             :callArgumentNames t
-             :genericTypes t)))))))))
+            (:variableTypes nil
+             :functionReturnTypes nil
+             :callArgumentNames nil
+             :genericTypes nil)))))))))
 
 (after! eglot
-  ;; Pyright server
   (add-to-list 'eglot-server-programs
                '((python-mode python-ts-mode)
                  "basedpyright-langserver" "--stdio"))
 
-  ;; Performance
+  ;; UX limpa
   (setq eglot-autoshutdown t
-        eglot-events-buffer-size 0))
+        eglot-events-buffer-size 0
+        eglot-ignored-server-capabilities
+        '(:inlayHintProvider
+          :documentHighlightProvider
+          :documentOnTypeFormattingProvider)))
 
 ;; --------------------
-;; CODE ACTIONS / NAV
-;; --------------------
-(map! :leader
-      "c a" #'eglot-code-actions
-      "c r" #'eglot-rename
-      "c d" #'xref-find-definitions
-      "c R" #'xref-find-references)
-
-;; --------------------
-;; APHELEIA + RUFF (FORMAT)
-;; --------------------
-(use-package! apheleia
-  :hook ((python-mode python-ts-mode) . apheleia-mode)
-  :config
-  (setf (alist-get 'python-mode apheleia-mode-alist) 'ruff)
-  (setf (alist-get 'python-ts-mode apheleia-mode-alist) 'ruff)
-
-  (setf (alist-get 'ruff apheleia-formatters)
-        '("ruff" "format" "--stdin-filename" filepath))
-
-  (setq apheleia-mode nil)
-
-  (map! :map python-mode-map
-        :localleader
-        "f" #'apheleia-format-buffer
-        "F" #'apheleia-format-region))
-
-;; --------------------
-;; FLYCHECK + RUFF (LINT)
+;; FLYCHECK (DIAGNÓSTICOS LIMPOS)
 ;; --------------------
 (after! flycheck
-  (setq flycheck-checker-error-threshold nil)
+  ;; Não pintar o código
+  (setq flycheck-highlighting-mode 'symbols
+        flycheck-indication-mode nil
+        flycheck-checker-error-threshold nil)
 
+  ;; Ruff como único checker
   (flycheck-define-checker python-ruff
     "Ruff linter"
     :command ("ruff" "check" "--output-format=text"
@@ -112,7 +88,35 @@
 
   (add-hook 'python-mode-hook
             (lambda ()
-              (flycheck-add-next-checker 'python 'python-ruff))))
+              (flycheck-select-checker 'python-ruff)))
+
+  ;; Painel lateral (estilo lsp-ui)
+  (setq flycheck-display-errors-function
+        #'flycheck-display-error-messages-unless-error-list))
+
+;; --------------------
+;; APHELEIA + RUFF (FORMAT)
+;; --------------------
+(use-package! apheleia
+  :hook ((python-mode python-ts-mode) . apheleia-mode)
+  :config
+  (setf (alist-get 'python-mode apheleia-mode-alist) 'ruff)
+  (setf (alist-get 'python-ts-mode apheleia-mode-alist) 'ruff)
+  (setf (alist-get 'ruff apheleia-formatters)
+        '("ruff" "format" "--stdin-filename" filepath))
+  (setq apheleia-mode nil))
+
+;; --------------------
+;; KEYBINDS (PADRÃO DOOM)
+;; --------------------
+(map! :leader
+      (:prefix ("c" . "code")
+       :desc "Code actions"     "a" #'eglot-code-actions
+       :desc "Rename symbol"    "r" #'eglot-rename
+       :desc "Format buffer"    "f" #'apheleia-format-buffer
+       :desc "Errors list"      "e" #'flycheck-list-errors
+       :desc "Go to definition" "d" #'xref-find-definitions
+       :desc "References"       "R" #'xref-find-references))
 
 ;; --------------------
 ;; DAPE (DEBUG PYTHON / DOCKER)
@@ -122,7 +126,6 @@
   (setq dape-buffer-window-arrangement 'right
         dape-info-hide-mode-line t)
 
-  ;; Python Docker attach (debugpy)
   (add-to-list
    'dape-configs
    `(python-docker
@@ -139,7 +142,6 @@
            (or (projectile-project-root) default-directory)
            "/app"))))))
 
-  ;; Config fixa (exemplo projeto específico)
   (add-to-list
    'dape-configs
    `(python-docker-alianca
@@ -152,13 +154,11 @@
      path-mappings
      (("/home/lucas/Projects/work/alianca/apps/backend/" . "/app")))))
 
-
-(use-package kotlin-mode
-  :ensure t
-  :mode ("\\.kts?\\'" . kotlin-mode)
-  :bind (:map
-         kotlin-mode-map
-         ("C-c C-c" . ar/compile)))
+;; --------------------
+;; KOTLIN
+;; --------------------
+(use-package! kotlin-mode
+  :mode ("\\.kts?\\'" . kotlin-mode))
 
 ;; --------------------
 ;; DATABASE (EJC-SQL)
