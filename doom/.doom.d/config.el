@@ -70,6 +70,10 @@
 (setq doom-diagnostic-buffer 'flymake)
 
 (after! flymake
+  (set-face-attribute 'flymake-warning nil :underline nil)
+
+  (set-face-attribute 'flymake-error nil :underline t)
+
   (setq flymake-show-diagnostics-at-end-of-line nil
         flymake-indicator-type 'fringe
         flymake-fringe-indicator-position 'right-fringe
