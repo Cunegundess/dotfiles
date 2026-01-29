@@ -61,9 +61,7 @@
 (after! eglot
   (add-to-list 'eglot-server-programs
                '((python-mode python-ts-mode)
-                 "basedpyright-langserver" "--stdio"))
-
-  (setq eglot-autoshutdown t)
+                 "basedpyright-langserver" "--stdio")))
 
 ;; ============================================================
 ;; FLYMAKE (FRINGE DIREITO, SEM INLINE)
@@ -120,7 +118,6 @@
   (setq dape-buffer-window-arrangement 'right
         dape-info-hide-mode-line t)
 
-  ;; Docker genérico
   (add-to-list
    'dape-configs
    `(python-docker
@@ -137,7 +134,6 @@
            (or (projectile-project-root) default-directory)
            "/app"))))))
 
-  ;; === CONFIG FIXA ALIANCA (PRESERVADA) ===
   (add-to-list
    'dape-configs
    `(python-docker-alianca
