@@ -152,6 +152,14 @@
      path-mappings
      (("/home/lucas/Projects/work/alianca/apps/backend/" . "/app")))))
 
+
+(use-package kotlin-mode
+  :ensure t
+  :mode ("\\.kts?\\'" . kotlin-mode)
+  :bind (:map
+         kotlin-mode-map
+         ("C-c C-c" . ar/compile)))
+
 ;; --------------------
 ;; DATABASE (EJC-SQL)
 ;; --------------------
