@@ -43,6 +43,13 @@
   (setq flycheck-checker-error-threshold nil
         flycheck-indication-mode 'left-fringe
         flycheck-highlighting-mode 'lines))
+
+(after! lsp-mode
+  (setq lsp-diagnostics-provider :none)
+  
+  (set-face-attribute 'lsp-face-highlight-textual nil :underline nil :background nil)
+  (set-face-attribute 'lsp-face-highlight-read nil :underline nil :background nil)
+  (set-face-attribute 'lsp-face-highlight-write nil :underline nil :background nil))
 (use-package! dape
   :config
   (setq dape-buffer-window-arrangement 'right
