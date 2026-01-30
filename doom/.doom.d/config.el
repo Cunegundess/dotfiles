@@ -1,6 +1,6 @@
 (setq user-full-name "Lucas Cunegundes"
       user-mail-address "lucascsantana6@gmail.com")
-(setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 12))
+(setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 15))
 
 (custom-set-faces!
   '(italic :slant italic)
@@ -18,80 +18,37 @@
   (add-hook 'org-mode-hook #'org-bullets-mode))
 (after! python
   (setq python-shell-virtualenv-root ".venv")
-  (add-hook 'python-mode-hook #'eglot-ensure)
-  (add-hook 'python-ts-mode-hook #'eglot-ensure))
-(after! eglot
-  (setq eglot-autoshutdown t
-        eglot-sync-connect nil
-        eglot-extend-to-xref t
-        eglot-report-progress nil
-        eglot-events-buffer-size 0)
   
-  ;; BasedPyright como LSP server
-  (add-to-list 'eglot-server-programs
-               '((python-mode python-ts-mode)
-                 . ("basedpyright-langserver" "--stdio")))
+  ;; LSP automático em Python
+  (add-hook 'python-mode-hook #'lsp-deferred)
+  (add-hook 'python-ts-mode-hook #'lsp-deferred))
+(after! lsp-pyright
+  (setq lsp-pyright-langserver-command "basedpyright-langserver"
+        lsp-pyright-auto-import-completions t
+        lsp-pyright-auto-search-paths t
+        lsp-pyright-use-library-code-for-types nil
+        lsp-pyright-diagnostic-mode "openFilesOnly"
+        lsp-pyright-type-checking-mode "off"))
+
+(use-package lsp-mode)
+(after! lsp-mode
+  (setq lsp-diagnostics-provider :none)
   
-  ;; Workspace configuration - Django optimized
-  (defun +python-eglot-workspace-config ()
-    "Configuração BasedPyright otimizada para Django/Docker."
-    (when (projectile-project-root)
-      `(:basedpyright
-        (:analysis
-         (:typeCheckingMode "off"
-          :diagnosticMode "openFilesOnly"
-          :autoImportCompletions t
-          :autoSearchPaths t
-          :useLibraryCodeForTypes nil
-          :extraPaths ["."]
-          :diagnosticSeverityOverrides
-          (:reportUnknownMemberType "none"
-           :reportUnknownVariableType "none"
-           :reportUnknownArgumentType "none"
-           :reportUnknownParameterType "none"
-           :reportMissingTypeStubs "none"
-           :reportGeneralTypeIssues "none"
-           :reportOptionalMemberAccess "none"
-           :reportOptionalSubscript "none"
-           :reportPrivateImportUsage "none"
-           :reportAttributeAccessIssue "none"
-           :reportIncompatibleMethodOverride "none"))))))
-  
-  (add-hook 'python-mode-hook
-            (lambda ()
-              (setq-local eglot-workspace-configuration
-                          (+python-eglot-workspace-config))))
-  
-  ;; Remove símbolos ! inline
-  (add-hook 'eglot-managed-mode-hook
-            (lambda ()
-              (setq-local eldoc-documentation-strategy
-                          'eldoc-documentation-compose-eagerly))))
+  ;; Remove faces de diagnósticos
+  (set-face-attribute 'lsp-face-highlight-textual nil :underline nil :background nil)
+  (set-face-attribute 'lsp-face-highlight-read nil :underline nil :background nil)
+  (set-face-attribute 'lsp-face-highlight-write nil :underline nil :background nil))
+
+;; Flymake também desabilitado
 (after! flymake
-  ;; Configuração visual
   (setq flymake-show-diagnostics-at-end-of-line nil
         flymake-indicator-type 'fringe
-        flymake-fringe-indicator-position 'right-fringe
-        flymake-no-changes-timeout 0.5
-        flymake-start-on-save-buffer t)
+        flymake-fringe-indicator-position 'right-fringe)
   
-  ;; Remove todos os underlines
+  ;; Remove underlines
   (set-face-attribute 'flymake-error nil :underline nil)
   (set-face-attribute 'flymake-warning nil :underline nil)
-  (set-face-attribute 'flymake-note nil :underline nil)
-  
-  ;; Bitmaps minimalistas para a fringe
-  (define-fringe-bitmap 'flymake-error-bitmap
-    [#b00000000
-     #b00011000
-     #b00011000
-     #b00000000] nil nil 'center)
-  
-  (define-fringe-bitmap 'flymake-warning-bitmap
-    [#b00000000
-     #b00011000
-     #b00011000
-     #b00000000] nil nil 'center))
+  (set-face-attribute 'flymake-note nil :underline nil))
 (use-package! apheleia
   :hook ((python-mode python-ts-mode) . apheleia-mode)
   :config
@@ -141,23 +98,24 @@
 (map! :leader
       ;; Code actions
       (:prefix ("c" . "code")
-       :desc "Code actions"        "a" #'eglot-code-actions
-       :desc "Rename symbol"       "r" #'eglot-rename
+       :desc "Code actions"        "a" #'lsp-execute-code-action
+       :desc "Rename symbol"       "r" #'lsp-rename
        :desc "Format buffer"       "f" #'apheleia-format-buffer
-       :desc "Hover doc"           "k" #'eldoc-doc-buffer)
+       :desc "Organize imports"    "o" #'lsp-organize-imports
+       :desc "Hover doc"           "k" #'lsp-describe-thing-at-point)
       
       ;; Navigation
       (:prefix ("g" . "goto")
-       :desc "Definition"          "d" #'xref-find-definitions
-       :desc "References"          "r" #'xref-find-references
-       :desc "Implementations"     "i" #'eglot-find-implementation)
+       :desc "Definition"          "d" #'lsp-find-definition
+       :desc "References"          "r" #'lsp-find-references
+       :desc "Implementations"     "i" #'lsp-find-implementation
+       :desc "Type definition"     "t" #'lsp-find-type-definition)
       
-      ;; Diagnostics
+      ;; Diagnostics (se precisar ativar manualmente)
       (:prefix ("e" . "errors")
-       :desc "Next diagnostic"     "n" #'flymake-goto-next-error
-       :desc "Prev diagnostic"     "p" #'flymake-goto-prev-error
-       :desc "Buffer diagnostics"  "l" #'flymake-show-buffer-diagnostics
-       :desc "Project diagnostics" "L" #'flymake-show-project-diagnostics))
+       :desc "List workspace errs" "l" #'lsp-treemacs-errors-list
+       :desc "Next error"          "n" #'flycheck-next-error
+       :desc "Prev error"          "p" #'flycheck-previous-error))
 (use-package! ejc-sql
   :commands (ejc-sql-mode ejc-sql-connect)
   :config
