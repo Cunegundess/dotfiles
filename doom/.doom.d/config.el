@@ -22,66 +22,27 @@
 
 (after! lsp-pyright
   (setq lsp-pyright-langserver-command "basedpyright-langserver"
-        lsp-pyright-type-checking-mode "off"
-        lsp-pyright-diagnostic-mode "openFilesOnly"))
-
-(after! lsp-mode
-  ;; Desabilita TODOS os diagnósticos
-  (setq lsp-diagnostics-provider :none
+        lsp-pyright-type-checking-mode "basic"
+        lsp-pyright-diagnostic-mode "openFilesOnly"
         
-        ;; UI Elements
-        lsp-headerline-breadcrumb-enable nil
-        lsp-modeline-code-actions-enable nil
-        lsp-modeline-diagnostics-enable nil
-        lsp-modeline-workspace-status-enable nil
-        lsp-signature-auto-activate nil
-        lsp-lens-enable nil
-        lsp-semantic-tokens-enable nil
-        lsp-inlay-hint-enable nil
-        
-        ;; Performance
-        lsp-idle-delay 0.5
-        lsp-log-io nil
-        lsp-enable-file-watchers nil))
+        ;; Remove erros de type checking comum em Django
+        lsp-pyright-diagnostic-severity-overrides
+        '(("reportUnknownMemberType" . "none")
+          ("reportUnknownVariableType" . "none")
+          ("reportUnknownArgumentType" . "none")
+          ("reportUnknownParameterType" . "none")
+          ("reportMissingTypeStubs" . "none")
+          ("reportGeneralTypeIssues" . "none")
+          ("reportOptionalMemberAccess" . "none")
+          ("reportOptionalSubscript" . "none")
+          ("reportPrivateImportUsage" . "none")
+          ("reportAttributeAccessIssue" . "none")
+          ("reportIncompatibleMethodOverride" . "none"))))
 
-(after! lsp-ui
-  ;; Desabilita TUDO do lsp-ui
-  (setq lsp-ui-sideline-enable nil
-        lsp-ui-doc-enable nil
-        lsp-ui-peek-enable t))
-
-;; CRITICAL: Desabilita Flycheck completamente
 (after! flycheck
-  (setq flycheck-disabled-checkers '(lsp)
-        flycheck-checker-error-threshold nil)
-  (global-flycheck-mode -1))
-
-;; Desabilita Flymake também
-(after! flymake
-  (setq flymake-diagnostic-functions nil)
-  (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake))
-
-;; Remove underlines de todas as faces
-(custom-set-faces!
-  '(lsp-face-highlight-textual :underline nil :background nil)
-  '(lsp-face-highlight-read :underline nil :background nil)
-  '(lsp-face-highlight-write :underline nil :background nil)
-  '(flycheck-error :underline nil)
-  '(flycheck-warning :underline nil)
-  '(flycheck-info :underline nil)
-  '(flymake-error :underline nil)
-  '(flymake-warning :underline nil)
-  '(flymake-note :underline nil))
-(use-package! apheleia
-  :hook ((python-mode python-ts-mode) . apheleia-mode)
-  :config
-  (setf (alist-get 'python-mode apheleia-mode-alist) '(ruff-isort ruff))
-  (setf (alist-get 'python-ts-mode apheleia-mode-alist) '(ruff-isort ruff))
-  
-  (setf (alist-get 'ruff apheleia-formatters)
-        '("ruff" "format" "--stdin-filename" filepath))
-  (setf (alist-get 'ruff-isort apheleia-formatters)
-        '("ruff" "check" "--select" "I" "--fix" "--stdin-filename" filepath)))
+  (setq flycheck-checker-error-threshold nil
+        flycheck-indication-mode 'left-fringe
+        flycheck-highlighting-mode 'lines))
 (use-package! dape
   :config
   (setq dape-buffer-window-arrangement 'right
