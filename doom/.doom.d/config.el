@@ -1,6 +1,6 @@
 (setq user-full-name "Lucas Cunegundes"
       user-mail-address "lucascsantana6@gmail.com")
-(setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 12))
+(setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 14))
 
 (custom-set-faces!
   '(italic :slant italic)
@@ -17,65 +17,61 @@
         org-log-done 'time)
   (add-hook 'org-mode-hook #'org-bullets-mode))
 (after! python
-  (setq python-shell-virtualenv-root ".venv")
-  
-  ;; LSP automático
   (add-hook 'python-mode-hook #'lsp-deferred)
   (add-hook 'python-ts-mode-hook #'lsp-deferred))
 
 (after! lsp-pyright
   (setq lsp-pyright-langserver-command "basedpyright-langserver"
-        lsp-pyright-auto-import-completions t
-        lsp-pyright-auto-search-paths t
-        lsp-pyright-use-library-code-for-types nil
-        lsp-pyright-diagnostic-mode "openFilesOnly"
-        lsp-pyright-type-checking-mode "off"))
+        lsp-pyright-type-checking-mode "off"
+        lsp-pyright-diagnostic-mode "openFilesOnly"))
 
 (after! lsp-mode
-  ;; Performance
-  (setq lsp-idle-delay 0.5
-        lsp-log-io nil
-        lsp-completion-provider :capf
-        lsp-enable-file-watchers nil
-        lsp-enable-folding nil
-        lsp-enable-text-document-color nil
-        lsp-enable-on-type-formatting nil
+  ;; Desabilita TODOS os diagnósticos
+  (setq lsp-diagnostics-provider :none
         
-        ;; UI Elements - TODOS DESABILITADOS
+        ;; UI Elements
         lsp-headerline-breadcrumb-enable nil
         lsp-modeline-code-actions-enable nil
         lsp-modeline-diagnostics-enable nil
         lsp-modeline-workspace-status-enable nil
         lsp-signature-auto-activate nil
-        lsp-signature-render-documentation nil
         lsp-lens-enable nil
         lsp-semantic-tokens-enable nil
-        lsp-inlay-hint-enable nil))
-(after! lsp-mode
-  ;; DESABILITA diagnósticos completamente
-  (setq lsp-diagnostics-provider :none)
-  
-  ;; Remove highlight de símbolos
-  (custom-set-faces!
-    '(lsp-face-highlight-textual :underline nil :background nil)
-    '(lsp-face-highlight-read :underline nil :background nil)
-    '(lsp-face-highlight-write :underline nil :background nil)))
+        lsp-inlay-hint-enable nil
+        
+        ;; Performance
+        lsp-idle-delay 0.5
+        lsp-log-io nil
+        lsp-enable-file-watchers nil))
 
-(after! flymake
-  ;; Configuração minimalista
-  (setq flymake-show-diagnostics-at-end-of-line nil
-        flymake-indicator-type nil)
-  
-  ;; Remove todos os underlines
-  (custom-set-faces!
-    '(flymake-error :underline nil)
-    '(flymake-warning :underline nil)
-    '(flymake-note :underline nil)))
+(after! lsp-ui
+  ;; Desabilita TUDO do lsp-ui
+  (setq lsp-ui-sideline-enable nil
+        lsp-ui-doc-enable nil
+        lsp-ui-peek-enable t))
 
+;; CRITICAL: Desabilita Flycheck completamente
 (after! flycheck
-  ;; Desabilita flycheck também
-  (setq flycheck-indication-mode nil
-        flycheck-highlighting-mode nil))
+  (setq flycheck-disabled-checkers '(lsp)
+        flycheck-checker-error-threshold nil)
+  (global-flycheck-mode -1))
+
+;; Desabilita Flymake também
+(after! flymake
+  (setq flymake-diagnostic-functions nil)
+  (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake))
+
+;; Remove underlines de todas as faces
+(custom-set-faces!
+  '(lsp-face-highlight-textual :underline nil :background nil)
+  '(lsp-face-highlight-read :underline nil :background nil)
+  '(lsp-face-highlight-write :underline nil :background nil)
+  '(flycheck-error :underline nil)
+  '(flycheck-warning :underline nil)
+  '(flycheck-info :underline nil)
+  '(flymake-error :underline nil)
+  '(flymake-warning :underline nil)
+  '(flymake-note :underline nil))
 (use-package! apheleia
   :hook ((python-mode python-ts-mode) . apheleia-mode)
   :config
