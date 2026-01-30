@@ -1,21 +1,59 @@
+#+TITLE: Doom Emacs Configuration
+#+AUTHOR: Lucas Cunegundes
+#+EMAIL: lucascsantana6@gmail.com
+#+PROPERTY: header-args:emacs-lisp :tangle config.el :cache yes :results silent :padline no
+
+* Informações Pessoais
+Configuração básica de identidade para o Emacs.
+
+#+begin_src emacs-lisp
 (setq user-full-name "Lucas Cunegundes"
       user-mail-address "lucascsantana6@gmail.com")
+#+end_src
+
+* Aparência
+
+** Fonte
+Usando Iosevka Nerd Font com tamanho 12.
+
+#+begin_src emacs-lisp
 (setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 12))
 
 (custom-set-faces!
   '(italic :slant italic)
   '(bold :weight bold)
   '(bold-italic :weight bold :slant italic))
+#+end_src
+
+** Tema e UI
+Tokyo Night com números de linha relativos + beacon para tracking do cursor.
+
+#+begin_src emacs-lisp
 (setq doom-theme 'doom-tokyo-night
       display-line-numbers-type 'relative)
 
 (beacon-mode 1)
+#+end_src
+
+* Org Mode
+Configuração para organização pessoal e agenda.
+
+#+begin_src emacs-lisp
 (use-package! org
   :config
   (setq org-directory "~/Documentos/"
         org-agenda-files '("~/Documentos/agenda.org")
         org-log-done 'time)
   (add-hook 'org-mode-hook #'org-bullets-mode))
+#+end_src
+
+* Python Development
+
+** LSP com Eglot + BasedPyright
+Configuração otimizada para projetos Django + Docker.
+
+*** Setup Básico
+#+begin_src emacs-lisp
 (after! python
   ;; Virtualenv local
   (setq python-shell-virtualenv-root ".venv")
@@ -23,6 +61,12 @@
   ;; Eglot automático
   (add-hook 'python-mode-hook #'eglot-ensure)
   (add-hook 'python-ts-mode-hook #'eglot-ensure))
+#+end_src
+
+*** Configuração do Eglot
+Desativa inlay hints e configura BasedPyright para reduzir noise de type checking.
+
+#+begin_src emacs-lisp
 (after! eglot
   ;; Performance e comportamento
   (setq eglot-autoshutdown t
@@ -57,6 +101,12 @@
             (lambda ()
               (setq-local eglot-workspace-configuration
                           (+python-eglot-workspace-config)))))
+#+end_src
+
+** Flymake (Diagnósticos)
+Diagnósticos apenas na fringe direita, sem underlines inline para manter o código limpo.
+
+#+begin_src emacs-lisp
 (after! flymake
   (setq flymake-show-diagnostics-at-end-of-line nil
         flymake-indicator-type 'fringe
@@ -68,6 +118,12 @@
   (set-face-attribute 'flymake-warning nil :underline nil)
   (set-face-attribute 'flymake-error nil :underline '(:style wave :color "red"))
   (set-face-attribute 'flymake-note nil :underline nil))
+#+end_src
+
+** Formatação com Apheleia + Ruff
+Auto-formatação on-save usando Ruff (format + isort).
+
+#+begin_src emacs-lisp
 (use-package! apheleia
   :hook ((python-mode python-ts-mode) . apheleia-mode)
   :config
@@ -79,6 +135,12 @@
         '("ruff" "format" "--stdin-filename" filepath))
   (setf (alist-get 'ruff-isort apheleia-formatters)
         '("ruff" "check" "--select" "I" "--fix" "--stdin-filename" filepath)))
+#+end_src
+
+** Debug com Dape
+Configuração de debug para projetos Python em Docker.
+
+#+begin_src emacs-lisp
 (use-package! dape
   :config
   (setq dape-buffer-window-arrangement 'right
@@ -113,6 +175,14 @@
      cwd "/home/lucas/Projects/work/alianca/apps/backend/"
      path-mappings
      (("/home/lucas/Projects/work/alianca/apps/backend/" . "/app")))))
+#+end_src
+
+* Keybindings
+
+** Code Navigation & Actions
+Atalhos para LSP, navegação e diagnósticos.
+
+#+begin_src emacs-lisp
 (map! :leader
       (:prefix ("c" . "code")
        :desc "Code actions"        "a" #'eglot-code-actions
@@ -130,12 +200,25 @@
        :desc "Prev diagnostic"     "p" #'flymake-goto-prev-error
        :desc "Buffer diagnostics"  "l" #'flymake-show-buffer-diagnostics
        :desc "Project diagnostics" "L" #'flymake-show-project-diagnostics))
+#+end_src
+
+* Database (EJC-SQL)
+Cliente SQL para PostgreSQL com syntax highlighting e completion.
+
+** Configuração Base
+#+begin_src emacs-lisp
 (use-package! ejc-sql
   :commands ejc-sql-mode ejc-sql-connect
   :config
   (setq ejc-sql-separator ";"
         ejc-use-flx t
         ejc-result-table-impl 'ejc-result-table-tabulated))
+#+end_src
+
+** Conexões
+Conexões pré-configuradas para projetos Nexus e Aliança.
+
+#+begin_src emacs-lisp
 (after! ejc-sql
   (ejc-create-connection
    "postgres-nexus"
@@ -154,7 +237,14 @@
    :host "localhost"
    :port 5432
    :user "postgres"))
+#+end_src
+
+* Terminal (VTerm)
+Emulador de terminal usando ZSH.
+
+#+begin_src emacs-lisp
 (use-package! vterm
   :commands vterm
   :config
   (setq vterm-shell "/bin/zsh"))
+#+end_src
