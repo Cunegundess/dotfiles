@@ -1,6 +1,6 @@
 (setq user-full-name "Lucas Cunegundes"
       user-mail-address "lucascsantana6@gmail.com")
-(setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 15))
+(setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 12))
 
 (custom-set-faces!
   '(italic :slant italic)
@@ -19,9 +19,10 @@
 (after! python
   (setq python-shell-virtualenv-root ".venv")
   
-  ;; LSP automático em Python
+  ;; LSP automático
   (add-hook 'python-mode-hook #'lsp-deferred)
   (add-hook 'python-ts-mode-hook #'lsp-deferred))
+
 (after! lsp-pyright
   (setq lsp-pyright-langserver-command "basedpyright-langserver"
         lsp-pyright-auto-import-completions t
@@ -30,33 +31,57 @@
         lsp-pyright-diagnostic-mode "openFilesOnly"
         lsp-pyright-type-checking-mode "off"))
 
-(use-package lsp-mode)
 (after! lsp-mode
+  ;; Performance
+  (setq lsp-idle-delay 0.5
+        lsp-log-io nil
+        lsp-completion-provider :capf
+        lsp-enable-file-watchers nil
+        lsp-enable-folding nil
+        lsp-enable-text-document-color nil
+        lsp-enable-on-type-formatting nil
+        
+        ;; UI Elements - TODOS DESABILITADOS
+        lsp-headerline-breadcrumb-enable nil
+        lsp-modeline-code-actions-enable nil
+        lsp-modeline-diagnostics-enable nil
+        lsp-modeline-workspace-status-enable nil
+        lsp-signature-auto-activate nil
+        lsp-signature-render-documentation nil
+        lsp-lens-enable nil
+        lsp-semantic-tokens-enable nil
+        lsp-inlay-hint-enable nil))
+(after! lsp-mode
+  ;; DESABILITA diagnósticos completamente
   (setq lsp-diagnostics-provider :none)
   
-  ;; Remove faces de diagnósticos
-  (set-face-attribute 'lsp-face-highlight-textual nil :underline nil :background nil)
-  (set-face-attribute 'lsp-face-highlight-read nil :underline nil :background nil)
-  (set-face-attribute 'lsp-face-highlight-write nil :underline nil :background nil))
+  ;; Remove highlight de símbolos
+  (custom-set-faces!
+    '(lsp-face-highlight-textual :underline nil :background nil)
+    '(lsp-face-highlight-read :underline nil :background nil)
+    '(lsp-face-highlight-write :underline nil :background nil)))
 
-;; Flymake também desabilitado
 (after! flymake
+  ;; Configuração minimalista
   (setq flymake-show-diagnostics-at-end-of-line nil
-        flymake-indicator-type 'fringe
-        flymake-fringe-indicator-position 'right-fringe)
+        flymake-indicator-type nil)
   
-  ;; Remove underlines
-  (set-face-attribute 'flymake-error nil :underline nil)
-  (set-face-attribute 'flymake-warning nil :underline nil)
-  (set-face-attribute 'flymake-note nil :underline nil))
+  ;; Remove todos os underlines
+  (custom-set-faces!
+    '(flymake-error :underline nil)
+    '(flymake-warning :underline nil)
+    '(flymake-note :underline nil)))
+
+(after! flycheck
+  ;; Desabilita flycheck também
+  (setq flycheck-indication-mode nil
+        flycheck-highlighting-mode nil))
 (use-package! apheleia
   :hook ((python-mode python-ts-mode) . apheleia-mode)
   :config
-  ;; Usa Ruff como formatador padrão
   (setf (alist-get 'python-mode apheleia-mode-alist) '(ruff-isort ruff))
   (setf (alist-get 'python-ts-mode apheleia-mode-alist) '(ruff-isort ruff))
   
-  ;; Configuração dos formatadores
   (setf (alist-get 'ruff apheleia-formatters)
         '("ruff" "format" "--stdin-filename" filepath))
   (setf (alist-get 'ruff-isort apheleia-formatters)
@@ -66,7 +91,6 @@
   (setq dape-buffer-window-arrangement 'right
         dape-info-hide-mode-line t)
 
-  ;; Config genérica para qualquer projeto Docker
   (add-to-list
    'dape-configs
    `(python-docker
@@ -83,7 +107,6 @@
            (or (projectile-project-root) default-directory)
            "/app"))))))
 
-  ;; Config específica - Projeto Aliança
   (add-to-list
    'dape-configs
    `(python-docker-alianca
@@ -96,7 +119,6 @@
      path-mappings
      (("/home/lucas/Projects/work/alianca/apps/backend/" . "/app")))))
 (map! :leader
-      ;; Code actions
       (:prefix ("c" . "code")
        :desc "Code actions"        "a" #'lsp-execute-code-action
        :desc "Rename symbol"       "r" #'lsp-rename
@@ -104,18 +126,11 @@
        :desc "Organize imports"    "o" #'lsp-organize-imports
        :desc "Hover doc"           "k" #'lsp-describe-thing-at-point)
       
-      ;; Navigation
       (:prefix ("g" . "goto")
        :desc "Definition"          "d" #'lsp-find-definition
        :desc "References"          "r" #'lsp-find-references
        :desc "Implementations"     "i" #'lsp-find-implementation
-       :desc "Type definition"     "t" #'lsp-find-type-definition)
-      
-      ;; Diagnostics (se precisar ativar manualmente)
-      (:prefix ("e" . "errors")
-       :desc "List workspace errs" "l" #'lsp-treemacs-errors-list
-       :desc "Next error"          "n" #'flycheck-next-error
-       :desc "Prev error"          "p" #'flycheck-previous-error))
+       :desc "Type definition"     "t" #'lsp-find-type-definition))
 (use-package! ejc-sql
   :commands (ejc-sql-mode ejc-sql-connect)
   :config
@@ -124,7 +139,6 @@
         ejc-result-table-impl 'ejc-result-table-tabulated))
 
 (after! ejc-sql
-  ;; Conexão - Projeto Nexus
   (ejc-create-connection
    "postgres-nexus"
    :classpath (ejc-find-postgres-jdbc)
@@ -134,7 +148,6 @@
    :port 5432
    :user "postgres")
 
-  ;; Conexão - Projeto Aliança
   (ejc-create-connection
    "postgres-alianca"
    :classpath (ejc-find-postgres-jdbc)

@@ -13,9 +13,6 @@
 - [[#org-mode][Org Mode]]
 - [[#python-development][Python Development]]
   - [[#lsp-mode--pyright][LSP Mode + Pyright]]
-    - [[#configuração-base][Configuração Base]]
-    - [[#pyright-settings][Pyright Settings]]
-    - [[#ui-limpa][UI Limpa]]
   - [[#formatação-apheleia--ruff][Formatação (Apheleia + Ruff)]]
   - [[#debug-dape][Debug (Dape)]]
 - [[#keybindings][Keybindings]]
@@ -36,7 +33,7 @@ Configuração básica de identidade.
 Iosevka Nerd Font Mono, tamanho 12.
 
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 15))
+(setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 12))
 
 (custom-set-faces!
   '(italic :slant italic)
@@ -45,7 +42,7 @@ Iosevka Nerd Font Mono, tamanho 12.
 #+end_src
 
 ** Tema e UI
-Tokyo Night com números de linha relativos e beacon mode para tracking visual do cursor.
+Tokyo Night com números de linha relativos e beacon mode.
 
 #+begin_src emacs-lisp
 (setq doom-theme 'doom-tokyo-night
@@ -70,24 +67,16 @@ Configuração para organização pessoal, agenda e produtividade.
 Configuração completa para desenvolvimento Python com foco em Django + Docker.
 
 ** LSP Mode + Pyright
-Language Server Protocol usando LSP Mode com Pyright otimizado para Django.
-
-*** Configuração Base
-Habilita LSP automaticamente e define virtualenv padrão.
+Language Server Protocol usando LSP Mode com Pyright/BasedPyright.
 
 #+begin_src emacs-lisp
 (after! python
   (setq python-shell-virtualenv-root ".venv")
   
-  ;; LSP automático em Python
+  ;; LSP automático
   (add-hook 'python-mode-hook #'lsp-deferred)
   (add-hook 'python-ts-mode-hook #'lsp-deferred))
-#+end_src
 
-*** Pyright Settings
-Configuração otimizada para Django com type checking mínimo.
-
-#+begin_src emacs-lisp
 (after! lsp-pyright
   (setq lsp-pyright-langserver-command "basedpyright-langserver"
         lsp-pyright-auto-import-completions t
@@ -96,45 +85,68 @@ Configuração otimizada para Django com type checking mínimo.
         lsp-pyright-diagnostic-mode "openFilesOnly"
         lsp-pyright-type-checking-mode "off"))
 
-(use-package lsp-mode)
+(after! lsp-mode
+  ;; Performance
+  (setq lsp-idle-delay 0.5
+        lsp-log-io nil
+        lsp-completion-provider :capf
+        lsp-enable-file-watchers nil
+        lsp-enable-folding nil
+        lsp-enable-text-document-color nil
+        lsp-enable-on-type-formatting nil
+        
+        ;; UI Elements - TODOS DESABILITADOS
+        lsp-headerline-breadcrumb-enable nil
+        lsp-modeline-code-actions-enable nil
+        lsp-modeline-diagnostics-enable nil
+        lsp-modeline-workspace-status-enable nil
+        lsp-signature-auto-activate nil
+        lsp-signature-render-documentation nil
+        lsp-lens-enable nil
+        lsp-semantic-tokens-enable nil
+        lsp-inlay-hint-enable nil))
 #+end_src
 
-*** UI Limpa
-Remove todas as marcações visuais - mantém apenas ícones discretos na fringe.
+Remove todas as marcações visuais do código.
 
 #+begin_src emacs-lisp
 (after! lsp-mode
+  ;; DESABILITA diagnósticos completamente
   (setq lsp-diagnostics-provider :none)
   
-  ;; Remove faces de diagnósticos
-  (set-face-attribute 'lsp-face-highlight-textual nil :underline nil :background nil)
-  (set-face-attribute 'lsp-face-highlight-read nil :underline nil :background nil)
-  (set-face-attribute 'lsp-face-highlight-write nil :underline nil :background nil))
+  ;; Remove highlight de símbolos
+  (custom-set-faces!
+    '(lsp-face-highlight-textual :underline nil :background nil)
+    '(lsp-face-highlight-read :underline nil :background nil)
+    '(lsp-face-highlight-write :underline nil :background nil)))
 
-;; Flymake também desabilitado
 (after! flymake
+  ;; Configuração minimalista
   (setq flymake-show-diagnostics-at-end-of-line nil
-        flymake-indicator-type 'fringe
-        flymake-fringe-indicator-position 'right-fringe)
+        flymake-indicator-type nil)
   
-  ;; Remove underlines
-  (set-face-attribute 'flymake-error nil :underline nil)
-  (set-face-attribute 'flymake-warning nil :underline nil)
-  (set-face-attribute 'flymake-note nil :underline nil))
+  ;; Remove todos os underlines
+  (custom-set-faces!
+    '(flymake-error :underline nil)
+    '(flymake-warning :underline nil)
+    '(flymake-note :underline nil)))
+
+(after! flycheck
+  ;; Desabilita flycheck também
+  (setq flycheck-indication-mode nil
+        flycheck-highlighting-mode nil))
 #+end_src
 
 ** Formatação (Apheleia + Ruff)
-Auto-formatação on-save com Ruff (format + isort).
+Auto-formatação on-save com Ruff.
 
 #+begin_src emacs-lisp
 (use-package! apheleia
   :hook ((python-mode python-ts-mode) . apheleia-mode)
   :config
-  ;; Usa Ruff como formatador padrão
   (setf (alist-get 'python-mode apheleia-mode-alist) '(ruff-isort ruff))
   (setf (alist-get 'python-ts-mode apheleia-mode-alist) '(ruff-isort ruff))
   
-  ;; Configuração dos formatadores
   (setf (alist-get 'ruff apheleia-formatters)
         '("ruff" "format" "--stdin-filename" filepath))
   (setf (alist-get 'ruff-isort apheleia-formatters)
@@ -142,7 +154,7 @@ Auto-formatação on-save com Ruff (format + isort).
 #+end_src
 
 ** Debug (Dape)
-Debugger para Python em containers Docker com mapeamento de paths.
+Debugger para Python em containers Docker.
 
 #+begin_src emacs-lisp
 (use-package! dape
@@ -150,7 +162,6 @@ Debugger para Python em containers Docker com mapeamento de paths.
   (setq dape-buffer-window-arrangement 'right
         dape-info-hide-mode-line t)
 
-  ;; Config genérica para qualquer projeto Docker
   (add-to-list
    'dape-configs
    `(python-docker
@@ -167,7 +178,6 @@ Debugger para Python em containers Docker com mapeamento de paths.
            (or (projectile-project-root) default-directory)
            "/app"))))))
 
-  ;; Config específica - Projeto Aliança
   (add-to-list
    'dape-configs
    `(python-docker-alianca
@@ -182,11 +192,10 @@ Debugger para Python em containers Docker com mapeamento de paths.
 #+end_src
 
 * Keybindings
-Atalhos customizados seguindo convenções do Doom Emacs.
+Atalhos customizados para LSP Mode.
 
 #+begin_src emacs-lisp
 (map! :leader
-      ;; Code actions
       (:prefix ("c" . "code")
        :desc "Code actions"        "a" #'lsp-execute-code-action
        :desc "Rename symbol"       "r" #'lsp-rename
@@ -194,22 +203,15 @@ Atalhos customizados seguindo convenções do Doom Emacs.
        :desc "Organize imports"    "o" #'lsp-organize-imports
        :desc "Hover doc"           "k" #'lsp-describe-thing-at-point)
       
-      ;; Navigation
       (:prefix ("g" . "goto")
        :desc "Definition"          "d" #'lsp-find-definition
        :desc "References"          "r" #'lsp-find-references
        :desc "Implementations"     "i" #'lsp-find-implementation
-       :desc "Type definition"     "t" #'lsp-find-type-definition)
-      
-      ;; Diagnostics (se precisar ativar manualmente)
-      (:prefix ("e" . "errors")
-       :desc "List workspace errs" "l" #'lsp-treemacs-errors-list
-       :desc "Next error"          "n" #'flycheck-next-error
-       :desc "Prev error"          "p" #'flycheck-previous-error))
+       :desc "Type definition"     "t" #'lsp-find-type-definition))
 #+end_src
 
 * Database (EJC-SQL)
-Cliente SQL interativo para PostgreSQL com completion e syntax highlighting.
+Cliente SQL interativo para PostgreSQL.
 
 #+begin_src emacs-lisp
 (use-package! ejc-sql
@@ -220,7 +222,6 @@ Cliente SQL interativo para PostgreSQL com completion e syntax highlighting.
         ejc-result-table-impl 'ejc-result-table-tabulated))
 
 (after! ejc-sql
-  ;; Conexão - Projeto Nexus
   (ejc-create-connection
    "postgres-nexus"
    :classpath (ejc-find-postgres-jdbc)
@@ -230,7 +231,6 @@ Cliente SQL interativo para PostgreSQL com completion e syntax highlighting.
    :port 5432
    :user "postgres")
 
-  ;; Conexão - Projeto Aliança
   (ejc-create-connection
    "postgres-alianca"
    :classpath (ejc-find-postgres-jdbc)
@@ -242,7 +242,7 @@ Cliente SQL interativo para PostgreSQL com completion e syntax highlighting.
 #+end_src
 
 * Terminal (VTerm)
-Terminal emulado usando ZSH como shell padrão.
+Terminal emulado com ZSH.
 
 #+begin_src emacs-lisp
 (use-package! vterm
