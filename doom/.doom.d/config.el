@@ -53,12 +53,14 @@
             :reportUnknownVariableType "none"
             :reportUnknownArgumentType "none"
             :inlayHints
-            (:variableTypes nil
-             :functionReturnTypes nil
-             :callArgumentNames nil
-             :genericTypes nil)))))))))
+            ;; (:variableTypes nil
+            ;;  :functionReturnTypes nil
+            ;;  :callArgumentNames nil
+            ;;  :genericTypes nil)
+            ))))))))
 
 (after! eglot
+  (setq eglot-inlay-hints-mode nil)
   (add-to-list 'eglot-server-programs
                '((python-mode python-ts-mode)
                  "basedpyright-langserver" "--stdio")))
