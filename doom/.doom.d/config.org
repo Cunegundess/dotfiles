@@ -1,10 +1,29 @@
 #+TITLE: Doom Emacs Configuration
 #+AUTHOR: Lucas Cunegundes
 #+EMAIL: lucascsantana6@gmail.com
+#+DESCRIPTION: Configuração pessoal do Doom Emacs focada em Python/Django
+#+STARTUP: fold
 #+PROPERTY: header-args:emacs-lisp :tangle config.el :cache yes :results silent :padline no
 
+* Table of Contents :TOC_3:noexport:
+- [[#informações-pessoais][Informações Pessoais]]
+- [[#aparência][Aparência]]
+  - [[#fonte][Fonte]]
+  - [[#tema-e-ui][Tema e UI]]
+- [[#org-mode][Org Mode]]
+- [[#python-development][Python Development]]
+  - [[#lsp-eglot--basedpyright][LSP (Eglot + BasedPyright)]]
+    - [[#configuração-base][Configuração Base]]
+    - [[#basedpyright-settings][BasedPyright Settings]]
+  - [[#diagnósticos-flymake][Diagnósticos (Flymake)]]
+  - [[#formatação-apheleia--ruff][Formatação (Apheleia + Ruff)]]
+  - [[#debug-dape][Debug (Dape)]]
+- [[#keybindings][Keybindings]]
+- [[#database-ejc-sql][Database (EJC-SQL)]]
+- [[#terminal-vterm][Terminal (VTerm)]]
+
 * Informações Pessoais
-Configuração básica de identidade para o Emacs.
+Configuração básica de identidade.
 
 #+begin_src emacs-lisp
 (setq user-full-name "Lucas Cunegundes"
@@ -14,7 +33,7 @@ Configuração básica de identidade para o Emacs.
 * Aparência
 
 ** Fonte
-Usando Iosevka Nerd Font com tamanho 12.
+Iosevka Nerd Font Mono, tamanho 12.
 
 #+begin_src emacs-lisp
 (setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 12))
@@ -26,7 +45,7 @@ Usando Iosevka Nerd Font com tamanho 12.
 #+end_src
 
 ** Tema e UI
-Tokyo Night com números de linha relativos + beacon para tracking do cursor.
+Tokyo Night com números de linha relativos e beacon mode para tracking visual do cursor.
 
 #+begin_src emacs-lisp
 (setq doom-theme 'doom-tokyo-night
@@ -36,7 +55,7 @@ Tokyo Night com números de linha relativos + beacon para tracking do cursor.
 #+end_src
 
 * Org Mode
-Configuração para organização pessoal e agenda.
+Configuração para organização pessoal, agenda e produtividade.
 
 #+begin_src emacs-lisp
 (use-package! org
@@ -48,97 +67,125 @@ Configuração para organização pessoal e agenda.
 #+end_src
 
 * Python Development
+Configuração completa para desenvolvimento Python com foco em Django + Docker.
 
-** LSP com Eglot + BasedPyright
-Configuração otimizada para projetos Django + Docker.
+** LSP (Eglot + BasedPyright)
+Language Server Protocol com BasedPyright otimizado para projetos Django.
 
-*** Setup Básico
+*** Configuração Base
+Habilita Eglot automaticamente e define virtualenv padrão.
+
 #+begin_src emacs-lisp
 (after! python
-  ;; Virtualenv local
   (setq python-shell-virtualenv-root ".venv")
-  
-  ;; Eglot automático
   (add-hook 'python-mode-hook #'eglot-ensure)
   (add-hook 'python-ts-mode-hook #'eglot-ensure))
 #+end_src
 
-*** Configuração do Eglot
-Desativa inlay hints e configura BasedPyright para reduzir noise de type checking.
+*** BasedPyright Settings
+Type checking desligado para reduzir noise em projetos Django. Mantém autocomplete e navegação.
 
 #+begin_src emacs-lisp
 (after! eglot
-  ;; Performance e comportamento
   (setq eglot-autoshutdown t
         eglot-sync-connect nil
-        eglot-extend-to-xref t)
+        eglot-extend-to-xref t
+        eglot-report-progress nil
+        eglot-events-buffer-size 0)
   
   ;; BasedPyright como LSP server
   (add-to-list 'eglot-server-programs
                '((python-mode python-ts-mode)
                  . ("basedpyright-langserver" "--stdio")))
   
-  ;; Configuração do BasedPyright (ajustada para Django + Docker)
+  ;; Workspace configuration - Django optimized
   (defun +python-eglot-workspace-config ()
-    "Configuração otimizada do BasedPyright para Django."
+    "Configuração BasedPyright otimizada para Django/Docker."
     (when (projectile-project-root)
       `(:basedpyright
         (:analysis
-         (:typeCheckingMode "basic"
+         (:typeCheckingMode "off"
           :diagnosticMode "openFilesOnly"
           :autoImportCompletions t
           :autoSearchPaths t
-          :useLibraryCodeForTypes t
+          :useLibraryCodeForTypes nil
+          :extraPaths ["."]
           :diagnosticSeverityOverrides
           (:reportUnknownMemberType "none"
            :reportUnknownVariableType "none"
            :reportUnknownArgumentType "none"
            :reportUnknownParameterType "none"
            :reportMissingTypeStubs "none"
-           :reportGeneralTypeIssues "warning"))))))
+           :reportGeneralTypeIssues "none"
+           :reportOptionalMemberAccess "none"
+           :reportOptionalSubscript "none"
+           :reportPrivateImportUsage "none"
+           :reportAttributeAccessIssue "none"
+           :reportIncompatibleMethodOverride "none"))))))
   
   (add-hook 'python-mode-hook
             (lambda ()
               (setq-local eglot-workspace-configuration
-                          (+python-eglot-workspace-config)))))
+                          (+python-eglot-workspace-config))))
+  
+  ;; Remove símbolos ! inline
+  (add-hook 'eglot-managed-mode-hook
+            (lambda ()
+              (setq-local eldoc-documentation-strategy
+                          'eldoc-documentation-compose-eagerly))))
 #+end_src
 
-** Flymake (Diagnósticos)
-Diagnósticos apenas na fringe direita, sem underlines inline para manter o código limpo.
+** Diagnósticos (Flymake)
+Interface visual limpa com diagnósticos apenas na fringe direita.
 
 #+begin_src emacs-lisp
 (after! flymake
+  ;; Configuração visual
   (setq flymake-show-diagnostics-at-end-of-line nil
         flymake-indicator-type 'fringe
         flymake-fringe-indicator-position 'right-fringe
         flymake-no-changes-timeout 0.5
         flymake-start-on-save-buffer t)
   
-  ;; Remove underlines mantendo apenas ícones na fringe
+  ;; Remove todos os underlines
+  (set-face-attribute 'flymake-error nil :underline nil)
   (set-face-attribute 'flymake-warning nil :underline nil)
-  (set-face-attribute 'flymake-error nil :underline '(:style wave :color "red"))
-  (set-face-attribute 'flymake-note nil :underline nil))
+  (set-face-attribute 'flymake-note nil :underline nil)
+  
+  ;; Bitmaps minimalistas para a fringe
+  (define-fringe-bitmap 'flymake-error-bitmap
+    [#b00000000
+     #b00011000
+     #b00011000
+     #b00000000] nil nil 'center)
+  
+  (define-fringe-bitmap 'flymake-warning-bitmap
+    [#b00000000
+     #b00011000
+     #b00011000
+     #b00000000] nil nil 'center))
 #+end_src
 
-** Formatação com Apheleia + Ruff
-Auto-formatação on-save usando Ruff (format + isort).
+** Formatação (Apheleia + Ruff)
+Auto-formatação on-save com Ruff (format + isort).
 
 #+begin_src emacs-lisp
 (use-package! apheleia
   :hook ((python-mode python-ts-mode) . apheleia-mode)
   :config
+  ;; Usa Ruff como formatador padrão
   (setf (alist-get 'python-mode apheleia-mode-alist) '(ruff-isort ruff))
   (setf (alist-get 'python-ts-mode apheleia-mode-alist) '(ruff-isort ruff))
   
-  ;; Ruff format + isort integrado
+  ;; Configuração dos formatadores
   (setf (alist-get 'ruff apheleia-formatters)
         '("ruff" "format" "--stdin-filename" filepath))
   (setf (alist-get 'ruff-isort apheleia-formatters)
         '("ruff" "check" "--select" "I" "--fix" "--stdin-filename" filepath)))
 #+end_src
 
-** Debug com Dape
-Configuração de debug para projetos Python em Docker.
+** Debug (Dape)
+Debugger para Python em containers Docker com mapeamento de paths.
 
 #+begin_src emacs-lisp
 (use-package! dape
@@ -146,7 +193,7 @@ Configuração de debug para projetos Python em Docker.
   (setq dape-buffer-window-arrangement 'right
         dape-info-hide-mode-line t)
 
-  ;; Configuração genérica para Docker
+  ;; Config genérica para qualquer projeto Docker
   (add-to-list
    'dape-configs
    `(python-docker
@@ -163,7 +210,7 @@ Configuração de debug para projetos Python em Docker.
            (or (projectile-project-root) default-directory)
            "/app"))))))
 
-  ;; Configuração específica para projeto Aliança
+  ;; Config específica - Projeto Aliança
   (add-to-list
    'dape-configs
    `(python-docker-alianca
@@ -178,23 +225,24 @@ Configuração de debug para projetos Python em Docker.
 #+end_src
 
 * Keybindings
-
-** Code Navigation & Actions
-Atalhos para LSP, navegação e diagnósticos.
+Atalhos customizados seguindo convenções do Doom Emacs.
 
 #+begin_src emacs-lisp
 (map! :leader
+      ;; Code actions
       (:prefix ("c" . "code")
        :desc "Code actions"        "a" #'eglot-code-actions
        :desc "Rename symbol"       "r" #'eglot-rename
        :desc "Format buffer"       "f" #'apheleia-format-buffer
        :desc "Hover doc"           "k" #'eldoc-doc-buffer)
       
+      ;; Navigation
       (:prefix ("g" . "goto")
        :desc "Definition"          "d" #'xref-find-definitions
        :desc "References"          "r" #'xref-find-references
        :desc "Implementations"     "i" #'eglot-find-implementation)
       
+      ;; Diagnostics
       (:prefix ("e" . "errors")
        :desc "Next diagnostic"     "n" #'flymake-goto-next-error
        :desc "Prev diagnostic"     "p" #'flymake-goto-prev-error
@@ -203,23 +251,18 @@ Atalhos para LSP, navegação e diagnósticos.
 #+end_src
 
 * Database (EJC-SQL)
-Cliente SQL para PostgreSQL com syntax highlighting e completion.
+Cliente SQL interativo para PostgreSQL com completion e syntax highlighting.
 
-** Configuração Base
 #+begin_src emacs-lisp
 (use-package! ejc-sql
-  :commands ejc-sql-mode ejc-sql-connect
+  :commands (ejc-sql-mode ejc-sql-connect)
   :config
   (setq ejc-sql-separator ";"
         ejc-use-flx t
         ejc-result-table-impl 'ejc-result-table-tabulated))
-#+end_src
 
-** Conexões
-Conexões pré-configuradas para projetos Nexus e Aliança.
-
-#+begin_src emacs-lisp
 (after! ejc-sql
+  ;; Conexão - Projeto Nexus
   (ejc-create-connection
    "postgres-nexus"
    :classpath (ejc-find-postgres-jdbc)
@@ -229,6 +272,7 @@ Conexões pré-configuradas para projetos Nexus e Aliança.
    :port 5432
    :user "postgres")
 
+  ;; Conexão - Projeto Aliança
   (ejc-create-connection
    "postgres-alianca"
    :classpath (ejc-find-postgres-jdbc)
@@ -240,7 +284,7 @@ Conexões pré-configuradas para projetos Nexus e Aliança.
 #+end_src
 
 * Terminal (VTerm)
-Emulador de terminal usando ZSH.
+Terminal emulado usando ZSH como shell padrão.
 
 #+begin_src emacs-lisp
 (use-package! vterm

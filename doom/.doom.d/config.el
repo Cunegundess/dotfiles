@@ -17,64 +17,89 @@
         org-log-done 'time)
   (add-hook 'org-mode-hook #'org-bullets-mode))
 (after! python
-  ;; Virtualenv local
   (setq python-shell-virtualenv-root ".venv")
-  
-  ;; Eglot automático
   (add-hook 'python-mode-hook #'eglot-ensure)
   (add-hook 'python-ts-mode-hook #'eglot-ensure))
 (after! eglot
-  ;; Performance e comportamento
   (setq eglot-autoshutdown t
         eglot-sync-connect nil
-        eglot-extend-to-xref t)
+        eglot-extend-to-xref t
+        eglot-report-progress nil
+        eglot-events-buffer-size 0)
   
   ;; BasedPyright como LSP server
   (add-to-list 'eglot-server-programs
                '((python-mode python-ts-mode)
                  . ("basedpyright-langserver" "--stdio")))
   
-  ;; Configuração do BasedPyright (ajustada para Django + Docker)
+  ;; Workspace configuration - Django optimized
   (defun +python-eglot-workspace-config ()
-    "Configuração otimizada do BasedPyright para Django."
+    "Configuração BasedPyright otimizada para Django/Docker."
     (when (projectile-project-root)
       `(:basedpyright
         (:analysis
-         (:typeCheckingMode "basic"
+         (:typeCheckingMode "off"
           :diagnosticMode "openFilesOnly"
           :autoImportCompletions t
           :autoSearchPaths t
-          :useLibraryCodeForTypes t
+          :useLibraryCodeForTypes nil
+          :extraPaths ["."]
           :diagnosticSeverityOverrides
           (:reportUnknownMemberType "none"
            :reportUnknownVariableType "none"
            :reportUnknownArgumentType "none"
            :reportUnknownParameterType "none"
            :reportMissingTypeStubs "none"
-           :reportGeneralTypeIssues "warning"))))))
+           :reportGeneralTypeIssues "none"
+           :reportOptionalMemberAccess "none"
+           :reportOptionalSubscript "none"
+           :reportPrivateImportUsage "none"
+           :reportAttributeAccessIssue "none"
+           :reportIncompatibleMethodOverride "none"))))))
   
   (add-hook 'python-mode-hook
             (lambda ()
               (setq-local eglot-workspace-configuration
-                          (+python-eglot-workspace-config)))))
+                          (+python-eglot-workspace-config))))
+  
+  ;; Remove símbolos ! inline
+  (add-hook 'eglot-managed-mode-hook
+            (lambda ()
+              (setq-local eldoc-documentation-strategy
+                          'eldoc-documentation-compose-eagerly))))
 (after! flymake
+  ;; Configuração visual
   (setq flymake-show-diagnostics-at-end-of-line nil
         flymake-indicator-type 'fringe
         flymake-fringe-indicator-position 'right-fringe
         flymake-no-changes-timeout 0.5
         flymake-start-on-save-buffer t)
   
-  ;; Remove underlines mantendo apenas ícones na fringe
+  ;; Remove todos os underlines
+  (set-face-attribute 'flymake-error nil :underline nil)
   (set-face-attribute 'flymake-warning nil :underline nil)
-  (set-face-attribute 'flymake-error nil :underline '(:style wave :color "red"))
-  (set-face-attribute 'flymake-note nil :underline nil))
+  (set-face-attribute 'flymake-note nil :underline nil)
+  
+  ;; Bitmaps minimalistas para a fringe
+  (define-fringe-bitmap 'flymake-error-bitmap
+    [#b00000000
+     #b00011000
+     #b00011000
+     #b00000000] nil nil 'center)
+  
+  (define-fringe-bitmap 'flymake-warning-bitmap
+    [#b00000000
+     #b00011000
+     #b00011000
+     #b00000000] nil nil 'center))
 (use-package! apheleia
   :hook ((python-mode python-ts-mode) . apheleia-mode)
   :config
+  ;; Usa Ruff como formatador padrão
   (setf (alist-get 'python-mode apheleia-mode-alist) '(ruff-isort ruff))
   (setf (alist-get 'python-ts-mode apheleia-mode-alist) '(ruff-isort ruff))
   
-  ;; Ruff format + isort integrado
+  ;; Configuração dos formatadores
   (setf (alist-get 'ruff apheleia-formatters)
         '("ruff" "format" "--stdin-filename" filepath))
   (setf (alist-get 'ruff-isort apheleia-formatters)
@@ -84,7 +109,7 @@
   (setq dape-buffer-window-arrangement 'right
         dape-info-hide-mode-line t)
 
-  ;; Configuração genérica para Docker
+  ;; Config genérica para qualquer projeto Docker
   (add-to-list
    'dape-configs
    `(python-docker
@@ -101,7 +126,7 @@
            (or (projectile-project-root) default-directory)
            "/app"))))))
 
-  ;; Configuração específica para projeto Aliança
+  ;; Config específica - Projeto Aliança
   (add-to-list
    'dape-configs
    `(python-docker-alianca
@@ -114,29 +139,34 @@
      path-mappings
      (("/home/lucas/Projects/work/alianca/apps/backend/" . "/app")))))
 (map! :leader
+      ;; Code actions
       (:prefix ("c" . "code")
        :desc "Code actions"        "a" #'eglot-code-actions
        :desc "Rename symbol"       "r" #'eglot-rename
        :desc "Format buffer"       "f" #'apheleia-format-buffer
        :desc "Hover doc"           "k" #'eldoc-doc-buffer)
       
+      ;; Navigation
       (:prefix ("g" . "goto")
        :desc "Definition"          "d" #'xref-find-definitions
        :desc "References"          "r" #'xref-find-references
        :desc "Implementations"     "i" #'eglot-find-implementation)
       
+      ;; Diagnostics
       (:prefix ("e" . "errors")
        :desc "Next diagnostic"     "n" #'flymake-goto-next-error
        :desc "Prev diagnostic"     "p" #'flymake-goto-prev-error
        :desc "Buffer diagnostics"  "l" #'flymake-show-buffer-diagnostics
        :desc "Project diagnostics" "L" #'flymake-show-project-diagnostics))
 (use-package! ejc-sql
-  :commands ejc-sql-mode ejc-sql-connect
+  :commands (ejc-sql-mode ejc-sql-connect)
   :config
   (setq ejc-sql-separator ";"
         ejc-use-flx t
         ejc-result-table-impl 'ejc-result-table-tabulated))
+
 (after! ejc-sql
+  ;; Conexão - Projeto Nexus
   (ejc-create-connection
    "postgres-nexus"
    :classpath (ejc-find-postgres-jdbc)
@@ -146,6 +176,7 @@
    :port 5432
    :user "postgres")
 
+  ;; Conexão - Projeto Aliança
   (ejc-create-connection
    "postgres-alianca"
    :classpath (ejc-find-postgres-jdbc)
