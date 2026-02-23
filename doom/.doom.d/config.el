@@ -6,14 +6,14 @@
   '(italic :slant italic)
   '(bold :weight bold)
   '(bold-italic :weight bold :slant italic))
-(setq doom-theme 'doom-tokyo-night
+(setq doom-theme 'doom-dark+
       display-line-numbers-type 'relative)
 
 (beacon-mode 1)
 (use-package! org
   :config
-  (setq org-directory "~/Documentos/"
-        org-agenda-files '("~/Documentos/agenda.org")
+  (setq org-directory "~/Documentos/org"
+        org-agenda-files '("~/Documentos/org/agenda.org")
         org-log-done 'time)
   (add-hook 'org-mode-hook #'org-bullets-mode))
 (after! python
