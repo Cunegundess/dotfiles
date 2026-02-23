@@ -50,7 +50,7 @@
 
 ** Tema e UI
 #+begin_src emacs-lisp
-(setq doom-theme 'doom-dark+
+(setq doom-theme 'doom-tokyo-night
       display-line-numbers-type 'relative)
 
 (beacon-mode 1)

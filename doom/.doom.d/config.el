@@ -13,7 +13,7 @@
   '(italic :slant italic)
   '(bold :weight bold)
   '(bold-italic :weight bold :slant italic))
-(setq doom-theme 'doom-dark+
+(setq doom-theme 'doom-tokyo-night
       display-line-numbers-type 'relative)
 
 (beacon-mode 1)
