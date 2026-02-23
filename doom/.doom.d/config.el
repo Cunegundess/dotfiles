@@ -1,7 +1,13 @@
 (setq user-full-name "Lucas Cunegundes"
       user-mail-address "lucascsantana6@gmail.com")
-(setq confirm-kill-emacs t)
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14 :weight 'bold))
+(setq
+ confirm-kill-emacs #'y-or-n-p
+ default-directory "~"
+ )
+(setq
+ doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14 :weight 'bold)
+ doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 20)
+ doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font Mono"))
 
 (custom-set-faces!
   '(italic :slant italic)
@@ -125,3 +131,5 @@
   :commands vterm
   :config
   (setq vterm-shell "/bin/zsh"))
+(setq +magit-hub-features t)
+(setq projectile-project-search-path '("~/Projects/" "~/Projects/work/" "~/Projects/personal/" "~/notes/" "~/notes/org/"))

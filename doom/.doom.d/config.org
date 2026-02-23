@@ -17,6 +17,8 @@
 - [[#keybindings][Keybindings]]
 - [[#database-ejc-sql][Database (EJC-SQL)]]
 - [[#terminal-vterm][Terminal (VTerm)]]
+- [[#magit][Magit]]
+- [[#projectile][Projectile]]
 
 * Informações Pessoais
 #+begin_src emacs-lisp
@@ -26,13 +28,19 @@
 
 * Configurações Gerais
 #+begin_src emacs-lisp
-(setq confirm-kill-emacs t) 
+(setq
+ confirm-kill-emacs #'y-or-n-p
+ default-directory "~"
+ ) 
 #+end_src
 * Aparência
 
 ** Fonte
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14 :weight 'bold))
+(setq
+ doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14 :weight 'bold)
+ doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 20)
+ doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font Mono"))
 
 (custom-set-faces!
   '(italic :slant italic)
@@ -185,4 +193,14 @@
   :commands vterm
   :config
   (setq vterm-shell "/bin/zsh"))
+#+end_src
+
+* Magit
+#+begin_src emacs-lisp
+(setq +magit-hub-features t)
+#+end_src
+
+* Projectile
+#+begin_src emacs-lisp
+(setq projectile-project-search-path '("~/Projects/" "~/Projects/work/" "~/Projects/personal/" "~/notes/" "~/notes/org/"))
 #+end_src
