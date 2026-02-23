@@ -2,11 +2,12 @@
 #+AUTHOR: Lucas Cunegundes
 #+EMAIL: lucascsantana6@gmail.com
 #+DESCRIPTION: Configuração pessoal do Doom Emacs focada em Python/Django
-#+STARTUP: unfold
+#+STARTUP: fold
 #+PROPERTY: header-args:emacs-lisp :tangle config.el :cache yes :results silent :padline no
 
 * Table of Contents :TOC_3:noexport:
 - [[#informações-pessoais][Informações Pessoais]]
+- [[#configurações-gerais][Configurações Gerais]]
 - [[#aparência][Aparência]]
   - [[#fonte][Fonte]]
   - [[#tema-e-ui][Tema e UI]]
@@ -23,6 +24,10 @@
       user-mail-address "lucascsantana6@gmail.com")
 #+end_src
 
+* Configurações Gerais
+#+begin_src lisp
+(setq confirm-kill-emacs t) 
+#+end_src
 * Aparência
 
 ** Fonte
