@@ -1,6 +1,5 @@
 (setq user-full-name "Lucas Cunegundes"
       user-mail-address "lucascsantana6@gmail.com")
-
 (setq confirm-kill-emacs t)
 (setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 14))
 

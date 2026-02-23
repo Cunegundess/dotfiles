@@ -1,7 +1,7 @@
 #+TITLE: Doom Emacs Configuration
 #+AUTHOR: Lucas Cunegundes
 #+EMAIL: lucascsantana6@gmail.com
-#+DESCRIPTION: Configuração pessoal do Doom Emacs focada em Python/Django
+#+DESCRIPTION: Configuração do Doom Emacs
 #+STARTUP: fold
 #+PROPERTY: header-args:emacs-lisp :tangle config.el :cache yes :results silent :padline no
 
@@ -25,7 +25,7 @@
 #+end_src
 
 * Configurações Gerais
-#+begin_src lisp
+#+begin_src emacs-lisp
 (setq confirm-kill-emacs t) 
 #+end_src
 * Aparência
