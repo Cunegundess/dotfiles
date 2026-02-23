@@ -28,17 +28,14 @@
 
 * Configurações Gerais
 #+begin_src emacs-lisp
-(setq
- confirm-kill-emacs #'y-or-n-p
- default-directory "~"
- ) 
+(setq confirm-kill-emacs #'y-or-n-p
+      default-directory "~") 
 #+end_src
 * Aparência
-
 ** Fonte
 #+begin_src emacs-lisp
 (setq
- doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14 :weight 'bold)
+ doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15 :weight 'bold)
  doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 20)
  doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font Mono"))
 
@@ -58,8 +55,7 @@
 
 * Org
 #+begin_src emacs-lisp
-(use-package! org
-  :config
+(after! org
   (setq org-directory "~/Documentos/org"
         org-agenda-files '("~/Documentos/org/agenda.org")
         org-log-done 'time)
@@ -107,8 +103,7 @@
 
 * Debug
 #+begin_src emacs-lisp
-(use-package! dape
-  :config
+(after! dape
   (setq dape-buffer-window-arrangement 'right
         dape-info-hide-mode-line t)
 
@@ -160,7 +155,7 @@
 
 * Database (EJC-SQL)
 #+begin_src emacs-lisp
-(use-package! ejc-sql
+(after! ejc-sql
   :commands (ejc-sql-mode ejc-sql-connect)
   :config
   (setq ejc-sql-separator ";"

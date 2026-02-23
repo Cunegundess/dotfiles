@@ -1,11 +1,9 @@
 (setq user-full-name "Lucas Cunegundes"
       user-mail-address "lucascsantana6@gmail.com")
+(setq confirm-kill-emacs #'y-or-n-p
+      default-directory "~")
 (setq
- confirm-kill-emacs #'y-or-n-p
- default-directory "~"
- )
-(setq
- doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14 :weight 'bold)
+ doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15 :weight 'bold)
  doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 20)
  doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font Mono"))
 
@@ -17,8 +15,7 @@
       display-line-numbers-type 'relative)
 
 (beacon-mode 1)
-(use-package! org
-  :config
+(after! org
   (setq org-directory "~/Documentos/org"
         org-agenda-files '("~/Documentos/org/agenda.org")
         org-log-done 'time)
@@ -57,8 +54,7 @@
   (set-face-attribute 'lsp-face-highlight-textual nil :underline nil :background nil)
   (set-face-attribute 'lsp-face-highlight-read nil :underline nil :background nil)
   (set-face-attribute 'lsp-face-highlight-write nil :underline nil :background nil))
-(use-package! dape
-  :config
+(after! dape
   (setq dape-buffer-window-arrangement 'right
         dape-info-hide-mode-line t)
 
@@ -102,7 +98,7 @@
        :desc "References"          "r" #'lsp-find-references
        :desc "Implementations"     "i" #'lsp-find-implementation
        :desc "Type definition"     "t" #'lsp-find-type-definition))
-(use-package! ejc-sql
+(after! ejc-sql
   :commands (ejc-sql-mode ejc-sql-connect)
   :config
   (setq ejc-sql-separator ";"
