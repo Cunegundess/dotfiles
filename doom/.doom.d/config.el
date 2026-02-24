@@ -1,7 +1,33 @@
 (setq user-full-name "Lucas Cunegundes"
       user-mail-address "lucascsantana6@gmail.com")
 (setq confirm-kill-emacs #'y-or-n-p
-      default-directory "~")
+      default-directory "~") 
+
+;; set specific browser to open links
+;;(setq browse-url-browser-function 'browse-url-firefox)
+;; set browser to zen-browser
+(setq browse-url-browser-function 'browse-url-generic)
+(setq browse-url-generic-program "zen-browser") 
+
+;; Speed of which-key popup
+(setq which-key-idle-delay 0.2)
+;; Performance optimizations
+(setq gc-cons-threshold (* 256 1024 1024))
+(setq read-process-output-max (* 4 1024 1024))
+(setq comp-deferred-compilation t)
+(setq comp-async-jobs-number 8)
+
+;; Garbage collector optimization
+(setq gcmh-idle-delay 5)
+(setq gcmh-high-cons-threshold (* 1024 1024 1024))
+
+;; Version control optimization
+(setq vc-handled-backends '(Git))
+
+;; Fix x11 issues
+(setq x-no-window-manager t)
+(setq frame-inhibit-implied-resize t)
+(setq focus-follows-mouse nil)
 (setq
  doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15 :weight 'bold)
  doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 20)
