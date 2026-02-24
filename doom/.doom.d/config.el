@@ -46,6 +46,14 @@
         org-agenda-files '("~/Documentos/org/agenda.org")
         org-log-done 'time)
   (add-hook 'org-mode-hook #'org-bullets-mode))
+;; LSP support for SQL files
+(use-package lsp-sqls
+  :after lsp-mode
+  :hook (sql-mode . lsp-deferred)
+  :config
+  ;; Let sqls use the config file instead of hardcoded connections
+  (setq lsp-sqls-workspace-config-path nil)) ; This tells it to look for .sqls.yml
+
 (after! python
   (add-hook 'python-mode-hook #'lsp-deferred)
   (add-hook 'python-ts-mode-hook #'lsp-deferred))
@@ -75,11 +83,27 @@
         flycheck-highlighting-mode 'lines))
 
 (after! lsp-mode
-  (setq lsp-diagnostics-provider :none)
-  
-  (set-face-attribute 'lsp-face-highlight-textual nil :underline nil :background nil)
-  (set-face-attribute 'lsp-face-highlight-read nil :underline nil :background nil)
-  (set-face-attribute 'lsp-face-highlight-write nil :underline nil :background nil))
+  (setq lsp-idle-delay 0.5
+    lsp-log-io nil
+    lsp-completion-provider :capf
+    lsp-enable-file-watchers nil
+    lsp-enable-folding nil
+    lsp-enable-text-document-color nil
+    lsp-enable-on-type-formatting nil
+    lsp-enable-snippet nil
+    lsp-enable-symbol-highlighting nil
+    lsp-enable-links nil))
+
+;; LSP UI settings for better performance
+(after! lsp-ui
+  (setq lsp-ui-doc-enable t
+        lsp-ui-doc-position 'at-point
+        lsp-ui-doc-max-height 8
+        lsp-ui-doc-max-width 72
+        lsp-ui-doc-show-with-cursor t
+        lsp-ui-doc-delay 0.5
+        lsp-ui-sideline-enable nil
+        lsp-ui-peek-enable t))
 (after! dape
   (setq dape-buffer-window-arrangement 'right
         dape-info-hide-mode-line t)
@@ -124,6 +148,304 @@
        :desc "References"          "r" #'lsp-find-references
        :desc "Implementations"     "i" #'lsp-find-implementation
        :desc "Type definition"     "t" #'lsp-find-type-definition))
+;; Setup development SQL database
+(setq sql-connection-alist
+      '((dev-postgres
+         (sql-product 'postgres)
+         (sql-server "localhost")
+         (sql-user "postgres")
+         (sql-password "postgres")
+         (sql-database "devdb")
+         (sql-port 5432))))
+
+;; Configure org-babel SQL connection parameters
+(setq org-babel-default-header-args:sql
+      '((:engine . "postgresql")
+        (:dbhost . "localhost")
+        (:dbuser . "postgres")
+        (:dbpassword . "postgres")
+        (:database . "devdb")))
+
+;; Ensure we have org-babel SQL support
+(with-eval-after-load 'org
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((sql . t))))
+
+;; PGmacs setup
+(use-package pgmacs
+  :after pg
+  :commands (pgmacs pgmacs-open-string pgmacs-open-uri)
+  :config
+  ;; Define a function to quickly connect to your development database
+  (defun my-pgmacs-connect ()
+    "Connect to the development database using PGmacs."
+    (interactive)
+    (pgmacs-open-string "user=postgres password=postgres dbname=devdb host=localhost port=5432"))
+
+  ;; Set PGmacs customization options
+  (setq pgmacs-default-display-limit 100)  ;; Default number of rows to show
+  (setq pgmacs-widget-use-proportional-font nil))  ;; Use fixed-width font in widgets
+
+;; Modified function to use existing SQL connection when available
+(defun pg-query-to-orgtable (query &optional buffer-name)
+  "Execute PostgreSQL QUERY and insert results as an Org table."
+  (interactive "sSQL Query: \nsBuffer name (default *SQL Results*): ")
+  (let ((buffer (get-buffer-create (or buffer-name "*SQL Results*"))))
+    ;; Check if we have an active SQL connection
+    (if (and (boundp 'sql-buffer) (buffer-live-p sql-buffer))
+        ;; Use the SQL buffer method if we have a connection
+        (progn
+          (with-current-buffer buffer
+            (erase-buffer)
+            (org-mode)
+            (insert "#+TITLE: SQL Query Results\n")
+            (insert "#+DATE: " (format-time-string "%Y-%m-%d") "\n\n")
+            (insert "#+BEGIN_SRC sql\n")
+            (insert query "\n")
+            (insert "#+END_SRC\n\n"))
+
+          ;; Format the SQL output for better parsing
+          (sql-send-string "\\a")  ;; Unaligned mode
+          (sql-send-string "\\t")  ;; Tuples only
+          (sql-send-string "\\f '|'")  ;; Field separator
+          (sit-for 0.3)
+
+          ;; Execute the query
+          (sql-send-string query)
+          (sit-for 1.0)
+
+          ;; Add a marker to find the end of results
+          (sql-send-string "SELECT '---RESULT-END---';")
+          (sit-for 0.5)
+
+          ;; Parse results from SQL buffer
+          (with-current-buffer sql-buffer
+            (save-excursion
+              (goto-char (point-max))
+              (when (search-backward "---RESULT-END---" nil t)
+                (let ((end-pos (match-beginning 0)))
+                  (search-backward query nil t)
+                  (forward-line 1)
+                  (let ((result-text (buffer-substring-no-properties (point) end-pos)))
+                    (with-current-buffer buffer
+                      (goto-char (point-max))
+                      (let ((lines (split-string result-text "\n" t)))
+                        (dolist (line lines)
+                          (unless (string-match-p "^\\(devdb\\|Output\\|Tuples\\|Field\\)" line)
+                            (unless (string-equal "" (string-trim line))
+                              (insert "| ")
+                              (insert (mapconcat 'identity
+                                                (split-string line "|")
+                                                " | "))
+                              (insert " |\n"))))
+                        (when (search-backward "|" nil t)
+                          (org-table-align)))))))))
+
+          ;; Reset SQL formatting
+          (sql-send-string "\\a")
+          (sql-send-string "\\t"))
+
+      ;; Otherwise use org-babel with explicit connection parameters
+      (with-current-buffer buffer
+        (erase-buffer)
+        (org-mode)
+        (insert "#+TITLE: SQL Query Results\n")
+        (insert "#+DATE: " (format-time-string "%Y-%m-%d") "\n\n")
+        (insert "#+begin_src sql :engine postgresql :dbhost localhost :dbuser postgres :dbpassword postgres :database devdb :exports both\n")
+        (insert query)
+        (insert "\n#+end_src\n\n")
+        (goto-char (point-min))
+        (search-forward "#+begin_src")
+        (forward-line 1)
+        (org-babel-execute-src-block)))
+
+    (switch-to-buffer buffer)
+    (goto-char (point-min))))
+
+;; Bridge function to export PGmacs data to Org documents
+(defun my-pg-export-table-to-org (table-name)
+  "Export a table from database to an Org document with query results."
+  (interactive "sTable name: ")
+  (pg-query-to-orgtable (format "SELECT * FROM %s LIMIT 100;" table-name)))
+
+;; All our existing functions kept for backward compatibility
+(defun pg-table-to-orgtable (table-name &optional limit-rows where-clause)
+  "Select data from TABLE-NAME and display as an Org table.
+Optionally limit results with LIMIT-ROWS and/or filter with WHERE-CLAUSE."
+  (interactive
+   (list (read-string "Table name: ")
+         (read-string "Limit rows (default 100): " nil nil "100")
+         (read-string "WHERE clause (optional): ")))
+  (let ((query (format "SELECT * FROM %s%s%s"
+                      table-name
+                      (if (and where-clause (not (string-empty-p where-clause)))
+                          (format " WHERE %s" where-clause)
+                        "")
+                      (if (and limit-rows (not (string-empty-p limit-rows)))
+                          (format " LIMIT %s" limit-rows)
+                        ""))))
+    (pg-query-to-orgtable query (format "*Table: %s*" table-name))))
+
+(defun pg-browse-table (table-name)
+  "Browse a PostgreSQL table in Org mode."
+  (interactive "sTable name: ")
+  (pg-table-to-orgtable table-name))
+
+(defun pg-list-tables ()
+  "List tables in the PostgreSQL database and make them clickable."
+  (interactive)
+  (if (and (boundp 'sql-buffer) (buffer-live-p sql-buffer))
+      (let ((buf (get-buffer-create "*PG Tables*")))
+        (with-current-buffer buf
+          (erase-buffer)
+          (org-mode)
+          (insert "#+TITLE: PostgreSQL Tables\n\n")
+
+          ;; Send command to list tables
+          (sql-send-string "\\dt")
+          (sit-for 0.5)
+
+          ;; Capture the results
+          (with-current-buffer sql-buffer
+            (let ((tables-text (buffer-substring-no-properties
+                               (save-excursion
+                                 (goto-char (point-max))
+                                 (forward-line -15)
+                                 (point))
+                               (point-max))))
+              (with-current-buffer buf
+                (insert "| Schema | Table | Action |\n")
+                (insert "|--------+-------+--------|\n")
+                ;; Parse the table list
+                (let ((lines (split-string tables-text "\n" t)))
+                  (dolist (line lines)
+                    (when (string-match "^ *\\([^ |]*\\) *| *\\([^ |]*\\)" line)
+                      (let ((schema (match-string 1 line))
+                            (table (match-string 2 line)))
+                        (unless (or (string= schema "Schema")
+                                    (string-match-p "^--" schema)
+                                    (string-match-p "^(" schema))
+                          (insert (format "| %s | %s | [[elisp:(pg-browse-table \"%s\")][Browse]] | [[elisp:(my-pg-export-table-to-org \"%s\")][Export]] | [[elisp:(pgmacs-display-table \"%s\")][PGmacs]] |\n"
+                                         schema table table table table))))))))))
+          (org-table-align))
+        (switch-to-buffer buf))
+    ;; Use org-babel if no SQL connection
+    (let ((buf (get-buffer-create "*PG Tables*")))
+      (with-current-buffer buf
+        (erase-buffer)
+        (org-mode)
+        (insert "#+TITLE: PostgreSQL Tables\n\n")
+        (insert "#+begin_src sql :engine postgresql :dbhost localhost :dbuser postgres :dbpassword postgres :database devdb :exports both\n")
+        (insert "SELECT table_schema, table_name FROM information_schema.tables WHERE table_schema='public' ORDER BY table_name;\n")
+        (insert "#+end_src\n\n")
+        (goto-char (point-min))
+        (search-forward "#+begin_src")
+        (forward-line 1)
+        (org-babel-execute-src-block)
+
+        ;; Create links for each table - with additional options
+        (when (search-forward "#+RESULTS:" nil t)
+          (forward-line 1)
+          (let ((start (point)))
+            (forward-line)  ;; Skip header row
+            (while (and (not (eobp)) (looking-at "^| "))
+              (when (looking-at "| *\\([^ |]+\\) *| *\\([^ |]+\\) *|")
+                (let ((schema (match-string-no-properties 1))
+                      (table (match-string-no-properties 2)))
+                  (delete-region (line-beginning-position) (line-end-position))
+                  (insert (format "| %s | %s | [[elisp:(pg-browse-table \"%s\")][Browse]] | [[elisp:(my-pg-export-table-to-org \"%s\")][Export]] | [[elisp:(pgmacs-display-table \"%s\")][PGmacs]] |"
+                                 schema table table table table))))
+              (forward-line 1))
+            (org-table-align))))
+      (switch-to-buffer buf))))
+
+(defun pg-describe-table (table-name)
+  "Show detailed information about a table structure."
+  (interactive "sTable name: ")
+  (let ((buf (get-buffer-create (format "*Table Structure: %s*" table-name))))
+    (with-current-buffer buf
+      (erase-buffer)
+      (org-mode)
+      (insert (format "#+TITLE: Table Structure: %s\n\n" table-name))
+
+      ;; Column information
+      (insert "* Columns\n\n")
+      (let ((query (format "SELECT column_name, data_type, is_nullable, column_default
+FROM information_schema.columns
+WHERE table_name = '%s'
+ORDER BY ordinal_position;" table-name)))
+        (pg-query-to-orgtable query))
+
+      ;; Constraints
+      (insert "\n* Constraints\n\n")
+      (let ((query (format "SELECT c.conname AS constraint_name,
+       CASE c.contype
+         WHEN 'c' THEN 'check'
+         WHEN 'f' THEN 'foreign_key'
+         WHEN 'p' THEN 'primary_key'
+         WHEN 'u' THEN 'unique'
+       END AS constraint_type,
+       pg_get_constraintdef(c.oid) AS constraint_definition
+FROM pg_constraint c
+JOIN pg_namespace n ON n.oid = c.connamespace
+JOIN pg_class t ON t.oid = c.conrelid
+WHERE t.relname = '%s'
+  AND n.nspname = 'public';" table-name)))
+        (pg-query-to-orgtable query))
+
+      ;; Indexes
+      (insert "\n* Indexes\n\n")
+      (let ((query (format "SELECT indexname, indexdef
+FROM pg_indexes
+WHERE tablename = '%s';" table-name)))
+        (pg-query-to-orgtable query)))
+    (switch-to-buffer buf)))
+
+(defun pg-sample-data (table-name)
+  "Show sample data from a table with ability to filter."
+  (interactive "sTable name: ")
+  (let* ((where (read-string "WHERE clause (optional): "))
+         (limit (read-string "Limit (default 10): " nil nil "10"))
+         (query (format "SELECT * FROM %s%s LIMIT %s;"
+                      table-name
+                      (if (string-empty-p where) "" (format " WHERE %s" where))
+                      limit)))
+    (pg-query-to-orgtable query (format "*Sample: %s*" table-name))))
+
+(defun pg-execute-buffer-query ()
+  "Execute the current SQL buffer as a query and show results."
+  (interactive)
+  (pg-query-to-orgtable (buffer-string)))
+
+(defun pg-execute-statement-at-point ()
+  "Execute the SQL statement at point."
+  (interactive)
+  (let* ((bounds (bounds-of-thing-at-point 'paragraph))
+         (statement (buffer-substring-no-properties (car bounds) (cdr bounds))))
+    (pg-query-to-orgtable statement)))
+
+(defun pg-connect ()
+  "Connect to PostgreSQL database."
+  (interactive)
+  (sql-connect 'dev-postgres))
+
+;; Key bindings for SQL mode
+(with-eval-after-load 'sql
+  (define-key sql-mode-map (kbd "C-c C-c") 'pg-execute-buffer-query)
+  (define-key sql-mode-map (kbd "C-c C-r") 'pg-execute-statement-at-point)
+  (define-key sql-mode-map (kbd "C-c t") 'pg-list-tables)
+  (define-key sql-mode-map (kbd "C-c d") 'pg-describe-table))
+
+;; Global key bindings for database operations
+(map! :leader
+      (:prefix-map ("e" . "custom")
+       (:prefix ("d" . "database")
+        :desc "Connect to PGmacs" "c" #'my-pgmacs-connect
+        :desc "Open PGmacs" "p" #'pgmacs
+        :desc "List tables" "t" #'pg-list-tables
+        :desc "Connect to SQL" "s" #'pg-connect
+        :desc "Execute SQL query" "q" #'pg-query-to-orgtable)))
 (after! ejc-sql
   :commands (ejc-sql-mode ejc-sql-connect)
   (setq ejc-sql-separator ";"
@@ -147,10 +469,80 @@
    :host "localhost"
    :port 5432
    :user "postgres"))
+;; Vterm adjustemts
+(setq vterm-environment '("TERM=xterm-256color"))
+(set-language-environment "UTF-8")
+(set-default-coding-systems 'utf-8)
+(custom-set-faces!
+  '(vterm :family "Geistmono Nerd Font"))
+
+;; open vterm in dired location
 (after! vterm
-  :commands vterm
-  (setq vterm-shell "/bin/zsh"))
+  (setq vterm-buffer-name-string "vterm %s")
+  (setq vterm-shell "/bin/zsh")
+
+  ;; Modify the default vterm opening behavior
+  (defadvice! +vterm-use-current-directory-a (fn &rest args)
+    "Make vterm open in the directory of the current buffer."
+    :around #'vterm
+    (let ((default-directory (or (and (buffer-file-name)
+                                      (file-name-directory (buffer-file-name)))
+                                 (and (eq major-mode 'dired-mode)
+                                      (dired-current-directory))
+                                 default-directory)))
+      (apply fn args)))
+
+  ;; Also modify Doom's specific vterm functions
+  (defadvice! +vterm-use-current-directory-b (fn &rest args)
+    "Make Doom's vterm commands open in the directory of the current buffer."
+    :around #'+vterm/here
+    (let ((default-directory (or (and (buffer-file-name)
+                                      (file-name-directory (buffer-file-name)))
+                                 (and (eq major-mode 'dired-mode)
+                                      (dired-current-directory))
+                                 default-directory)))
+      (apply fn args))))
+
+(defun open-vterm-in-current-context ()
+  "Open vterm in the context of the current buffer/window."
+  (interactive)
+  (when-let ((buf (current-buffer)))
+    (with-current-buffer buf
+      (call-interactively #'+vterm/here))))
+
+(defun my-open-vterm-at-point ()
+  "Open vterm in the directory of the currently selected window's buffer. This function is designed to be called via `emacsclient -e`."
+  (interactive)
+  (let* ((selected-window (selected-window))
+         ;; Ensure selected-window is not nil before trying to get its buffer
+         (buffer-in-window (and selected-window (window-buffer selected-window)))
+         dir)
+
+    (when buffer-in-window
+      (setq dir
+            ;; Temporarily switch to the target buffer to evaluate its context
+            (with-current-buffer buffer-in-window
+              (cond ((buffer-file-name buffer-in-window)
+                     (file-name-directory (buffer-file-name buffer-in-window)))
+                    ((and (eq major-mode 'dired-mode)
+                          (dired-current-directory))
+                     (dired-current-directory))
+                    (t default-directory)))))
+
+    ;; Fallback to the server's default-directory if no specific directory was found
+    (unless dir (setq dir default-directory))
+
+    (message "Opening vterm in directory: %s" dir) ; For debugging, check *Messages* buffer
+
+    ;; Now, crucially, set 'default-directory' for the vterm call itself
+    (let ((default-directory dir))
+      ;; Call the plain 'vterm' function, which should respect 'default-directory'.
+      ;; We are *not* passing 'dir' as an argument to 'vterm' here,
+      ;; as it's often designed to pick up the current 'default-directory'.
+      (vterm))))
 (after! magit
   (setq +magit-hub-features t))
 (after! projectile
   (setq projectile-project-search-path '("~/Projects/" "~/Projects/work/" "~/Projects/personal/" "~/notes/" "~/notes/org/")))
+(require 'treemacs-all-the-icons)
+(setq doom-themes-treemacs-theme "all-the-icons")
