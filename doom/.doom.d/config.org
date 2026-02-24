@@ -67,10 +67,10 @@
 ** Fonte
 #+begin_src emacs-lisp
 (setq
- doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15 :weight 'bold)
- ;; doom-font (font-spec :family "Geistmono Nerd Font" :size 15)
- ;; doom-big-font (font-spec :family "Geistmono Nerd Font" :size 20)
- ;; doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font Mono"))
+ ;; doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15 :weight 'bold)
+ doom-font (font-spec :family "Geistmono Nerd Font" :size 15 :weight 'bold)
+ doom-big-font (font-spec :family "Geistmono Nerd Font" :size 20)
+ doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font Mono"))
 
 (custom-set-faces!
   '(italic :slant italic)
@@ -135,6 +135,12 @@
         flycheck-indication-mode 'left-fringe
         flycheck-highlighting-mode 'lines))
 
+(after! corfu
+  (setq corfu-auto t
+        corfu-auto-delay 0.1
+        corfu-auto-prefix 1
+        corfu-preview-current nil))
+
 (after! lsp-mode
 
   (add-hook 'lsp-mode-hook (lambda () (lsp-browser-mode -1)))
@@ -142,26 +148,39 @@
   (setq lsp-headerline-breadcrumb-enable t)
   (setq lsp-headerline-breadcrumb-icons-enable t)
 
-  (setq lsp-idle-delay 0.5
+  (setq lsp-idle-delay 0.2
     lsp-log-io nil
     lsp-completion-provider :capf
     lsp-enable-file-watchers nil
-    lsp-enable-folding nil
-    lsp-enable-text-document-color nil
+    lsp-enable-folding t
+    lsp-enable-text-document-color t
     lsp-enable-on-type-formatting nil
     lsp-enable-snippet nil
-    lsp-enable-symbol-highlighting nil
+    lsp-enable-symbol-highlighting t
+    lsp-modeline-diagnostics-enable nil
+    lsp-modeline-code-actions-enable nil
+    lsp-modeline-workspace-status-enable t
+    lsp-semantic-tokens-enable nil
+    lsp-completion-enable t
+    lsp-completion-show-detail t
+    lsp-completion-show-kind t
     lsp-enable-links nil))
 
 ;; LSP UI settings for better performance
 (after! lsp-ui
   (setq lsp-ui-doc-enable t
+        lsp-ui-doc-use-childframe t
         lsp-ui-doc-position 'at-point
-        lsp-ui-doc-max-height 8
-        lsp-ui-doc-max-width 72
+        lsp-ui-doc-max-height 12
+        lsp-ui-doc-max-width 80
         lsp-ui-doc-show-with-cursor t
-        lsp-ui-doc-delay 0.5
-        lsp-ui-sideline-enable nil
+        lsp-ui-doc-show-with-mouse t
+        lsp-ui-doc-delay 0.2
+        lsp-ui-sideline-enable t
+        lsp-ui-sideline-show-code-actions t
+        lsp-ui-sideline-show-diagnostics t
+        lsp-ui-sideline-update-mode 'point
+        lsp-ui-sideline-ignore-duplicate t
         lsp-ui-peek-enable t))
 #+end_src
 
