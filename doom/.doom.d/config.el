@@ -100,12 +100,10 @@
        :desc "Type definition"     "t" #'lsp-find-type-definition))
 (after! ejc-sql
   :commands (ejc-sql-mode ejc-sql-connect)
-  :config
   (setq ejc-sql-separator ";"
         ejc-use-flx t
-        ejc-result-table-impl 'ejc-result-table-tabulated))
-
-(after! ejc-sql
+        ejc-result-table-impl 'ejc-result-table-tabulated)
+  
   (ejc-create-connection
    "postgres-nexus"
    :classpath (ejc-find-postgres-jdbc)
@@ -123,9 +121,10 @@
    :host "localhost"
    :port 5432
    :user "postgres"))
-(use-package! vterm
+(after! vterm
   :commands vterm
-  :config
   (setq vterm-shell "/bin/zsh"))
-(setq +magit-hub-features t)
-(setq projectile-project-search-path '("~/Projects/" "~/Projects/work/" "~/Projects/personal/" "~/notes/" "~/notes/org/"))
+(after! magit
+  (setq +magit-hub-features t))
+(after! projectile
+  (setq projectile-project-search-path '("~/Projects/" "~/Projects/work/" "~/Projects/personal/" "~/notes/" "~/notes/org/")))
