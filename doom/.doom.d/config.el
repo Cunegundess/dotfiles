@@ -113,6 +113,8 @@
         lsp-headerline-breadcrumb-enable-symbol-numbers nil
         lsp-headerline-breadcrumb-enable-diagnostics nil)
 
+  (setq lsp-icons-provider 'nerd-icons)
+
   (setq lsp-idle-delay 0.2
     lsp-log-io nil
     lsp-completion-provider :capf
@@ -142,7 +144,7 @@
         lsp-ui-doc-show-with-mouse nil
         lsp-ui-doc-delay 0.2
         lsp-ui-sideline-enable t
-        lsp-ui-sideline-show-code-actions t
+        lsp-ui-sideline-show-code-actions nil
         lsp-ui-sideline-show-diagnostics t
         lsp-ui-sideline-update-mode 'point
         lsp-ui-sideline-show-hover nil
