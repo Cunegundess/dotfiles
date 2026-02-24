@@ -66,6 +66,8 @@
 * Aparência
 ** Fonte
 #+begin_src emacs-lisp
+(use-package! nerd-icons)
+
 (setq
  ;; doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15 :weight 'bold)
  doom-font (font-spec :family "Geistmono Nerd Font" :size 15 :weight 'bold)
@@ -113,7 +115,7 @@
 
 (after! lsp-pyright
   (setq lsp-pyright-langserver-command "basedpyright-langserver"
-        lsp-pyright-type-checking-mode "basic"
+        lsp-pyright-type-checking-mode "off"
         lsp-pyright-diagnostic-mode "openFilesOnly"
         
         ;; Remove erros de type checking comum em Django
@@ -131,9 +133,13 @@
           ("reportIncompatibleMethodOverride" . "none"))))
 
 (after! flycheck
-  (setq flycheck-checker-error-threshold nil
-        flycheck-indication-mode 'left-fringe
-        flycheck-highlighting-mode 'lines))
+  (setq flycheck-indication-mode 'left-fringe)
+  (setq flycheck-highlighting-mode nil)
+  (setq flycheck-display-errors-function nil)
+  (setq flycheck-idle-change-delay 0.5)
+  (setq flycheck-checker-error-threshold nil)
+  (setq flycheck-check-syntax-automatically
+        '(save idle-change mode-enabled)))
 
 (after! corfu
   (setq corfu-auto t
@@ -144,9 +150,18 @@
 (after! lsp-mode
 
   (add-hook 'lsp-mode-hook (lambda () (lsp-browser-mode -1)))
+  (add-hook 'lsp-mode-hook #'lsp-ui-mode)
+  
+  (setq lsp-diagnostics-provider :flycheck)
 
-  (setq lsp-headerline-breadcrumb-enable t)
-  (setq lsp-headerline-breadcrumb-icons-enable t)
+  (setq lsp-diagnostics-attributes
+    '((unnecessary :foreground "#888888")
+        (deprecated :strike-through t)))
+
+  (setq lsp-headerline-breadcrumb-enable t
+        lsp-headerline-breadcrumb-icons-enable t
+        lsp-headerline-breadcrumb-enable-symbol-numbers nil
+        lsp-headerline-breadcrumb-enable-diagnostics nil)
 
   (setq lsp-idle-delay 0.2
     lsp-log-io nil
@@ -174,12 +189,14 @@
         lsp-ui-doc-max-height 12
         lsp-ui-doc-max-width 80
         lsp-ui-doc-show-with-cursor t
-        lsp-ui-doc-show-with-mouse t
+        lsp-ui-doc-show-with-mouse nil
         lsp-ui-doc-delay 0.2
         lsp-ui-sideline-enable t
         lsp-ui-sideline-show-code-actions t
         lsp-ui-sideline-show-diagnostics t
         lsp-ui-sideline-update-mode 'point
+        lsp-ui-sideline-show-hover nil
+        lsp-ui-sideline-delay 0.2
         lsp-ui-sideline-ignore-duplicate t
         lsp-ui-peek-enable t))
 #+end_src
