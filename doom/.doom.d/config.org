@@ -67,10 +67,10 @@
 ** Fonte
 #+begin_src emacs-lisp
 (setq
- ;; doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15 :weight 'bold)
- doom-font (font-spec :family "Geistmono Nerd Font" :size 15)
- doom-big-font (font-spec :family "Geistmono Nerd Font" :size 20)
- doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font Mono"))
+ doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15 :weight 'bold)
+ ;; doom-font (font-spec :family "Geistmono Nerd Font" :size 15)
+ ;; doom-big-font (font-spec :family "Geistmono Nerd Font" :size 20)
+ ;; doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font Mono"))
 
 (custom-set-faces!
   '(italic :slant italic)
@@ -136,6 +136,12 @@
         flycheck-highlighting-mode 'lines))
 
 (after! lsp-mode
+
+  (add-hook 'lsp-mode-hook (lambda () (lsp-browser-mode -1)))
+
+  (setq lsp-headerline-breadcrumb-enable t)
+  (setq lsp-headerline-breadcrumb-icons-enable t)
+
   (setq lsp-idle-delay 0.5
     lsp-log-io nil
     lsp-completion-provider :capf
