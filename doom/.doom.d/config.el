@@ -37,6 +37,8 @@
   '(italic :slant italic)
   '(bold :weight bold)
   '(bold-italic :weight bold :slant italic))
+(add-to-list 'custom-theme-load-path "~/.config/doom/themes/")
+
 (setq doom-theme 'doom-tokyo-night
       display-line-numbers-type 'relative)
 
@@ -150,13 +152,22 @@
        :desc "Type definition"     "t" #'lsp-find-type-definition))
 ;; Setup development SQL database
 (setq sql-connection-alist
-      '((dev-postgres
+      '((postgres-nexus
          (sql-product 'postgres)
          (sql-server "localhost")
          (sql-user "postgres")
-         (sql-password "postgres")
-         (sql-database "devdb")
+         (sql-password "jmnexus2023")
+         (sql-database "nexus_rfid")
+         (sql-port 5432)))
+
+      '((postgres-alianca
+         (sql-product 'postgres)
+         (sql-server "localhost")
+         (sql-user "postgres")
+         (sql-password "jmalianca2023")
+         (sql-database "alianca_rfid")
          (sql-port 5432))))
+
 
 ;; Configure org-babel SQL connection parameters
 (setq org-babel-default-header-args:sql

@@ -11,6 +11,20 @@
 (package! projectile)
 (package! beacon)
 (package! ejc-sql)
+(package! sqlite3)
+(package! treemacs-all-the-icons)
+(package! org-auto-tangle)
+(package! restclient)
+
+(package! pg
+  :recipe (:host github :repo "emarsden/pg-el"))
+(package! pgmacs
+  :recipe (:host github :repo "emarsden/pgmacs"
+           :files ("*.el" "*.texi" "dir"
+                   (:exclude ".dir-locals.el" "test.el" "tests.el"))))
+(package! copilot
+ :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el" "dist")))
+
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
