@@ -13,6 +13,7 @@
 (package! ejc-sql)
 (package! sqlite3)
 (package! treemacs-all-the-icons)
+(package! lsp-treemacs)
 (package! org-auto-tangle)
 (package! restclient)
 

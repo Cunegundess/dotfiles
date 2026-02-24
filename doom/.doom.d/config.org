@@ -141,16 +141,20 @@
   (setq flycheck-check-syntax-automatically
         '(save idle-change mode-enabled)))
 
+(after! company
+  (setq company-idle-delay 0.1
+        company-minimum-prefix-length 1))
+
 (after! corfu
-  (setq corfu-auto t
-        corfu-auto-delay 0.1
-        corfu-auto-prefix 1
-        corfu-preview-current nil))
+  (global-corfu-mode 0))
+  ;; (setq corfu-auto t
+  ;;       corfu-auto-delay 0.1
+  ;;       corfu-auto-prefix 1
+  ;; corfu-preview-current nil))
 
 (after! lsp-mode
 
   (add-hook 'lsp-mode-hook (lambda () (lsp-browser-mode -1)))
-  (add-hook 'lsp-mode-hook #'lsp-ui-mode)
   
   (setq lsp-diagnostics-provider :flycheck)
 
@@ -183,8 +187,9 @@
     lsp-completion-show-kind t
     lsp-enable-links nil))
 
-;; LSP UI settings for better performance
 (after! lsp-ui
+  (add-hook 'lsp-mode-hook #'lsp-ui-mode)
+  
   (setq lsp-ui-doc-enable t
         lsp-ui-doc-use-childframe t
         lsp-ui-doc-position 'at-point
