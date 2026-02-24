@@ -29,8 +29,9 @@
 (setq frame-inhibit-implied-resize t)
 (setq focus-follows-mouse nil)
 (setq
- doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15 :weight 'bold)
- doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 20)
+ ;; doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15 :weight 'bold)
+ doom-font (font-spec :family "Geistmono Nerd Font" :size 15)
+ doom-big-font (font-spec :family "Geistmono Nerd Font" :size 20)
  doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font Mono"))
 
 (custom-set-faces!
@@ -158,9 +159,9 @@
          (sql-user "postgres")
          (sql-password "jmnexus2023")
          (sql-database "nexus_rfid")
-         (sql-port 5432)))
+         (sql-port 5432))
 
-      '((postgres-alianca
+      (postgres-alianca
          (sql-product 'postgres)
          (sql-server "localhost")
          (sql-user "postgres")
@@ -174,8 +175,7 @@
       '((:engine . "postgresql")
         (:dbhost . "localhost")
         (:dbuser . "postgres")
-        (:dbpassword . "postgres")
-        (:database . "devdb")))
+        (:dbpassword . "")))
 
 ;; Ensure we have org-babel SQL support
 (with-eval-after-load 'org
@@ -189,11 +189,16 @@
   :commands (pgmacs pgmacs-open-string pgmacs-open-uri)
   :config
   ;; Define a function to quickly connect to your development database
-  (defun my-pgmacs-connect ()
-    "Connect to the development database using PGmacs."
+  (defun pgmacs-connect-nexus ()
     (interactive)
-    (pgmacs-open-string "user=postgres password=postgres dbname=devdb host=localhost port=5432"))
+    (pgmacs-open-string
+     "user=postgres password=jmnexus2023 dbname=nexus_rfid host=localhost port=5432"))
 
+  (defun pgmacs-connect-alianca ()
+    (interactive)
+    (pgmacs-open-string
+     "user=postgres password=jmalianca2023 dbname=alianca_rfid host=localhost port=5432"))
+  
   ;; Set PGmacs customization options
   (setq pgmacs-default-display-limit 100)  ;; Default number of rows to show
   (setq pgmacs-widget-use-proportional-font nil))  ;; Use fixed-width font in widgets
@@ -437,9 +442,9 @@ WHERE tablename = '%s';" table-name)))
     (pg-query-to-orgtable statement)))
 
 (defun pg-connect ()
-  "Connect to PostgreSQL database."
+  "Connect to a configured PostgreSQL database."
   (interactive)
-  (sql-connect 'dev-postgres))
+  (call-interactively #'sql-connect))
 
 ;; Key bindings for SQL mode
 (with-eval-after-load 'sql
