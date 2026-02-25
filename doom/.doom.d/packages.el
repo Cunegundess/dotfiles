@@ -12,6 +12,9 @@
 (package! base16-theme)
 (package! catppuccin-theme)
 (package! doric-themes)
+(package! github-dark-vscode-theme)
+(package! hybrid-reverse-theme)
+(package! iceberg-theme)
 
 (package! org-bullets)
 (package! projectile)
