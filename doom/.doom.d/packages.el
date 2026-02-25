@@ -7,6 +7,12 @@
 
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
+(package! soria-theme)
+(package! uwu-theme)
+(package! base16-theme)
+(package! catppuccin-theme)
+(package! doric-themes)
+
 (package! org-bullets)
 (package! projectile)
 (package! beacon)
