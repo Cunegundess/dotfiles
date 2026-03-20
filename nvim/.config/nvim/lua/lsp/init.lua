@@ -4,21 +4,24 @@ vim.lsp.config('ruff', require 'lsp.ruff')
 vim.lsp.config('tsserver', require 'lsp.tsserver')
 -- vim.lsp.config('pylsp', require 'lsp.python-lsp-server')
 vim.lsp.config('lua_ls', require 'lsp.lua-ls')
-vim.lsp.config('yamlls', require 'lsp.yamlls')
-vim.lsp.config('marksman', require 'lsp.marksman')
-vim.lsp.config('nginx_language_server', require 'lsp.nginx_language_server')
-vim.lsp.config('rust_analyzer', require 'lsp.rust_analyzer')
--- vim.lsp.config('jdtls', require 'lsp.jdtls')
+-- vim.lsp.config('yamlls', require 'lsp.yamlls')
+-- vim.lsp.config('marksman', require 'lsp.marksman')
+-- vim.lsp.config('nginx_language_server', require 'lsp.nginx_language_server')
+-- vim.lsp.config('rust_analyzer', require 'lsp.rust_analyzer')
+vim.lsp.config('jdtls', require 'lsp.jdtls')
+vim.lsp.config('kotlin-language-server', require 'lsp.kotlin-language-server')
 
 vim.lsp.enable {
   'lua_ls',
   'basedpyright',
   'ruff',
   'tsserver',
-  'yamlls',
-  'marksman',
-  'nginx_language_server',
-  'rust_analyzer',
+  'jdtls',
+  'kotlin-language-server',
+  -- 'yamlls',
+  -- 'marksman',
+  -- 'nginx_language_server',
+  -- 'rust_analyzer',
 }
 
 vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())

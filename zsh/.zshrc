@@ -94,7 +94,7 @@ alias ls="eza --icons"
 alias ll="eza -lg -a --icons"
 alias "ls -a"="eza -lag --icons"
 alias cd="z"
-alias cat="batcat --theme=ansi"
+alias cat="bat --theme=catpuccin"
 
 # IP local
 if [[ -x "$(command -v ip)" ]]; then

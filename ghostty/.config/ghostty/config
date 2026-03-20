@@ -9,13 +9,13 @@ font-style = Regular
 # font-thicken = true
 
 # theme = Atom
-theme = carbonfox
+# theme = carbonfox
 # theme = GitHub-Dark-High-Contrast
 # theme = GitHub-Dark-Default
 # theme = GitHub Dark
 # theme = vesper
 # theme = tokyonight_night
-# theme = catppuccin-mocha
+theme = catppuccin-mocha
 # theme = dark:GruvboxDarkHard,light:GruvboxLightHard
 # theme = vague
 # theme = detuned
