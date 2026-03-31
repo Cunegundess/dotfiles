@@ -3,7 +3,7 @@
 ### └───────────────────────────────────────────────┘
 
 # auto tmux no Ghostty
-if [ -n "$GHOSTTY" ] && [ -z "$TMUX" ]; then
+if [ -z "$TMUX" ]; then
     SESSION_NAME="main"
     if tmux has-session -t $SESSION_NAME 2>/dev/null; then
         tmux attach-session -t $SESSION_NAME
@@ -11,6 +11,7 @@ if [ -n "$GHOSTTY" ] && [ -z "$TMUX" ]; then
         tmux new-session -s $SESSION_NAME
     fi
 fi
+
 
 autoload -Uz promptinit; promptinit
 autoload -Uz compinit; compinit

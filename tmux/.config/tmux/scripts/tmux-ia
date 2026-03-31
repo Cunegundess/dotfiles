@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+options=("Gemini" "Qwen")
+
+choose_ia() {
+    echo "Escolha uma IA:"
+    select ia in "${options[@]}"; do
+        if [[ -n "$ia" ]]; then
+            echo "$ia"
+            break
+        fi
+    done
+}
+
+# chama a função
+IA=$(choose_ia)
+clear
+echo "Iniciando $IA..."
+sleep 0.5
+
+# roda o CLI correspondente
+case $IA in
+Gemini) gemini ;;
+Qwen) qwen ;;
+esac
