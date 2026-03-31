@@ -44,9 +44,9 @@ return {
         diagnosticMode = 'openFilesOnly',
         typeCheckingMode = 'basic',
         inlayHints = {
-          variableTypes = true,
+          variableTypes = false,
           functionReturnTypes = false,
-          paramTypes = false,
+          paramTypes = true,
           genericTypes = false,
           callArgumentNames = true,
         },

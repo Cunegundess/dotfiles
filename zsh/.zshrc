@@ -163,3 +163,6 @@ export NVM_DIR="$HOME/.nvm"
 
 # . "$HOME/.local/bin/env"
 export PATH="$HOME/flutter/bin:$PATH"
+
+# opencode
+export PATH=/home/lucas/.opencode/bin:$PATH

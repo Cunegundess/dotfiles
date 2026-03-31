@@ -1,25 +1,20 @@
 #!/usr/bin/env bash
 
-options=("Gemini" "Qwen")
+options=("Gemini" "Qwen" "Opencode")
 
-choose_ia() {
-    echo "Escolha uma IA:"
-    select ia in "${options[@]}"; do
-        if [[ -n "$ia" ]]; then
-            echo "$ia"
-            break
-        fi
-    done
-}
+IA=$(printf "%s\n" "${options[@]}" | fzf --prompt="Escolha uma IA: " --height 10 --border)
 
-# chama a função
-IA=$(choose_ia)
+if [ -z "$IA" ]; then
+    echo "Nenhuma IA selecionada. Saindo..."
+    exit 1
+fi
+
 clear
 echo "Iniciando $IA..."
 sleep 0.5
 
-# roda o CLI correspondente
 case $IA in
 Gemini) gemini ;;
 Qwen) qwen ;;
+Opencode) opencode ;;
 esac
