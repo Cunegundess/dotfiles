@@ -1,10 +1,16 @@
 ### ┌───────────────────────────────────────────────┐
 ### │            Inicialização do Zsh              │
 ### └───────────────────────────────────────────────┘
-#
-# if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
-#   tmux attach-session -t main || tmux new-session -s main
-# fi
+
+# auto tmux no Ghostty
+if [ -n "$GHOSTTY" ] && [ -z "$TMUX" ]; then
+    SESSION_NAME="main"
+    if tmux has-session -t $SESSION_NAME 2>/dev/null; then
+        tmux attach-session -t $SESSION_NAME
+    else
+        tmux new-session -s $SESSION_NAME
+    fi
+fi
 
 autoload -Uz promptinit; promptinit
 autoload -Uz compinit; compinit
