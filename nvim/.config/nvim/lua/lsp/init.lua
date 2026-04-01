@@ -24,13 +24,36 @@ vim.lsp.config("basedpyright", {
 		"Pipfile",
 		".git",
 	},
+	on_init = function(client)
+		local function get_python_paths()
+			local paths = {}
+			local venv = os.getenv("VIRTUAL_ENV") or os.getenv("CONDA_PREFIX")
+			if venv then
+				table.insert(paths, venv .. "/lib/python3*/site-packages")
+			end
+			local handle = io.popen('python -c "import site; print(site.getsitepackages()[0])" 2>/dev/null')
+			if handle then
+				local result = handle:read("*a")
+				handle:close()
+				result = result:gsub("%s+", "")
+				if result ~= "" then
+					table.insert(paths, result)
+				end
+			end
+			return paths
+		end
+		client.config.settings.basedpyright.analysis.extraPaths = get_python_paths()
+		client.notify("workspace/didChangeConfiguration", {
+			settings = client.config.settings,
+		})
+	end,
 	settings = {
 		basedpyright = {
 			analysis = {
 				autoSearchPaths = true,
 				autoImportCompletions = true,
 				typeCheckingMode = "basic",
-				extraPaths = { ".", ".." },
+				extraPaths = {},
 				inlayHints = {
 					paramTypes = false,
 					callArgumentNames = false,
