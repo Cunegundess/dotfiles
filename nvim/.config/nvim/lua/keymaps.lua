@@ -19,12 +19,8 @@ keymap('n', '<M-h>', '<cmd>vertical resize +2<CR>', { desc = 'Resize split right
 keymap('n', '<M-k>', '<cmd>resize +2<CR>', { desc = 'Resize split down' })
 keymap('n', '<M-j>', '<cmd>resize -2<CR>', { desc = 'Resize split up' })
 
-keymap('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move selection down' })
-keymap('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move selection up' })
-keymap('n', 'J', 'mzJ`z', { desc = 'Join lines and keep cursor' })
-keymap('n', '<leader>r', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = 'Replace word under cursor' })
-
-keymap('n', '<leader>e', '<cmd>Explore!<CR>', { desc = 'Open Netrw' })
+keymap('n', '<leader>e', function() require('oil').open() end, { desc = 'Open Oil' })
+keymap('n', '<leader>E', '<cmd>Explore!<CR>', { desc = 'Open Netrw' })
 
 keymap('n', 'gd', vim.lsp.buf.definition, { desc = '[G]oto [D]efinition' })
 keymap('n', 'gr', vim.lsp.buf.references, { desc = '[G]oto [R]eferences' })
@@ -34,3 +30,11 @@ keymap('n', '<leader>D', vim.lsp.buf.type_definition, { desc = 'Type [D]efinitio
 keymap('n', '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ctions' })
 keymap('n', '<leader>rn', vim.lsp.buf.rename, { desc = '[R]e[N]ame' })
 keymap('n', '<leader>ld', vim.diagnostic.open_float, { desc = '[L]SP [D]iagnostic' })
+
+keymap('n', '<leader>th', '<cmd>Twilight<CR>', { desc = '[T]heme [H]ighlight mode' })
+keymap('n', '<leader>tz', '<cmd>ZenMode<CR>', { desc = '[T]heme [Z]en mode' })
+
+vim.keymap.set({ 'n', 'x' }, 'J', ":m '>+1<CR>gv=gv", { desc = 'Move selection down' })
+vim.keymap.set({ 'n', 'x' }, 'K', ":m '<-2<CR>gv=gv", { desc = 'Move selection up' })
+keymap('n', 'J', 'mzJ`z', { desc = 'Join lines and keep cursor' })
+keymap('n', '<leader>r', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = 'Replace word under cursor' })

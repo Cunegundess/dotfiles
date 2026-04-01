@@ -15,48 +15,57 @@ local function clone(repo)
 end
 
 local plugins = {
+  -- Colorschemes
   'catppuccin/nvim',
+  'folke/tokyonight.nvim',
+  'rose-pine/neovim',
+  'rebelot/kanagawa.nvim',
+  'shaunsingh/nord.nvim',
+  'folke/twilight.nvim',
+  'folke/zen-mode.nvim',
+
+  -- LSP & Completion
   'hrsh7th/nvim-cmp',
   'L3MON4D3/LuaSnip',
   'saadparwaiz1/cmp_luasnip',
   'hrsh7th/cmp-nvim-lsp',
   'hrsh7th/cmp-path',
+
+  -- UI
   'nvim-lualine/lualine.nvim',
   'nvim-tree/nvim-web-devicons',
+  'echasnovski/mini.nvim',
+  'echasnovski/mini.icons',
+  'folke/which-key.nvim',
+
+  -- File navigation
+  'stevearc/oil.nvim',
   'ThePrimeagen/harpoon',
   'nvim-lua/plenary.nvim',
-  'echasnovski/mini.nvim',
-  'folke/which-key.nvim',
-  'stevearc/conform.nvim',
   'ibhagwan/fzf-lua',
-  'echasnovski/mini.icons',
+
+  -- Git
   'lewis6991/gitsigns.nvim',
+
+  -- Formatting & LSP tools
+  'stevearc/conform.nvim',
   'williamboman/mason.nvim',
   'WhoIsSethDaniel/mason-tool-installer.nvim',
+
+  -- Syntax
   'nvim-treesitter/nvim-treesitter',
   'nvim-treesitter/nvim-treesitter-textobjects',
   'nvim-treesitter/nvim-treesitter-context',
+
+  -- Debug
   'mfussenegger/nvim-dap',
   'rcarriga/nvim-dap-ui',
   'nvim-neotest/nvim-nio',
   'mfussenegger/nvim-dap-python',
-  'stevearc/oil.nvim'
 }
 
 for _, plugin in ipairs(plugins) do
   clone(plugin)
 end
 
-vim.defer_fn(function()
-  pcall(require, 'plugins.cmp')
-  pcall(require, 'plugins.treesitter')
-  pcall(require, 'plugins.lualine')
-  pcall(require, 'plugins.mini')
-  pcall(require, 'plugins.whichkey')
-  pcall(require, 'plugins.conform')
-  pcall(require, 'plugins.dap')
-  pcall(require, 'plugins.fzf')
-  pcall(require, 'plugins.gitsigns')
-  pcall(require, 'plugins.catppuccin')
-  pcall(require, 'plugins.oil')
-end, 0)
+require 'plugins'
