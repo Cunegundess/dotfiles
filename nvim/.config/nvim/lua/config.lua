@@ -5,13 +5,14 @@ vim.g.netrw_keepdir = 1
 vim.g.netrw_liststyle = 1
 vim.g.netrw_winsize = 32
 vim.g.netrw_altv = 1
-vim.g.netrw_localcopydircmd = 'cp -r'
+vim.g.netrw_localcopydircmd = "cp -r"
 vim.g.netrw_hide = 0
-vim.g.netrw_sizestyle = 'H'
+vim.g.netrw_sizestyle = "H"
 
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.signcolumn = 'yes'
+vim.opt.signcolumn = "yes"
+vim.opt.colorcolumn = "80"
 vim.opt.cursorline = false
 vim.opt.wrap = false
 vim.opt.linebreak = true
@@ -34,12 +35,12 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
-vim.opt.inccommand = 'split'
+vim.opt.inccommand = "split"
 
-vim.opt.mouse = 'a'
+vim.opt.mouse = "a"
 
 vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
+	vim.opt.clipboard = "unnamedplus"
 end)
 
 vim.opt.undofile = true
@@ -62,66 +63,66 @@ vim.opt.equalalways = true
 
 vim.opt.list = true
 vim.opt.listchars = {
-  tab = '· ',
-  trail = '·',
-  nbsp = '␣',
-  extends = '❯',
-  precedes = '❮',
+	tab = "· ",
+	trail = "·",
+	nbsp = "␣",
+	extends = "❯",
+	precedes = "❮",
 }
 
-vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.wildmenu = true
-vim.opt.wildmode = 'longest:full,full'
-vim.opt.wildoptions = 'pum'
+vim.opt.wildmode = "longest:full,full"
+vim.opt.wildoptions = "pum"
 
 vim.opt.breakindent = true
 vim.opt.confirm = true
 vim.opt.hidden = true
-vim.opt.selection = 'exclusive'
-vim.opt.virtualedit = 'block'
+vim.opt.selection = "exclusive"
+vim.opt.virtualedit = "block"
 
 vim.opt.lazyredraw = false
 vim.opt.redrawtime = 1500
 vim.opt.maxmempattern = 2000
 
-vim.opt.formatoptions:remove { 'c', 'r', 'o' }
+vim.opt.formatoptions:remove({ "c", "r", "o" })
 
-vim.opt.iskeyword:append '-'
+vim.opt.iskeyword:append("-")
 
-vim.opt.diffopt:append 'linematch:60'
+vim.opt.diffopt:append("linematch:60")
 
-vim.opt.shortmess:append 'c'
+vim.opt.shortmess:append("c")
 
 vim.opt.laststatus = 3
 
-local branch_cache = ''
+local branch_cache = ""
 
 function _G.git_branch()
-  if branch_cache ~= '' then
-    return branch_cache
-  end
+	if branch_cache ~= "" then
+		return branch_cache
+	end
 
-  local handle = io.popen 'git branch --show-current 2>/dev/null'
-  if handle then
-    local result = handle:read '*a'
-    handle:close()
-    result = result:gsub('%s+', '')
-    if result ~= '' then
-      branch_cache = '  ' .. result .. ' '
-      return branch_cache
-    end
-  end
+	local handle = io.popen("git branch --show-current 2>/dev/null")
+	if handle then
+		local result = handle:read("*a")
+		handle:close()
+		result = result:gsub("%s+", "")
+		if result ~= "" then
+			branch_cache = "  " .. result .. " "
+			return branch_cache
+		end
+	end
 
-  return ''
+	return ""
 end
 
-vim.o.statusline = table.concat {
-  '%f',
-  ' %m',
-  ' %r',
-  '%=',
-  '%{v:lua.git_branch()}',
-  ' %y',
-  ' %p%%',
-  ' %l:%c',
-}
+vim.o.statusline = table.concat({
+	"%f",
+	" %m",
+	" %r",
+	"%=",
+	"%{v:lua.git_branch()}",
+	" %y",
+	" %p%%",
+	" %l:%c",
+})

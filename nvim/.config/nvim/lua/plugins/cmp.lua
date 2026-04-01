@@ -28,10 +28,23 @@ cmp.setup {
       end
     end, { 'i', 's' }),
   },
-  sources = {
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' },
-    { name = 'path' },
-    { name = 'buffer' },
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp', priority = 1000 },
+    { name = 'luasnip', priority = 750 },
+  }, {
+    { name = 'path', priority = 500 },
+    { name = 'buffer', priority = 250 },
+  }),
+  sorting = {
+    priority_weight = 1,
+    comparators = {
+      cmp.config.compare.offset,
+      cmp.config.compare.exact,
+      cmp.config.compare.score,
+      cmp.config.compare.recently_used,
+      cmp.config.compare.kind,
+      cmp.config.compare.length,
+      cmp.config.compare.sort_text,
+    },
   },
 }
