@@ -19,7 +19,7 @@ keymap('n', '<M-h>', '<cmd>vertical resize +2<CR>', { desc = 'Resize split right
 keymap('n', '<M-k>', '<cmd>resize +2<CR>', { desc = 'Resize split down' })
 keymap('n', '<M-j>', '<cmd>resize -2<CR>', { desc = 'Resize split up' })
 
-keymap('n', '<leader>e', function() require('oil').open() end, { desc = 'Open Oil' })
+keymap('n', '<leader>e', function() require('oil').open_float() end, { desc = 'Open Oil' })
 keymap('n', '<leader>E', '<cmd>Explore!<CR>', { desc = 'Open Netrw' })
 
 keymap('n', '<leader>th', '<cmd>Twilight<CR>', { desc = '[T]heme [H]ighlight mode' })

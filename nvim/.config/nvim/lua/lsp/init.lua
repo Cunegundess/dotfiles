@@ -62,6 +62,27 @@ vim.lsp.config('rust_analyzer', {
   root_markers = { 'Cargo.toml', 'rust-project.json', '.git' },
 })
 
+vim.api.nvim_create_user_command('LspInfo', function()
+  local clients = vim.lsp.get_active_clients()
+  if #clients == 0 then
+    print 'No LSP clients attached'
+    return
+  end
+  print('LSP clients (' .. #clients .. '):')
+  for _, client in ipairs(clients) do
+    print('  - ' .. client.name)
+  end
+end, {})
+
+vim.api.nvim_create_user_command('LspInstall', function()
+  local ok, mason = pcall(require, 'mason')
+  if ok then
+    vim.cmd 'MasonInstall basedpyright lua-language-server typescript-language-server ruff stylua'
+  else
+    print 'Mason not available. Install LSPs manually.'
+  end
+end, {})
+
 vim.lsp.enable {
   'lua_ls',
   'basedpyright',

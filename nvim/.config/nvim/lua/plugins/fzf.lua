@@ -14,28 +14,9 @@ require('fzf-lua').setup {
   },
 }
 
-local theme_file = vim.fn.stdpath 'config' .. '/.current_theme'
-
-local function save_theme(name)
-  local f = io.open(theme_file, 'w')
-  if f then
-    f:write(name)
-    f:close()
-  end
-end
-
-local function load_theme()
-  local f = io.open(theme_file, 'r')
-  if f then
-    local name = f:read '*a'
-    f:close()
-    if name and name ~= '' then
-      pcall(vim.cmd.colorscheme, name)
-    end
-  end
-end
-
-vim.defer_fn(load_theme, 100)
+vim.defer_fn(function()
+  require('plugins.theme').apply()
+end, 0)
 
 vim.keymap.set('n', '<leader>ff', require('fzf-lua').files, { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>fw', require('fzf-lua').live_grep, { desc = '[S]earch current [W]ord' })
@@ -49,8 +30,7 @@ vim.keymap.set('n', '<leader>ft', function()
     actions = {
       ['default'] = function(selected)
         local theme = selected[1]:gsub('%.vim$', '')
-        pcall(vim.cmd.colorscheme, theme)
-        save_theme(theme)
+        require('plugins.theme').apply(theme)
       end,
     },
   }

@@ -94,16 +94,24 @@ vim.opt.shortmess:append 'c'
 
 vim.opt.laststatus = 3
 
-local function git_branch()
+local branch_cache = ''
+
+function _G.git_branch()
+  if branch_cache ~= '' then
+    return branch_cache
+  end
+
   local handle = io.popen 'git branch --show-current 2>/dev/null'
   if handle then
     local result = handle:read '*a'
     handle:close()
     result = result:gsub('%s+', '')
     if result ~= '' then
-      return '  ' .. result .. ' '
+      branch_cache = '  ' .. result .. ' '
+      return branch_cache
     end
   end
+
   return ''
 end
 

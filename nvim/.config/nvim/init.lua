@@ -23,6 +23,7 @@ local plugins = {
   'shaunsingh/nord.nvim',
   'folke/twilight.nvim',
   'folke/zen-mode.nvim',
+  'y9san9/y9nika.nvim',
 
   -- LSP & Completion
   'hrsh7th/nvim-cmp',
@@ -31,14 +32,13 @@ local plugins = {
   'hrsh7th/cmp-nvim-lsp',
   'hrsh7th/cmp-path',
 
-  -- UI (mini.nvim substitui: surround, pairs, comment, indentscope, move, etc)
+  -- UI
   'echasnovski/mini.nvim',
   'echasnovski/mini.icons',
   'folke/which-key.nvim',
 
   -- File navigation
   'stevearc/oil.nvim',
-  'ThePrimeagen/harpoon',
   'nvim-lua/plenary.nvim',
   'ibhagwan/fzf-lua',
 

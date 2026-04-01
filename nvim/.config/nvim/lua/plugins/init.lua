@@ -1,4 +1,5 @@
 vim.defer_fn(function()
+  pcall(require, 'plugins.mason')
   pcall(require, 'plugins.cmp')
   pcall(require, 'plugins.treesitter')
   pcall(require, 'plugins.mini')
