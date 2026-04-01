@@ -10,6 +10,7 @@ vim.lsp.config("lua_ls", {
 		".git",
 	},
 })
+vim.lsp.inlay_hint.enable(false)
 
 vim.lsp.config("basedpyright", {
 	cmd = { "basedpyright-langserver", "--stdio" },
@@ -29,7 +30,10 @@ vim.lsp.config("basedpyright", {
 				autoSearchPaths = true,
 				autoImportCompletions = true,
 				typeCheckingMode = "basic",
-				inlayHints = false,
+				inlayHints = {
+					paramTypes = false,
+					callArgumentNames = false,
+				},
 			},
 		},
 	},
@@ -99,8 +103,6 @@ vim.lsp.enable({
 	"ruff",
 	"ts_ls",
 })
-
-vim.lsp.inlay_hint.enable(true)
 
 vim.diagnostic.config({
 	virtual_lines = false,
