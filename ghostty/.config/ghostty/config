@@ -4,7 +4,7 @@ font-family = GeistMono NF
 # font-family = SF Mono
 # font-family = Cascadia Code NF
 
-font-size = 10
+font-size = 12
 font-style = Medium
 # font-thicken = true
 
@@ -15,9 +15,9 @@ font-style = Medium
 # theme = GitHub Dark
 # theme = vesper
 # theme = tokyonight_night
-theme = kanagawa dragon
+# theme = kanagawa dragon
 # theme = dark:GruvboxDarkHard,light:GruvboxLightHard
-# theme = vague
+theme = vague
 # theme = detuned
 
 background-opacity = 1.0
@@ -27,7 +27,7 @@ window-padding-x = 20
 window-padding-y = 20
 window-colorspace = "display-p3"
 
-adjust-cell-height = "5%"
+adjust-cell-height = "0%"
 copy-on-select = clipboard
 shell-integration-features = true
 auto-update = check
