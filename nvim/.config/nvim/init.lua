@@ -6,41 +6,46 @@ require 'keymaps'
 require 'autocmds'
 require 'lsp'
 
-local function add_plugins()
-  local function p(repo)
-    return { src = 'https://github.com/' .. repo, stage = 'start' }
+local function clone(repo)
+  local name = repo:match '[^/]+$'
+  local path = vim.fn.stdpath 'data' .. '/site/pack/vendor/start/' .. name
+  if vim.fn.isdirectory(path) == 0 then
+    vim.fn.system { 'git', 'clone', '--depth', '1', 'https://github.com/' .. repo, path }
   end
-
-  vim.pack.add({
-    p 'catppuccin/nvim',
-    p 'hrsh7th/nvim-cmp',
-    p 'L3MON4D3/LuaSnip',
-    p 'saadparwaiz1/cmp_luasnip',
-    p 'hrsh7th/cmp-nvim-lsp',
-    p 'hrsh7th/cmp-path',
-    p 'nvim-lualine/lualine.nvim',
-    p 'nvim-tree/nvim-web-devicons',
-    p 'ThePrimeagen/harpoon',
-    p 'nvim-lua/plenary.nvim',
-    p 'echasnovski/mini.nvim',
-    p 'folke/which-key.nvim',
-    p 'stevearc/conform.nvim',
-    p 'ibhagwan/fzf-lua',
-    p 'echasnovski/mini.icons',
-    p 'lewis6991/gitsigns.nvim',
-    p 'williamboman/mason.nvim',
-    p 'WhoIsSethDaniel/mason-tool-installer.nvim',
-    p 'nvim-treesitter/nvim-treesitter',
-    p 'nvim-treesitter/nvim-treesitter-textobjects',
-    p 'nvim-treesitter/nvim-treesitter-context',
-    p 'mfussenegger/nvim-dap',
-    p 'rcarriga/nvim-dap-ui',
-    p 'nvim-neotest/nvim-nio',
-    p 'mfussenegger/nvim-dap-python',
-  })
 end
 
-add_plugins()
+local plugins = {
+  'catppuccin/nvim',
+  'hrsh7th/nvim-cmp',
+  'L3MON4D3/LuaSnip',
+  'saadparwaiz1/cmp_luasnip',
+  'hrsh7th/cmp-nvim-lsp',
+  'hrsh7th/cmp-path',
+  'nvim-lualine/lualine.nvim',
+  'nvim-tree/nvim-web-devicons',
+  'ThePrimeagen/harpoon',
+  'nvim-lua/plenary.nvim',
+  'echasnovski/mini.nvim',
+  'folke/which-key.nvim',
+  'stevearc/conform.nvim',
+  'ibhagwan/fzf-lua',
+  'echasnovski/mini.icons',
+  'lewis6991/gitsigns.nvim',
+  'williamboman/mason.nvim',
+  'WhoIsSethDaniel/mason-tool-installer.nvim',
+  'nvim-treesitter/nvim-treesitter',
+  'nvim-treesitter/nvim-treesitter-textobjects',
+  'nvim-treesitter/nvim-treesitter-context',
+  'mfussenegger/nvim-dap',
+  'rcarriga/nvim-dap-ui',
+  'nvim-neotest/nvim-nio',
+  'mfussenegger/nvim-dap-python',
+  'stevearc/oil.nvim'
+}
+
+for _, plugin in ipairs(plugins) do
+  clone(plugin)
+end
 
 vim.defer_fn(function()
   pcall(require, 'plugins.cmp')
@@ -53,4 +58,5 @@ vim.defer_fn(function()
   pcall(require, 'plugins.fzf')
   pcall(require, 'plugins.gitsigns')
   pcall(require, 'plugins.catppuccin')
+  pcall(require, 'plugins.oil')
 end, 0)
