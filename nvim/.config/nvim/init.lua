@@ -15,7 +15,7 @@ local function clone(repo)
 end
 
 local plugins = {
-  -- Colorschemes
+  -- Themes
   'catppuccin/nvim',
   'folke/tokyonight.nvim',
   'rose-pine/neovim',
@@ -31,9 +31,7 @@ local plugins = {
   'hrsh7th/cmp-nvim-lsp',
   'hrsh7th/cmp-path',
 
-  -- UI
-  'nvim-lualine/lualine.nvim',
-  'nvim-tree/nvim-web-devicons',
+  -- UI (mini.nvim substitui: surround, pairs, comment, indentscope, move, etc)
   'echasnovski/mini.nvim',
   'echasnovski/mini.icons',
   'folke/which-key.nvim',
@@ -47,7 +45,7 @@ local plugins = {
   -- Git
   'lewis6991/gitsigns.nvim',
 
-  -- Formatting & LSP tools
+  -- Formatting
   'stevearc/conform.nvim',
   'williamboman/mason.nvim',
   'WhoIsSethDaniel/mason-tool-installer.nvim',

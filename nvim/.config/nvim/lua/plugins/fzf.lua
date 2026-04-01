@@ -14,13 +14,48 @@ require('fzf-lua').setup {
   },
 }
 
+local theme_file = vim.fn.stdpath 'config' .. '/.current_theme'
+
+local function save_theme(name)
+  local f = io.open(theme_file, 'w')
+  if f then
+    f:write(name)
+    f:close()
+  end
+end
+
+local function load_theme()
+  local f = io.open(theme_file, 'r')
+  if f then
+    local name = f:read '*a'
+    f:close()
+    if name and name ~= '' then
+      pcall(vim.cmd.colorscheme, name)
+    end
+  end
+end
+
+vim.defer_fn(load_theme, 100)
+
 vim.keymap.set('n', '<leader>ff', require('fzf-lua').files, { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>fw', require('fzf-lua').live_grep, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>fg', require('fzf-lua').grep_visual, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>fh', require('fzf-lua').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>fk', require('fzf-lua').keymaps, { desc = '[S]earch [K]eymaps' })
 vim.keymap.set('n', '<leader><leader>', require('fzf-lua').buffers, { desc = '[ ] Find existing buffers' })
-vim.keymap.set('n', '<leader>ft', require('fzf-lua').colorschemes, { desc = '[S]earch [T]hemes' })
+
+vim.keymap.set('n', '<leader>ft', function()
+  require('fzf-lua').colorschemes {
+    actions = {
+      ['default'] = function(selected)
+        local theme = selected[1]:gsub('%.vim$', '')
+        pcall(vim.cmd.colorscheme, theme)
+        save_theme(theme)
+      end,
+    },
+  }
+end, { desc = '[S]earch [T]hemes' })
+
 vim.keymap.set('n', 'gd', require('fzf-lua').lsp_definitions, { desc = '[G]oto [D]efinition' })
 vim.keymap.set('n', 'gr', require('fzf-lua').lsp_references, { desc = '[G]oto [R]eferences' })
 vim.keymap.set('n', 'gI', require('fzf-lua').lsp_implementations, { desc = '[G]oto [I]mplementation' })

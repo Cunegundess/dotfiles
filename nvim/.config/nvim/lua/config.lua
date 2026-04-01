@@ -91,3 +91,29 @@ vim.opt.iskeyword:append '-'
 vim.opt.diffopt:append 'linematch:60'
 
 vim.opt.shortmess:append 'c'
+
+vim.opt.laststatus = 3
+
+local function git_branch()
+  local handle = io.popen 'git branch --show-current 2>/dev/null'
+  if handle then
+    local result = handle:read '*a'
+    handle:close()
+    result = result:gsub('%s+', '')
+    if result ~= '' then
+      return '  ' .. result .. ' '
+    end
+  end
+  return ''
+end
+
+vim.o.statusline = table.concat {
+  '%f',
+  ' %m',
+  ' %r',
+  '%=',
+  '%{v:lua.git_branch()}',
+  ' %y',
+  ' %p%%',
+  ' %l:%c',
+}

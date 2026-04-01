@@ -1,17 +1,20 @@
-local mini = {
-  'mini.ai',
-  'mini.surround',
-  'mini.pairs',
-  'mini.comment',
-  'mini.indentscope',
-  'mini.bracketed',
-  'mini.move',
-  'mini.splitjoin',
-}
-
-for _, mod in ipairs(mini) do
+local function load_mini(mod)
   pcall(require, mod)
 end
+
+load_mini 'mini.ai'
+load_mini 'mini.surround'
+load_mini 'mini.pairs'
+load_mini 'mini.comment'
+load_mini 'mini.indentscope'
+load_mini 'mini.bracketed'
+load_mini 'mini.move'
+load_mini 'mini.splitjoin'
+load_mini 'mini.bufremove'
+load_mini 'mini.jump'
+load_mini 'mini.jump2d'
+load_mini 'mini.tabline'
+load_mini 'mini.trailspace'
 
 require('mini.ai').setup {
   n_lines = 500,
@@ -20,8 +23,6 @@ require('mini.ai').setup {
     inside = 'i',
     around_next = 'an',
     inside_next = 'in',
-    around_last = 'al',
-    inside_last = 'il',
   },
 }
 
@@ -29,17 +30,11 @@ require('mini.surround').setup()
 
 require('mini.pairs').setup()
 
-require('mini.comment').setup {
-  hooks = {
-    pre = function()
-      require('mini.comment').toggle()
-    end,
-  },
-}
+require('mini.comment').setup()
 
 require('mini.indentscope').setup {
   symbol = '│',
-  options = { try_as_border = true },
+  draw = { animation = require('mini.indentscope').gen_animation.none() },
 }
 
 require('mini.bracketed').setup()
@@ -50,3 +45,15 @@ require('mini.move').setup {
 }
 
 require('mini.splitjoin').setup()
+
+require('mini.tabline').setup()
+
+require('mini.trailspace').setup()
+
+vim.keymap.set('n', '<leader>bd', function()
+  require('mini.bufremove').delete(0, true)
+end, { desc = '[B]uffer [D]elete' })
+
+vim.keymap.set('n', '<leader>bw', function()
+  require('mini.bufremove').wipeout(0, true)
+end, { desc = '[B]uffer [W]ipeout' })

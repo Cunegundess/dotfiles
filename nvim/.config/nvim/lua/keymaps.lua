@@ -22,15 +22,6 @@ keymap('n', '<M-j>', '<cmd>resize -2<CR>', { desc = 'Resize split up' })
 keymap('n', '<leader>e', function() require('oil').open() end, { desc = 'Open Oil' })
 keymap('n', '<leader>E', '<cmd>Explore!<CR>', { desc = 'Open Netrw' })
 
-keymap('n', 'gd', vim.lsp.buf.definition, { desc = '[G]oto [D]efinition' })
-keymap('n', 'gr', vim.lsp.buf.references, { desc = '[G]oto [R]eferences' })
-keymap('n', 'gI', vim.lsp.buf.implementation, { desc = '[G]oto [I]mplementation' })
-keymap('n', 'gD', vim.lsp.buf.declaration, { desc = '[G]oto [D]eclaration' })
-keymap('n', '<leader>D', vim.lsp.buf.type_definition, { desc = 'Type [D]efinition' })
-keymap('n', '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ctions' })
-keymap('n', '<leader>rn', vim.lsp.buf.rename, { desc = '[R]e[N]ame' })
-keymap('n', '<leader>ld', vim.diagnostic.open_float, { desc = '[L]SP [D]iagnostic' })
-
 keymap('n', '<leader>th', '<cmd>Twilight<CR>', { desc = '[T]heme [H]ighlight mode' })
 keymap('n', '<leader>tz', '<cmd>ZenMode<CR>', { desc = '[T]heme [Z]en mode' })
 
