@@ -6,110 +6,51 @@ require 'keymaps'
 require 'autocmds'
 require 'lsp'
 
-local function plugins()
-  local pack = vim.pack
+local function add_plugins()
+  local function p(repo)
+    return { src = 'https://github.com/' .. repo, stage = 'start' }
+  end
 
-  pack.add {
-    opt = false,
-    { 'catppuccin/nvim', name = 'catppuccin' },
-  }
-
-  pack.add {
-    opt = false,
-    {
-      'hrsh7th/nvim-cmp',
-      dependencies = {
-        { 'L3MON4D3/LuaSnip' },
-        { 'saadparwaiz1/cmp_luasnip' },
-        { 'hrsh7th/cmp-nvim-lsp' },
-        { 'hrsh7th/cmp-path' },
-      },
-      event = 'InsertEnter',
-    },
-  }
-
-  pack.add {
-    opt = false,
-    {
-      'nvim-treesitter/nvim-treesitter',
-      build = ':TSUpdate',
-      dependencies = {
-        'nvim-treesitter/nvim-treesitter-textobjects',
-        'nvim-treesitter/nvim-treesitter-context',
-      },
-    },
-  }
-
-  pack.add {
-    opt = false,
-    { 'nvim-lualine/lualine.nvim', dependencies = { 'nvim-tree/nvim-web-devicons' } },
-  }
-
-  pack.add {
-    opt = false,
-    { 'ThePrimeagen/harpoon', dependencies = { 'nvim-lua/plenary.nvim' } },
-  }
-
-  pack.add {
-    opt = false,
-    {
-      'echasnovski/mini.nvim',
-      dependencies = {},
-    },
-  }
-
-  pack.add {
-    opt = false,
-    {
-      'folke/which-key.nvim',
-      event = 'VimEnter',
-      lazy = false,
-      priority = 1000,
-    },
-  }
-
-  pack.add {
-    opt = false,
-    {
-      'stevearc/conform.nvim',
-      event = { 'BufWritePre' },
-      cmd = { 'ConformInfo' },
-    },
-  }
-
-  pack.add {
-    opt = false,
-    {
-      'mfussenegger/nvim-dap',
-      dependencies = {
-        'rcarriga/nvim-dap-ui',
-        'nvim-neotest/nvim-nio',
-        'mfussenegger/nvim-dap-python',
-      },
-    },
-  }
-
-  pack.add {
-    opt = false,
-    { 'ibhagwan/fzf-lua', dependencies = { 'echasnovski/mini.icons' } },
-  }
-
-  pack.add {
-    opt = false,
-    { 'lewis6991/gitsigns.nvim' },
-  }
-
-  pack.add {
-    opt = false,
-    { 'williamboman/mason.nvim' },
-    { 'WhoIsSethDaniel/mason-tool-installer.nvim' },
-  }
+  vim.pack.add({
+    p 'catppuccin/nvim',
+    p 'hrsh7th/nvim-cmp',
+    p 'L3MON4D3/LuaSnip',
+    p 'saadparwaiz1/cmp_luasnip',
+    p 'hrsh7th/cmp-nvim-lsp',
+    p 'hrsh7th/cmp-path',
+    p 'nvim-lualine/lualine.nvim',
+    p 'nvim-tree/nvim-web-devicons',
+    p 'ThePrimeagen/harpoon',
+    p 'nvim-lua/plenary.nvim',
+    p 'echasnovski/mini.nvim',
+    p 'folke/which-key.nvim',
+    p 'stevearc/conform.nvim',
+    p 'ibhagwan/fzf-lua',
+    p 'echasnovski/mini.icons',
+    p 'lewis6991/gitsigns.nvim',
+    p 'williamboman/mason.nvim',
+    p 'WhoIsSethDaniel/mason-tool-installer.nvim',
+    p 'nvim-treesitter/nvim-treesitter',
+    p 'nvim-treesitter/nvim-treesitter-textobjects',
+    p 'nvim-treesitter/nvim-treesitter-context',
+    p 'mfussenegger/nvim-dap',
+    p 'rcarriga/nvim-dap-ui',
+    p 'nvim-neotest/nvim-nio',
+    p 'mfussenegger/nvim-dap-python',
+  })
 end
 
-plugins()
+add_plugins()
 
 vim.defer_fn(function()
-  pcall(function()
-    require('config.colorscheme').apply()
-  end)
+  pcall(require, 'plugins.cmp')
+  pcall(require, 'plugins.treesitter')
+  pcall(require, 'plugins.lualine')
+  pcall(require, 'plugins.mini')
+  pcall(require, 'plugins.whichkey')
+  pcall(require, 'plugins.conform')
+  pcall(require, 'plugins.dap')
+  pcall(require, 'plugins.fzf')
+  pcall(require, 'plugins.gitsigns')
+  pcall(require, 'plugins.catppuccin')
 end, 0)
