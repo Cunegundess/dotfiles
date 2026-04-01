@@ -30,7 +30,7 @@ vim.lsp.config("basedpyright", {
 				autoSearchPaths = true,
 				autoImportCompletions = true,
 				typeCheckingMode = "basic",
-				extraPaths = { "." },
+				extraPaths = { ".", ".." },
 				inlayHints = {
 					paramTypes = false,
 					callArgumentNames = false,
@@ -40,41 +40,10 @@ vim.lsp.config("basedpyright", {
 	},
 })
 
-vim.lsp.config("pyright-extended", {
-	cmd = { "pyright-extended-langserver", "--stdio" },
-	filetypes = { "python" },
-	root_markers = {
-		"pyrightconfig.json",
-		"pyproject.toml",
-		"setup.py",
-		"setup.cfg",
-		"requirements.txt",
-		"Pipfile",
-		".git",
-	},
-	settings = {
-		python = {
-			analysis = {
-				autoSearchPaths = true,
-				autoImportCompletions = true,
-				typeCheckingMode = "basic",
-				extraPaths = { "." },
-			},
-		},
-	},
-})
-
 vim.lsp.config("ruff", {
 	cmd = { "ruff", "server" },
 	filetypes = { "python" },
 	root_markers = { "pyproject.toml", "ruff.toml", ".ruff.toml", ".git" },
-	settings = {
-		ruff = {
-			lint = {
-				extend = "ruff",
-			},
-		},
-	},
 })
 
 vim.lsp.config("ts_ls", {
@@ -123,7 +92,7 @@ end, {})
 vim.api.nvim_create_user_command("LspInstall", function()
 	local ok, mason = pcall(require, "mason")
 	if ok then
-		vim.cmd("MasonInstall basedpyright pyright-extended lua-language-server typescript-language-server ruff stylua")
+		vim.cmd("MasonInstall basedpyright lua-language-server typescript-language-server ruff stylua")
 	else
 		print("Mason not available. Install LSPs manually.")
 	end
@@ -132,7 +101,6 @@ end, {})
 vim.lsp.enable({
 	"lua_ls",
 	"basedpyright",
-	"pyright-extended",
 	"ruff",
 	"ts_ls",
 })
