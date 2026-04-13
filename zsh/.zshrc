@@ -3,14 +3,14 @@
 ### └───────────────────────────────────────────────┘
 
 # auto tmux no Ghostty
-if [ -z "$TMUX" ]; then
-    SESSION_NAME="main"
-    if tmux has-session -t $SESSION_NAME 2>/dev/null; then
-        tmux attach-session -t $SESSION_NAME
-    else
-        tmux new-session -s $SESSION_NAME
-    fi
-fi
+# if [ -z "$TMUX" ] || [ -z "$GHOSTTY" ] || [ -z "$KITTY" ]; then
+#     SESSION_NAME="main"
+#     if tmux has-session -t $SESSION_NAME 2>/dev/null; then
+#         tmux attach-session -t $SESSION_NAME
+#     else
+#         tmux new-session -s $SESSION_NAME
+#     fi
+# fi
 
 
 autoload -Uz promptinit; promptinit
