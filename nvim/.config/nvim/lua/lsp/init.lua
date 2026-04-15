@@ -137,7 +137,7 @@ vim.lsp.inlay_hint.enable(false)
 vim.diagnostic.config({
 	virtual_lines = false,
 	virtual_text = false,
-	underline = false,
+	underline = true,
 	update_in_insert = true,
 	severity_sort = true,
 	float = {
