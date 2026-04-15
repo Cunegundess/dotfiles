@@ -65,6 +65,9 @@ local plugins = {
 	"nvim-neotest/nvim-nio",
 	"mfussenegger/nvim-dap-python",
 
+	-- IA
+	"github/copilot.vim",
+
 	-- Utils
 	"esmuellert/codediff.nvim",
 	"m00qek/baleia.nvim",
