@@ -10,7 +10,6 @@ vim.lsp.config("lua_ls", {
 		".git",
 	},
 })
-vim.lsp.inlay_hint.enable(false)
 
 vim.lsp.config("basedpyright", {
 	cmd = { "basedpyright-langserver", "--stdio" },
@@ -128,10 +127,12 @@ vim.lsp.enable({
 	"ts_ls",
 })
 
+vim.lsp.inlay_hint.enable(false)
+
 vim.diagnostic.config({
 	virtual_lines = false,
-	virtual_text = false,
-	underline = true,
+	virtual_text = true,
+	underline = false,
 	update_in_insert = true,
 	severity_sort = true,
 	float = {
