@@ -26,6 +26,7 @@ local plugins = {
 	"y9san9/y9nika.nvim",
 	"datsfilipe/vesper.nvim",
 	"vague-theme/vague.nvim",
+	"projekt0n/github-nvim-theme",
 
 	-- LSP & Completion
 	"hrsh7th/nvim-cmp",
@@ -46,6 +47,7 @@ local plugins = {
 
 	-- Git
 	"lewis6991/gitsigns.nvim",
+	"NeogitOrg/neogit",
 
 	-- Formatting
 	"stevearc/conform.nvim",
@@ -62,6 +64,10 @@ local plugins = {
 	"rcarriga/nvim-dap-ui",
 	"nvim-neotest/nvim-nio",
 	"mfussenegger/nvim-dap-python",
+
+	-- Utils
+	"esmuellert/codediff.nvim",
+	"m00qek/baleia.nvim",
 }
 
 for _, plugin in ipairs(plugins) do

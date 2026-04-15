@@ -9,6 +9,11 @@ vim.lsp.config("lua_ls", {
 		"stylua.toml",
 		".git",
 	},
+	settings = {
+		Lua = {
+			diagnostics = { globals = "vim" },
+		},
+	},
 })
 
 vim.lsp.config("basedpyright", {
@@ -131,7 +136,7 @@ vim.lsp.inlay_hint.enable(false)
 
 vim.diagnostic.config({
 	virtual_lines = false,
-	virtual_text = true,
+	virtual_text = false,
 	underline = false,
 	update_in_insert = true,
 	severity_sort = true,

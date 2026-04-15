@@ -10,14 +10,14 @@ font-style = Medium
 
 # theme = Atom
 # theme = carbonfox
-# theme = GitHub-Dark-High-Contrast
+theme = GitHub Dark High Contrast
 # theme = GitHub-Dark-Default
 # theme = GitHub Dark
 # theme = vesper
 # theme = tokyonight_night
 # theme = kanagawa dragon
 # theme = dark:GruvboxDarkHard,light:GruvboxLightHard
-theme = vague
+# theme = vague
 # theme = detuned
 
 background-opacity = 1.0
