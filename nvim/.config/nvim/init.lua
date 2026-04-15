@@ -30,7 +30,7 @@ local plugins = {
 
 	-- LSP & Completion
 	-- "hrsh7th/nvim-cmp",
-	"saghen/blink.nvim",
+	"saghen/blink.cmp",
 	"L3MON4D3/LuaSnip",
 	-- "saadparwaiz1/cmp_luasnip",
 	-- "hrsh7th/cmp-nvim-lsp",
