@@ -57,6 +57,7 @@ vim.pack.add({
 
 vim.defer_fn(function()
 	pcall(require, "plugins.mason")
+	pcall(require, "plugins.blink")
 	pcall(require, "plugins.treesitter")
 	pcall(require, "plugins.mini")
 	pcall(require, "plugins.whichkey")
