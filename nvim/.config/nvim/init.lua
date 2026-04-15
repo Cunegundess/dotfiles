@@ -29,12 +29,8 @@ local plugins = {
 	"projekt0n/github-nvim-theme",
 
 	-- LSP & Completion
-	-- "hrsh7th/nvim-cmp",
 	"saghen/blink.cmp",
 	"L3MON4D3/LuaSnip",
-	-- "saadparwaiz1/cmp_luasnip",
-	-- "hrsh7th/cmp-nvim-lsp",
-	-- "hrsh7th/cmp-path",
 	"neovim/nvim-lspconfig",
 
 	-- UI
