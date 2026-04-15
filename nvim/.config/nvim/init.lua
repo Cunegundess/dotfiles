@@ -34,6 +34,7 @@ local plugins = {
 	"saadparwaiz1/cmp_luasnip",
 	"hrsh7th/cmp-nvim-lsp",
 	"hrsh7th/cmp-path",
+	"https://github.com/neovim/nvim-lspconfig",
 
 	-- UI
 	"echasnovski/mini.nvim",

@@ -127,7 +127,8 @@ end, {})
 
 vim.lsp.enable({
 	"lua_ls",
-	"basedpyright",
+	-- "basedpyright",
+	"ty",
 	"ruff",
 	"ts_ls",
 })
