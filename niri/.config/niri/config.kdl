@@ -150,7 +150,7 @@ layout {
     // - "always", the focused column will always be centered.
     // - "on-overflow", focusing a column will center it if it doesn't fit
     //   together with the previously focused column.
-    center-focused-column "never"
+    center-focused-column "always"
 
     // You can customize the widths that "switch-preset-column-width" (Mod+R) toggles between.
     preset-column-widths {
@@ -169,7 +169,7 @@ layout {
     // preset-window-heights { }
 
     // You can change the default width of the new windows.
-    default-column-width { proportion 0.5; }
+    default-column-width { proportion 0.9; }
     // If you leave the brackets empty, the windows themselves will decide their initial width.
     // default-column-width {}
 
@@ -376,11 +376,11 @@ window-rule {
     clip-to-geometry true
 }
 
-// Open all windows maximized
-window-rule {
-    match {}
-    open-maximized true
-}
+// Open brave windows maximized
+// window-rule {
+//     match app-id="brave-browser"
+//     open-maximized true
+// }
 
 binds {
     // Keys consist of modifiers separated by + signs, followed by an XKB key name
