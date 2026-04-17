@@ -35,6 +35,7 @@ vim.pack.add({
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/williamboman/mason.nvim",
 	"https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim",
+	"https://github.com/mason-org/mason-lspconfig.nvim",
 
 	-- Syntax
 	"https://github.com/nvim-treesitter/nvim-treesitter",
