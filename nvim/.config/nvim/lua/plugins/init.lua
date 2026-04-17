@@ -71,6 +71,7 @@ vim.defer_fn(function()
 	pcall(require, "plugins.fzf")
 	pcall(require, "plugins.oil")
 	pcall(require, "plugins.devdocs")
+	pcall(require, "plugins.render-markdown")
 
 	local ok_dap, dap_config = pcall(require, "plugins.dap")
 	if ok_dap and type(dap_config) == "function" then

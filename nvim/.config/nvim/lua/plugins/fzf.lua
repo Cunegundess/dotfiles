@@ -14,6 +14,8 @@ require("fzf-lua").setup({
 	},
 })
 
+require("fzf-lua").register_ui_select()
+
 vim.defer_fn(function()
 	require("plugins.theme").apply()
 end, 0)
