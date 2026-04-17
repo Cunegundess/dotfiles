@@ -16,6 +16,7 @@ vim.pack.add({
 	"https://github.com/saghen/blink.cmp",
 	"https://github.com/L3MON4D3/LuaSnip",
 	"https://github.com/neovim/nvim-lspconfig",
+	"https://github.com/maskudo/devdocs.nvim",
 
 	-- UI
 	"https://github.com/echasnovski/mini.nvim",
@@ -55,6 +56,7 @@ vim.pack.add({
 	"https://github.com/esmuellert/codediff.nvim",
 	"https://github.com/m00qek/baleia.nvim",
 	"https://github.com/christoomey/vim-tmux-navigator",
+	"https://github.com/folke/snacks.nvim",
 	-- "https://github.com/MeanderingProgrammer/render-markdown.nvim",
 })
 
@@ -68,6 +70,7 @@ vim.defer_fn(function()
 	pcall(require, "plugins.gitsigns")
 	pcall(require, "plugins.fzf")
 	pcall(require, "plugins.oil")
+	pcall(require, "plugins.devdocs")
 
 	local ok_dap, dap_config = pcall(require, "plugins.dap")
 	if ok_dap and type(dap_config) == "function" then
