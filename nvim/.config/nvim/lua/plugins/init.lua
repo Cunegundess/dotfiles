@@ -53,6 +53,7 @@ vim.pack.add({
 	-- Utils
 	"https://github.com/esmuellert/codediff.nvim",
 	"https://github.com/m00qek/baleia.nvim",
+	"https://github.com/MeanderingProgrammer/render-markdown.nvim",
 })
 
 vim.defer_fn(function()
