@@ -1,22 +1,13 @@
 vim.g.termguicolors = true
 vim.g.have_nerd_font = true
 
-vim.g.netrw_keepdir = 1
-vim.g.netrw_liststyle = 1
-vim.g.netrw_winsize = 32
-vim.g.netrw_altv = 1
-vim.g.netrw_localcopydircmd = "cp -r"
-vim.g.netrw_hide = 0
-vim.g.netrw_sizestyle = "H"
-
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.signcolumn = "yes"
-vim.opt.colorcolumn = "80"
-vim.opt.cursorline = false
+vim.opt.colorcolumn = "0"
+vim.opt.cursorline = true
 vim.opt.wrap = false
 vim.opt.linebreak = true
-vim.opt.showmode = false
 vim.opt.showcmd = false
 vim.opt.cmdheight = 1
 vim.opt.pumheight = 10
@@ -81,7 +72,6 @@ vim.opt.hidden = true
 vim.opt.selection = "exclusive"
 vim.opt.virtualedit = "block"
 
-vim.opt.lazyredraw = false
 vim.opt.redrawtime = 1500
 vim.opt.maxmempattern = 2000
 
