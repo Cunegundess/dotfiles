@@ -25,6 +25,7 @@
 (package! lsp-treemacs)
 (package! org-auto-tangle)
 (package! restclient)
+(package! devdocs)
 
 (package! pg
   :recipe (:host github :repo "emarsden/pg-el"))

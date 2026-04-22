@@ -10,6 +10,7 @@
 - [[#configurações-gerais][Configurações Gerais]]
 - [[#aparência][Aparência]]
 - [[#org][Org]]
+- [[#devdocs][DevDocs]]
 - [[#python--lsp][Python + LSP]]
 - [[#debug][Debug]]
 - [[#sql---pgmacs-via-env][SQL - pgmacs via .env]]
@@ -69,6 +70,11 @@
   (add-hook 'org-mode-hook #'org-bullets-mode))
 #+end_src
 
+* DevDocs
+#+begin_src emacs-lisp
+(after! devdocs
+  (setq devdocs-data-dir "~/.local/share/devdocs"))
+#+end_src
 * Python + LSP
 #+begin_src emacs-lisp
 ;; Carregar .env do projeto automaticamente

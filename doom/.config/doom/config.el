@@ -32,6 +32,8 @@
         org-agenda-files '("~/Documentos/org/agenda.org")
         org-log-done 'time)
   (add-hook 'org-mode-hook #'org-bullets-mode))
+(after! devdocs
+  (setq devdocs-data-dir "~/.local/share/devdocs"))
 ;; Carregar .env do projeto automaticamente
 (defun my/load-project-env ()
   "Load .env from current project root into environment variables."
