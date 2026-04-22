@@ -5,21 +5,6 @@
 #+STARTUP: fold
 #+PROPERTY: header-args:emacs-lisp :tangle config.el :cache yes :results silent :padline no
 
-* Table of Contents :TOC_3:noexport:
-- [[#informações-pessoais][Informações Pessoais]]
-- [[#configurações-gerais][Configurações Gerais]]
-- [[#aparência][Aparência]]
-- [[#org][Org]]
-- [[#devdocs][DevDocs]]
-- [[#python--lsp][Python + LSP]]
-- [[#debug][Debug]]
-- [[#sql---pgmacs-via-env][SQL - pgmacs via .env]]
-- [[#keybindings][Keybindings]]
-- [[#vterm][VTerm]]
-- [[#magit][Magit]]
-- [[#projectile][Projectile]]
-- [[#treemacs][Treemacs]]
-
 * Informações Pessoais
 #+begin_src emacs-lisp
 (setq user-full-name "Lucas Cunegundes"
@@ -47,8 +32,7 @@
 #+begin_src emacs-lisp
 (use-package! nerd-icons)
 
-(setq
- doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 12 :weight 'bold))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 12 :weight 'bold))
 
 (custom-set-faces!
  '(italic :slant italic)
@@ -75,12 +59,27 @@
 (after! devdocs
   (setq devdocs-data-dir "~/.local/share/devdocs"))
 #+end_src
-* Python + LSP
+
+* my/functions
 #+begin_src emacs-lisp
-;; Carregar .env do projeto automaticamente
+;; Detectar root corretamente (suporte apps/backend)
+(defun my/project-root ()
+  (let ((root (projectile-project-root)))
+    (if (and root (file-directory-p (expand-file-name "apps/backend" root)))
+        (expand-file-name "apps/backend" root)
+      root)))
+
+;; Auto ativar .venv
+(defun my/auto-activate-venv ()
+  (let* ((root (or (my/project-root) default-directory))
+         (venv (expand-file-name ".venv" root)))
+    (when (file-directory-p venv)
+      (pyvenv-activate venv)
+      (message "Activated venv: %s" venv))))
+
+;; Carregar .env corretamente
 (defun my/load-project-env ()
-  "Load .env from current project root into environment variables."
-  (let* ((root (or (projectile-project-root) default-directory))
+  (let* ((root (my/project-root))
          (env-file (expand-file-name ".env" root)))
     (when (file-exists-p env-file)
       (with-temp-buffer
@@ -91,89 +90,41 @@
                 (val (match-string 2)))
             (when (and key (string-match "^[A-Za-z_]+$" key))
               (setenv key val))))))))
-
-;; Python mode hooks
+#+end_src
+* Python + LSP
+#+begin_src emacs-lisp
 (after! python
-  (add-hook 'python-mode-hook #'pyvenv-mode)
-  (add-hook 'python-mode-hook #'lsp-deferred)
-  (add-hook 'python-mode-hook #'my/load-project-env))
+  (add-hook 'python-mode-hook #'my/auto-activate-venv)
+  (add-hook 'python-mode-hook #'my/load-project-env)
+  (add-hook 'python-mode-hook #'lsp-deferred))
 
-;; LSP Pyright config - usar interpreter do .venv
 (after! lsp-pyright
   (setq lsp-pyright-langserver-command "basedpyright-langserver"
         lsp-pyright-type-checking-mode "off"
-        lsp-pyright-diagnostic-mode "openFilesOnly"))
+        lsp-pyright-diagnostic-mode "openFilesOnly"
+        lsp-pyright-venv-path "."
+        lsp-pyright-venv-directory ".venv"))
 
-        ;; Supressões para Django
-        ;; lsp-pyright-diagnostic-severity-overrides
-        ;; '(("reportUnknownMemberType" . "none")
-        ;;   ("reportUnknownVariableType" . "none")
-        ;;   ("reportUnknownArgumentType" . "none")
-        ;;   ("reportUnknownParameterType" . "none")
-        ;;   ("reportMissingTypeStubs" . "none")
-        ;;   ("reportGeneralTypeIssues" . "none")
-        ;;   ("reportOptionalMemberAccess" . "none")
-        ;;   ("reportOptionalSubscript" . "none")
-        ;;   ("reportPrivateImportUsage" . "none")
-        ;;   ("reportAttributeAccessIssue" . "none")
-        ;;   ("reportIncompatibleMethodOverride" . "none"))))
-
-;; Flycheck
-;;(after! flycheck
-  ;; (setq flycheck-indication-mode 'left-fringe)
-  ;; (setq flycheck-highlighting-mode nil)
-  ;; (setq flycheck-display-errors-function nil)
-  ;; (setq flycheck-idle-change-delay 0.5)
-  ;; (setq flycheck-checker-error-threshold nil)
-  ;; (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled)))
-
-;; Company
 (after! company
   (setq company-idle-delay 0.1
         company-minimum-prefix-length 1))
 
-;; Corfu desabilitado (usando company)
 (after! corfu
   (global-corfu-mode 0))
 
-;; LSP Mode
 (after! lsp-mode
   (add-hook 'lsp-mode-hook (lambda () (lsp-browser-mode -1)))
-  (setq lsp-diagnostics-provider :flycheck)
-  ;; (setq lsp-diagnostics-attributes
-  ;;       '((unnecessary :foreground "gray")
-  ;;         (deprecated :strike-through t)))
-  (setq lsp-headerline-breadcrumb-enable t
+  (setq lsp-diagnostics-provider :flycheck
+        lsp-headerline-breadcrumb-enable t
         lsp-headerline-breadcrumb-icons-enable t
         lsp-headerline-breadcrumb-enable-symbol-numbers t
-        lsp-headerline-breadcrumb-enable-diagnostics nil)
-  (setq lsp-icons-provider 'nerd-icons))
-  ;; (setq lsp-idle-delay 0.2
-  ;;       lsp-log-io nil
-  ;;       lsp-completion-provider :capf
-  ;;       lsp-enable-file-watchers nil
-  ;;       lsp-enable-folding t
-  ;;       lsp-enable-text-document-color t
-  ;;       lsp-enable-on-type-formatting nil
-  ;;       lsp-enable-snippet nil
-  ;;       lsp-enable-symbol-highlighting t
-  ;;       lsp-modeline-diagnostics-enable nil
-  ;;       lsp-modeline-code-actions-enable nil
-  ;;       lsp-modeline-workspace-status-enable t
-  ;;       lsp-semantic-tokens-enable nil
-  ;;       lsp-completion-enable t
-  ;;       lsp-completion-show-detail t
-  ;;       lsp-completion-show-kind t
-  ;;       lsp-enable-links nil))
+        lsp-headerline-breadcrumb-enable-diagnostics nil
+        lsp-icons-provider 'nerd-icons))
 
-;; LSP UI
 (after! lsp-ui
   (add-hook 'lsp-mode-hook #'lsp-ui-mode)
   (setq lsp-ui-doc-enable t
         lsp-ui-doc-use-childframe t
-        ;; lsp-ui-doc-position 'at-point
-        ;; lsp-ui-doc-max-height 12
-        ;; lsp-ui-doc-max-width 80
         lsp-ui-doc-show-with-cursor t
         lsp-ui-doc-show-with-mouse t
         lsp-ui-doc-delay 0.2
@@ -181,9 +132,7 @@
         lsp-ui-sideline-show-code-actions t
         lsp-ui-sideline-show-diagnostics t
         lsp-ui-sideline-update-mode 'point
-        lsp-ui-sideline-show-hover nil
         lsp-ui-sideline-delay 0.2
-        lsp-ui-sideline-ignore-duplicate t
         lsp-ui-peek-enable t))
 #+end_src
 
@@ -192,12 +141,12 @@
 (after! dape
   (setq dape-buffer-window-arrangement 'right
         dape-info-hide-mode-line t)
-        
+
   (add-to-list
    'dape-configs
    `(django
      modes (python-mode python-ts-mode)
-     command "python"
+     host "127.0.0.1"
      command-args ("-m" "debugpy.adapter")
      cwd ,(lambda () (projectile-project-root))))
 
@@ -207,24 +156,18 @@
      modes (python-mode python-ts-mode)
      command "python"
      command-args ("-m" "debugpy.adapter")
-     cwd ,(lambda ()
-            (expand-file-name "apps/backend"
-                              (projectile-project-root))))))
+     cwd ,(lambda () (my/project-root)))))
 #+end_src
 
-* SQL - pgmacs via .env
+* SQL
 #+begin_src emacs-lisp
-;; PGmacs setup - conecta usando variáveis do .env do projeto
 (use-package pgmacs
   :after pg
   :commands (pgmacs pgmacs-open-string pgmacs-open-uri)
   :config
   (setq pgmacs-default-display-limit 100)
-  (setq pgmacs-widget-use-proportional-font nil)
 
-  ;; Função para conectar ao banco do projeto atual
   (defun pgmacs-connect-current-project ()
-    "Connect to PostgreSQL using .env from current project."
     (interactive)
     (my/load-project-env)
     (let* ((user (or (getenv "POSTGRES_USER") "postgres"))
@@ -234,122 +177,33 @@
            (port (or (getenv "POSTGRES_PORT") "5432")))
       (pgmacs-open-string
        (format "user=%s password=%s dbname=%s host=%s port=%s"
-               user password dbname host port))
-      (message "Connected to %s at %s" dbname host)))
-
-  ;; Funções de conveniência para projetos específicos
-  (defun pgmacs-connect-nexus ()
-    (interactive)
-    (let ((projectile-known-projects-cache nil))
-      (projectile-add-known-project "~/Code/nexus/"))
-    (find-file "~/Code/nexus/.env")
-    (my/load-project-env)
-    (pgmacs-open-string
-     "user=postgres password=jmnexus2023 dbname=nexus_rfid host=psql-nexus port=5432"))
-
-  (defun pgmacs-connect-alianca ()
-    (interactive)
-    (let ((projectile-known-projects-cache nil))
-      (projectile-add-known-project "~/Code/alianca/apps/backend/"))
-    (find-file "~/Code/alianca/apps/backend/.env")
-    (my/load-project-env)
-    (pgmacs-open-string
-     "user=postgres password=jmalianca2023 dbname=alianca_rfid host=0.0.0.0 port=5432")))
-
-;; Funções utilitárias para SQL
-(defun pg-list-tables ()
-  "List tables in PostgreSQL database."
-  (interactive)
-  (pgmacs-connect-current-project)
-  (pgmacs-open-string
-   (format "SELECT table_name FROM information_schema.tables WHERE table_schema='public' ORDER BY table_name;")))
-
-(defun pg-describe-table (table-name)
-  "Describe TABLE-NAME structure."
-  (interactive "sTable name: ")
-  (pgmacs-connect-current-project)
-  (pgmacs-open-string
-   (format "SELECT column_name, data_type, is_nullable, column_default
-FROM information_schema.columns
-WHERE table_name = '%s'
-ORDER BY ordinal_position;" table-name)))
-
-;; Key bindings for SQL
-(map! :leader
-      (:prefix ("e" . "custom")
-       (:prefix ("d" . "database")
-        :desc "Connect to current project DB" "c" #'pgmacs-connect-current-project
-        :desc "Connect to nexus" "n" #'pgmacs-connect-nexus
-        :desc "Connect to alianca" "a" #'pgmacs-connect-alianca
-        :desc "List tables" "t" #'pg-list-tables
-        :desc "Describe table" "d" #'pg-describe-table)))
+               user password dbname host port)))))
 #+end_src
 
 * Keybindings
 #+begin_src emacs-lisp
 (map! :leader
       (:prefix ("c" . "code")
-       :desc "Code actions"        "a" #'lsp-execute-code-action
-       :desc "Rename symbol"       "r" #'lsp-rename
-       :desc "Format buffer"       "f" #'apheleia-format-buffer
-       :desc "Organize imports"    "o" #'lsp-organize-imports
-       :desc "Hover doc"           "k" #'lsp-describe-thing-at-point)
+       :desc "Code actions" "a" #'lsp-execute-code-action
+       :desc "Rename" "r" #'lsp-rename
+       :desc "Format" "f" #'apheleia-format-buffer
+       :desc "Imports" "o" #'lsp-organize-imports
+       :desc "Hover" "k" #'lsp-describe-thing-at-point)
 
       (:prefix ("g" . "goto")
-       :desc "Definition"          "d" #'lsp-find-definition
-       :desc "References"          "r" #'lsp-find-references
-       :desc "Implementations"     "i" #'lsp-find-implementation
-       :desc "Type definition"     "t" #'lsp-find-type-definition))
+       :desc "Definition" "d" #'lsp-find-definition
+       :desc "Refs" "r" #'lsp-find-references))
 #+end_src
 
 * VTerm
 #+begin_src emacs-lisp
-(setq vterm-environment '("TERM=xterm-256color"))
-(set-language-environment "UTF-8")
-(set-default-coding-systems 'utf-8)
-
-(custom-set-faces!
- '(vterm :family "JetBrainsMono Nerd Font"))
-
 (after! vterm
-  (setq vterm-buffer-name-string "vterm %s")
-  (setq vterm-shell "/bin/zsh")
-
-  (defadvice! +vterm-use-current-directory-a (fn &rest args)
-    "Make vterm open in the directory of the current buffer."
-    :around #'vterm
-    (let ((default-directory (or (and (buffer-file-name)
-                                      (file-name-directory (buffer-file-name)))
-                                 (and (eq major-mode 'dired-mode)
-                                      (dired-current-directory))
-                                 default-directory)))
-      (apply fn args)))
-
-  (defadvice! +vterm-use-current-directory-b (fn &rest args)
-    "Make Doom's vterm commands open in the directory of the current buffer."
-    :around #'+vterm/here
-    (let ((default-directory (or (and (buffer-file-name)
-                                      (file-name-directory (buffer-file-name)))
-                                 (and (eq major-mode 'dired-mode)
-                                      (dired-current-directory))
-                                 default-directory)))
-      (apply fn args))))
-#+end_src
-
-* Magit
-#+begin_src emacs-lisp
-(after! magit
-  (setq +magit-hub-features t))
+  (setq vterm-shell "/bin/zsh"))
 #+end_src
 
 * Projectile
 #+begin_src emacs-lisp
 (after! projectile
-  (setq projectile-project-search-path '("~/Code/" "~/Projects/" "~/Projects/work/" "~/Projects/personal/" "~/notes/" "~/notes/org/")))
-#+end_src
-
-* Treemacs
-#+begin_src emacs-lisp
-(require 'treemacs-all-the-icons)
-(setq doom-themes-treemacs-theme "all-the-icons")
+  (setq projectile-project-search-path
+        '("~/Code/" "~/Projects/" "~/Projects/work/")))
 #+end_src
