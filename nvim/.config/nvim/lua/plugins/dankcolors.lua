@@ -6,36 +6,36 @@ return {
 			require('base16-colorscheme').setup({
 				base00 = '#131315',
 				base01 = '#131315',
-				base02 = '#858590',
-				base03 = '#858590',
-				base04 = '#dbdbe9',
-				base05 = '#f8f8ff',
-				base06 = '#f8f8ff',
-				base07 = '#f8f8ff',
-				base08 = '#ff9fb5',
-				base09 = '#ff9fb5',
-				base0A = '#dcdbf4',
-				base0B = '#a5ffb6',
-				base0C = '#f2f1ff',
-				base0D = '#dcdbf4',
-				base0E = '#eaeaff',
-				base0F = '#eaeaff',
+				base02 = '#898a94',
+				base03 = '#898a94',
+				base04 = '#e1e3ef',
+				base05 = '#f8f9ff',
+				base06 = '#f8f9ff',
+				base07 = '#f8f9ff',
+				base08 = '#ff9fb7',
+				base09 = '#ff9fb7',
+				base0A = '#d9ddfa',
+				base0B = '#a5ffb4',
+				base0C = '#ecefff',
+				base0D = '#d9ddfa',
+				base0E = '#e2e6ff',
+				base0F = '#e2e6ff',
 			})
 
 			vim.api.nvim_set_hl(0, 'Visual', {
-				bg = '#858590',
-				fg = '#f8f8ff',
+				bg = '#898a94',
+				fg = '#f8f9ff',
 				bold = true
 			})
 			vim.api.nvim_set_hl(0, 'Statusline', {
-				bg = '#dcdbf4',
+				bg = '#d9ddfa',
 				fg = '#131315',
 			})
-			vim.api.nvim_set_hl(0, 'LineNr', { fg = '#858590' })
-			vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = '#f2f1ff', bold = true })
+			vim.api.nvim_set_hl(0, 'LineNr', { fg = '#898a94' })
+			vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = '#ecefff', bold = true })
 
 			vim.api.nvim_set_hl(0, 'Statement', {
-				fg = '#eaeaff',
+				fg = '#e2e6ff',
 				bold = true
 			})
 			vim.api.nvim_set_hl(0, 'Keyword', { link = 'Statement' })
@@ -43,34 +43,34 @@ return {
 			vim.api.nvim_set_hl(0, 'Conditional', { link = 'Statement' })
 
 			vim.api.nvim_set_hl(0, 'Function', {
-				fg = '#dcdbf4',
+				fg = '#d9ddfa',
 				bold = true
 			})
 			vim.api.nvim_set_hl(0, 'Macro', {
-				fg = '#dcdbf4',
+				fg = '#d9ddfa',
 				italic = true
 			})
 			vim.api.nvim_set_hl(0, '@function.macro', { link = 'Macro' })
 
 			vim.api.nvim_set_hl(0, 'Type', {
-				fg = '#f2f1ff',
+				fg = '#ecefff',
 				bold = true,
 				italic = true
 			})
 			vim.api.nvim_set_hl(0, 'Structure', { link = 'Type' })
 
 			vim.api.nvim_set_hl(0, 'String', {
-				fg = '#a5ffb6',
+				fg = '#a5ffb4',
 				italic = true
 			})
 
-			vim.api.nvim_set_hl(0, 'Operator', { fg = '#dbdbe9' })
-			vim.api.nvim_set_hl(0, 'Delimiter', { fg = '#dbdbe9' })
+			vim.api.nvim_set_hl(0, 'Operator', { fg = '#e1e3ef' })
+			vim.api.nvim_set_hl(0, 'Delimiter', { fg = '#e1e3ef' })
 			vim.api.nvim_set_hl(0, '@punctuation.bracket', { link = 'Delimiter' })
 			vim.api.nvim_set_hl(0, '@punctuation.delimiter', { link = 'Delimiter' })
 
 			vim.api.nvim_set_hl(0, 'Comment', {
-				fg = '#858590',
+				fg = '#898a94',
 				italic = true
 			})
 
