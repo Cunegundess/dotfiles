@@ -1,106 +1,38 @@
-#+TITLE: Doom Emacs Configuration
-#+AUTHOR: Lucas Cunegundes
-#+EMAIL: lucascsantana6@gmail.com
-#+DESCRIPTION: Configuração do Doom Emacs
-#+STARTUP: fold
-#+PROPERTY: header-args:emacs-lisp :tangle config.el :cache yes :results silent :padline no
-
-* Table of Contents :TOC_3:noexport:
-- [[#informações-pessoais][Informações Pessoais]]
-- [[#configurações-gerais][Configurações Gerais]]
-- [[#otimizações][Otimizações]]
-- [[#aparência][Aparência]]
-  - [[#fonte][Fonte]]
-  - [[#tema-e-ui][Tema e UI]]
-- [[#org][Org]]
-- [[#lsp][LSP]]
-- [[#debug][Debug]]
-- [[#keybindings][Keybindings]]
-- [[#sql-mode][SQL Mode]]
-- [[#ejc-sql][EJC-SQL]]
-- [[#vterm][VTerm]]
-- [[#magit][Magit]]
-- [[#projectile][Projectile]]
-- [[#treemacs][Treemacs]]
-
-* Informações Pessoais
-#+begin_src emacs-lisp
 (setq user-full-name "Lucas Cunegundes"
       user-mail-address "lucascsantana6@gmail.com")
-#+end_src
-
-* Configurações Gerais
-#+begin_src emacs-lisp
 (setq confirm-kill-emacs #'y-or-n-p
       default-directory "~") 
 
 ;; set specific browser to open links
 ;;(setq browse-url-browser-function 'browse-url-firefox)
-;; set browser to zen-browser
 (setq browse-url-browser-function 'browse-url-generic)
-(setq browse-url-generic-program "zen-browser") 
+(setq browse-url-generic-program "brave-browser")
 
 ;; Speed of which-key popup
 (setq which-key-idle-delay 0.2)
-#+end_src
-* Otimizações
-#+begin_src emacs-lisp
-;; Performance optimizations
-(setq gc-cons-threshold (* 256 1024 1024))
-(setq read-process-output-max (* 4 1024 1024))
-(setq comp-deferred-compilation t)
-(setq comp-async-jobs-number 8)
-
-;; Garbage collector optimization
-(setq gcmh-idle-delay 5)
-(setq gcmh-high-cons-threshold (* 1024 1024 1024))
-
-;; Version control optimization
-(setq vc-handled-backends '(Git))
-
-;; Fix x11 issues
-(setq x-no-window-manager t)
-(setq frame-inhibit-implied-resize t)
-(setq focus-follows-mouse nil)
-#+end_src
-* Aparência
-** Fonte
-#+begin_src emacs-lisp
 (use-package! nerd-icons)
 
 (setq
- ;; doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15 :weight 'bold)
- doom-font (font-spec :family "Geistmono Nerd Font" :size 15 :weight 'bold)
- doom-big-font (font-spec :family "Geistmono Nerd Font" :size 20)
- doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font Mono"))
+ doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15 :weight 'bold)
+ ;; doom-font (font-spec :family "Geistmono Nerd Font" :size 15 :weight 'bold)
+ ;; doom-big-font (font-spec :family "Geistmono Nerd Font" :size 20)
+ ;; doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font Mono"))
 
 (custom-set-faces!
   '(italic :slant italic)
   '(bold :weight bold)
   '(bold-italic :weight bold :slant italic))
-#+end_src
-
-** Tema e UI
-#+begin_src emacs-lisp
 (add-to-list 'custom-theme-load-path "~/.config/doom/themes/")
 
 (setq doom-theme 'doom-tokyo-night
       display-line-numbers-type 'relative)
 
 (beacon-mode 1)
-#+end_src
-
-* Org
-#+begin_src emacs-lisp
 (after! org
   (setq org-directory "~/Documentos/org"
         org-agenda-files '("~/Documentos/org/agenda.org")
         org-log-done 'time)
   (add-hook 'org-mode-hook #'org-bullets-mode))
-#+end_src
-
-* LSP
-#+begin_src emacs-lisp
 ;; LSP support for SQL files
 (use-package lsp-sqls
   :after lsp-mode
@@ -206,10 +138,6 @@
         lsp-ui-sideline-delay 0.2
         lsp-ui-sideline-ignore-duplicate t
         lsp-ui-peek-enable t))
-#+end_src
-
-* Debug
-#+begin_src emacs-lisp
 (after! dape
   (setq dape-buffer-window-arrangement 'right
         dape-info-hide-mode-line t)
@@ -241,10 +169,6 @@
      cwd "/home/lucas/Projects/work/alianca/apps/backend/"
      path-mappings
      (("/home/lucas/Projects/work/alianca/apps/backend/" . "/app")))))
-#+end_src
-
-* Keybindings
-#+begin_src emacs-lisp
 (map! :leader
       (:prefix ("c" . "code")
        :desc "Code actions"        "a" #'lsp-execute-code-action
@@ -258,10 +182,6 @@
        :desc "References"          "r" #'lsp-find-references
        :desc "Implementations"     "i" #'lsp-find-implementation
        :desc "Type definition"     "t" #'lsp-find-type-definition))
-#+end_src
-
-* SQL Mode
-#+begin_src emacs-lisp
 ;; Setup development SQL database
 (setq sql-connection-alist
       '((postgres-nexus
@@ -573,10 +493,6 @@ WHERE tablename = '%s';" table-name)))
         :desc "List tables" "t" #'pg-list-tables
         :desc "Connect to SQL" "s" #'pg-connect
         :desc "Execute SQL query" "q" #'pg-query-to-orgtable)))
-#+end_src
-
-* EJC-SQL
-#+begin_src emacs-lisp
 (after! ejc-sql
   :commands (ejc-sql-mode ejc-sql-connect)
   (setq ejc-sql-separator ";"
@@ -600,16 +516,12 @@ WHERE tablename = '%s';" table-name)))
    :host "localhost"
    :port 5432
    :user "postgres"))
-#+end_src
-
-* VTerm
-#+begin_src emacs-lisp
 ;; Vterm adjustemts
 (setq vterm-environment '("TERM=xterm-256color"))
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
 (custom-set-faces!
-  '(vterm :family "Geistmono Nerd Font"))
+  '(vterm :family "JetBrainsMono Nerd Font"))
 
 ;; open vterm in dired location
 (after! vterm
@@ -675,22 +587,9 @@ WHERE tablename = '%s';" table-name)))
       ;; We are *not* passing 'dir' as an argument to 'vterm' here,
       ;; as it's often designed to pick up the current 'default-directory'.
       (vterm))))
-#+end_src
-
-* Magit
-#+begin_src emacs-lisp
 (after! magit
   (setq +magit-hub-features t))
-#+end_src
-
-* Projectile
-#+begin_src emacs-lisp
 (after! projectile
-  (setq projectile-project-search-path '("~/Projects/" "~/Projects/work/" "~/Projects/personal/" "~/notes/" "~/notes/org/")))
-#+end_src
-
-* Treemacs
-#+begin_src emacs-lisp
+  (setq projectile-project-search-path '("~/Code/" "~/Projects/" "~/Projects/work/" "~/Projects/personal/" "~/notes/" "~/notes/org/")))
 (require 'treemacs-all-the-icons)
 (setq doom-themes-treemacs-theme "all-the-icons")
-#+end_src
