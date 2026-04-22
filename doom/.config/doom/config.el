@@ -38,14 +38,14 @@
   (let* ((root (or (projectile-project-root) default-directory))
          (env-file (expand-file-name ".env" root)))
     (when (file-exists-p env-file)
-      (message "Loading .env from: %s" root)
-      (goto-char (point-min))
-      (while (re-search-forward "^\\([^=]+\\)=\\"?\\([^\"\n]*\\)\"?$" nil t)
-        (let ((key (match-string 1))
-              (val (match-string 2)))
-          (when (and key (string-match "^[A-Za-z_]+$" key))
-            (setenv key val)
-            (message "Loaded: %s" key)))))))
+      (with-temp-buffer
+        (insert-file-contents env-file)
+        (goto-char (point-min))
+        (while (re-search-forward "^\\([^=]+\\)=\\\"?\\([^\"\n]*\\)\\\"?$" nil t)
+          (let ((key (match-string 1))
+                (val (match-string 2)))
+            (when (and key (string-match "^[A-Za-z_]+$" key))
+              (setenv key val))))))))
 
 ;; Python mode hooks
 (after! python
