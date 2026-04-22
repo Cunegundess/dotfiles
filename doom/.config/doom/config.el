@@ -16,7 +16,7 @@
 (use-package! nerd-icons)
 
 (setq
- doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15 :weight 'bold))
+ doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 12 :weight 'bold))
 
 (custom-set-faces!
  '(italic :slant italic)
@@ -59,7 +59,7 @@
 (after! lsp-pyright
   (setq lsp-pyright-langserver-command "basedpyright-langserver"
         lsp-pyright-type-checking-mode "off"
-        lsp-pyright-diagnostic-mode "openFilesOnly"
+        lsp-pyright-diagnostic-mode "openFilesOnly"))
 
         ;; Supressões para Django
         ;; lsp-pyright-diagnostic-severity-overrides
@@ -102,9 +102,9 @@
   ;;         (deprecated :strike-through t)))
   (setq lsp-headerline-breadcrumb-enable t
         lsp-headerline-breadcrumb-icons-enable t
-        ;; lsp-headerline-breadcrumb-enable-symbol-numbers nil
-        ;; lsp-headerline-breadcrumb-enable-diagnostics nil)
-  (setq lsp-icons-provider 'nerd-icons)
+        lsp-headerline-breadcrumb-enable-symbol-numbers t
+        lsp-headerline-breadcrumb-enable-diagnostics nil)
+  (setq lsp-icons-provider 'nerd-icons))
   ;; (setq lsp-idle-delay 0.2
   ;;       lsp-log-io nil
   ;;       lsp-completion-provider :capf
@@ -145,17 +145,24 @@
 (after! dape
   (setq dape-buffer-window-arrangement 'right
         dape-info-hide-mode-line t)
-
-  ;; Debug local no .venv do projeto
+        
   (add-to-list
    'dape-configs
-   `(python-local
+   `(django
      modes (python-mode python-ts-mode)
      command "python"
      command-args ("-m" "debugpy.adapter")
-     port 5678
-     host "127.0.0.1"
-     cwd ,(lambda () (or (projectile-project-root) default-directory)))))
+     cwd ,(lambda () (projectile-project-root))))
+
+  (add-to-list
+   'dape-configs
+   `(alianca
+     modes (python-mode python-ts-mode)
+     command "python"
+     command-args ("-m" "debugpy.adapter")
+     cwd ,(lambda ()
+            (expand-file-name "apps/backend"
+                              (projectile-project-root))))))
 ;; PGmacs setup - conecta usando variáveis do .env do projeto
 (use-package pgmacs
   :after pg
