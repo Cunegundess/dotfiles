@@ -110,18 +110,18 @@
    'dape-configs
    `(django
      modes (python-mode python-ts-mode)
+     type "python"
      request "attach"
-     host "127.0.0.1"
-     port 5678
+     connect (:host "127.0.0.1" :port 5678)
      cwd ,(lambda () (projectile-project-root))))
 
   (add-to-list
    'dape-configs
    `(alianca
      modes (python-mode python-ts-mode)
+     type "python"
      request "attach"
-     host "127.0.0.1"
-     port 5678
+     connect (:host "127.0.0.1" :port 5678)
      cwd ,(lambda () (my/project-root)))))
 (use-package pgmacs
   :after pg
