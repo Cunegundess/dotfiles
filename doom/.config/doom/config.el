@@ -62,27 +62,27 @@
         lsp-pyright-diagnostic-mode "openFilesOnly"
 
         ;; Supressões para Django
-        lsp-pyright-diagnostic-severity-overrides
-        '(("reportUnknownMemberType" . "none")
-          ("reportUnknownVariableType" . "none")
-          ("reportUnknownArgumentType" . "none")
-          ("reportUnknownParameterType" . "none")
-          ("reportMissingTypeStubs" . "none")
-          ("reportGeneralTypeIssues" . "none")
-          ("reportOptionalMemberAccess" . "none")
-          ("reportOptionalSubscript" . "none")
-          ("reportPrivateImportUsage" . "none")
-          ("reportAttributeAccessIssue" . "none")
-          ("reportIncompatibleMethodOverride" . "none"))))
+        ;; lsp-pyright-diagnostic-severity-overrides
+        ;; '(("reportUnknownMemberType" . "none")
+        ;;   ("reportUnknownVariableType" . "none")
+        ;;   ("reportUnknownArgumentType" . "none")
+        ;;   ("reportUnknownParameterType" . "none")
+        ;;   ("reportMissingTypeStubs" . "none")
+        ;;   ("reportGeneralTypeIssues" . "none")
+        ;;   ("reportOptionalMemberAccess" . "none")
+        ;;   ("reportOptionalSubscript" . "none")
+        ;;   ("reportPrivateImportUsage" . "none")
+        ;;   ("reportAttributeAccessIssue" . "none")
+        ;;   ("reportIncompatibleMethodOverride" . "none"))))
 
 ;; Flycheck
-(after! flycheck
-  (setq flycheck-indication-mode 'left-fringe)
-  (setq flycheck-highlighting-mode nil)
-  (setq flycheck-display-errors-function nil)
-  (setq flycheck-idle-change-delay 0.5)
-  (setq flycheck-checker-error-threshold nil)
-  (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled)))
+;;(after! flycheck
+  ;; (setq flycheck-indication-mode 'left-fringe)
+  ;; (setq flycheck-highlighting-mode nil)
+  ;; (setq flycheck-display-errors-function nil)
+  ;; (setq flycheck-idle-change-delay 0.5)
+  ;; (setq flycheck-checker-error-threshold nil)
+  ;; (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled)))
 
 ;; Company
 (after! company
@@ -97,45 +97,45 @@
 (after! lsp-mode
   (add-hook 'lsp-mode-hook (lambda () (lsp-browser-mode -1)))
   (setq lsp-diagnostics-provider :flycheck)
-  (setq lsp-diagnostics-attributes
-        '((unnecessary :foreground "gray")
-          (deprecated :strike-through t)))
+  ;; (setq lsp-diagnostics-attributes
+  ;;       '((unnecessary :foreground "gray")
+  ;;         (deprecated :strike-through t)))
   (setq lsp-headerline-breadcrumb-enable t
         lsp-headerline-breadcrumb-icons-enable t
-        lsp-headerline-breadcrumb-enable-symbol-numbers nil
-        lsp-headerline-breadcrumb-enable-diagnostics nil)
+        ;; lsp-headerline-breadcrumb-enable-symbol-numbers nil
+        ;; lsp-headerline-breadcrumb-enable-diagnostics nil)
   (setq lsp-icons-provider 'nerd-icons)
-  (setq lsp-idle-delay 0.2
-        lsp-log-io nil
-        lsp-completion-provider :capf
-        lsp-enable-file-watchers nil
-        lsp-enable-folding t
-        lsp-enable-text-document-color t
-        lsp-enable-on-type-formatting nil
-        lsp-enable-snippet nil
-        lsp-enable-symbol-highlighting t
-        lsp-modeline-diagnostics-enable nil
-        lsp-modeline-code-actions-enable nil
-        lsp-modeline-workspace-status-enable t
-        lsp-semantic-tokens-enable nil
-        lsp-completion-enable t
-        lsp-completion-show-detail t
-        lsp-completion-show-kind t
-        lsp-enable-links nil))
+  ;; (setq lsp-idle-delay 0.2
+  ;;       lsp-log-io nil
+  ;;       lsp-completion-provider :capf
+  ;;       lsp-enable-file-watchers nil
+  ;;       lsp-enable-folding t
+  ;;       lsp-enable-text-document-color t
+  ;;       lsp-enable-on-type-formatting nil
+  ;;       lsp-enable-snippet nil
+  ;;       lsp-enable-symbol-highlighting t
+  ;;       lsp-modeline-diagnostics-enable nil
+  ;;       lsp-modeline-code-actions-enable nil
+  ;;       lsp-modeline-workspace-status-enable t
+  ;;       lsp-semantic-tokens-enable nil
+  ;;       lsp-completion-enable t
+  ;;       lsp-completion-show-detail t
+  ;;       lsp-completion-show-kind t
+  ;;       lsp-enable-links nil))
 
 ;; LSP UI
 (after! lsp-ui
   (add-hook 'lsp-mode-hook #'lsp-ui-mode)
   (setq lsp-ui-doc-enable t
         lsp-ui-doc-use-childframe t
-        lsp-ui-doc-position 'at-point
-        lsp-ui-doc-max-height 12
-        lsp-ui-doc-max-width 80
+        ;; lsp-ui-doc-position 'at-point
+        ;; lsp-ui-doc-max-height 12
+        ;; lsp-ui-doc-max-width 80
         lsp-ui-doc-show-with-cursor t
-        lsp-ui-doc-show-with-mouse nil
+        lsp-ui-doc-show-with-mouse t
         lsp-ui-doc-delay 0.2
         lsp-ui-sideline-enable t
-        lsp-ui-sideline-show-code-actions nil
+        lsp-ui-sideline-show-code-actions t
         lsp-ui-sideline-show-diagnostics t
         lsp-ui-sideline-update-mode 'point
         lsp-ui-sideline-show-hover nil
