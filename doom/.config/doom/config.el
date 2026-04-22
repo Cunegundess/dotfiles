@@ -1,7 +1,14 @@
 (setq user-full-name "Lucas Cunegundes"
       user-mail-address "lucascsantana6@gmail.com")
 (setq confirm-kill-emacs #'y-or-n-p
-      default-directory "~") 
+      default-directory "~")
+
+(defun my/org-babel-tangle-config ()
+  (when (string-equal (buffer-file-name)
+                      (expand-file-name "~/dotfiles/doom/.config/doom/config.org"))
+    (org-babel-tangle)))
+
+(add-hook 'after-save-hook #'my/org-babel-tangle-config)
 
 ;; set specific browser to open links
 ;;(setq browse-url-browser-function 'browse-url-firefox)
@@ -22,7 +29,7 @@
   '(italic :slant italic)
   '(bold :weight bold)
   '(bold-italic :weight bold :slant italic))
-(add-to-list 'custom-theme-load-path "~/.config/doom/themes/")
+;; (add-to-list 'custom-theme-load-path "~/.config/doom/themes/")
 
 (setq doom-theme 'doom-tokyo-night
       display-line-numbers-type 'relative)
