@@ -339,6 +339,12 @@ animations {
 // Find more information on the wiki:
 // https://yalter.github.io/niri/Configuration:-Window-Rules
 
+// Force Emacs to show title bar (remove server-side decorations)
+window-rule {
+    match app-id="emacs"
+    title-bar true
+}
+
 // Work around WezTerm's initial configure bug
 // by setting an empty default-column-width.
 window-rule {
