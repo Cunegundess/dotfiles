@@ -126,7 +126,7 @@
 (use-package pgmacs
   :after pg
   :commands (pgmacs pgmacs-open-string pgmacs-open-uri)
-  :config
+  :confi        g
   (setq pgmacs-default-display-limit 100)
 
   (defun pgmacs-connect-current-project ()
