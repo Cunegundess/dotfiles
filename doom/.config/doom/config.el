@@ -16,7 +16,9 @@
 (use-package! nerd-icons)
 
 ;; (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 12 :weight 'bold))
-(setq doom-font (font-spec :family "GeistMono Nerd Font" :size 14 :weight 'regular))
+(setq doom-font (font-spec :family "GeistMono Nerd Font" :size 14 :weight 'regular)
+      doom-unicode-font (font-spec :family "Noto Color Emoji")
+      doom-emoji-font (font-spec :family "Noto Color Emoji"))
 
 (custom-set-faces!
  '(italic :slant italic)
