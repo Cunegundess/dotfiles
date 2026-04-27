@@ -15,7 +15,8 @@
 (setq which-key-idle-delay 0.2)
 (use-package! nerd-icons)
 
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 12 :weight 'bold))
+;; (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 12 :weight 'bold))
+(setq doom-font (font-spec :family "GeistMono Nerd Font" :size 12 :weight 'medium))
 
 (custom-set-faces!
  '(italic :slant italic)
@@ -126,7 +127,7 @@
 (use-package pgmacs
   :after pg
   :commands (pgmacs pgmacs-open-string pgmacs-open-uri)
-  :confi        g
+  :config
   (setq pgmacs-default-display-limit 100)
 
   (defun pgmacs-connect-current-project ()
