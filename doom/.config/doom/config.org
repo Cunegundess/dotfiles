@@ -34,6 +34,7 @@
 
 ;; (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 12 :weight 'bold))
 (setq doom-font (font-spec :family "GeistMono Nerd Font" :size 12 :weight 'medium))
+;; (setq doom-font (font-spec :family "Noto Sans Mono Nerd Font" :size 12 :weight 'medium))
 
 (custom-set-faces!
  '(italic :slant italic)
