@@ -33,16 +33,14 @@
 (use-package! nerd-icons)
 
 ;; (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 12 :weight 'bold))
-(setq doom-font (font-spec :family "GeistMono Nerd Font" :size 12 :weight 'medium))
-;; (setq doom-font (font-spec :family "Noto Sans Mono Nerd Font" :size 12 :weight 'medium))
+(setq doom-font (font-spec :family "GeistMono Nerd Font" :size 14 :weight 'light))
 
 (custom-set-faces!
  '(italic :slant italic)
  '(bold :weight bold)
  '(bold-italic :weight bold :slant italic))
 
-(setq doom-theme 'doom-tokyo-night
-      display-line-numbers-type 'relative)
+(setq doom-theme 'doom-tokyo-night display-line-numbers-type 'relative)
 
 (beacon-mode 1)
 #+end_src
