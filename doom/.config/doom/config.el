@@ -29,8 +29,8 @@
 
 (beacon-mode 1)
 (after! org
-  (setq org-directory "~/Documentos/org"
-        org-agenda-files '("~/Documentos/org/agenda.org")
+  (setq org-directory "~/Documentos/notes"
+        org-agenda-files '("~/Documentos/notes/agenda.org")
         org-log-done 'time)
   (add-hook 'org-mode-hook #'org-bullets-mode))
 (after! devdocs
