@@ -98,7 +98,8 @@
 (after! python
   (add-hook 'python-mode-hook #'my/auto-activate-venv)
   (add-hook 'python-mode-hook #'my/load-project-env)
-  (add-hook 'python-mode-local-vars-hook #'lsp-deferred))
+  ;; (add-hook 'python-mode-hook #'lsp-deferred)
+  ;; (add-hook 'python-mode-local-vars-hook #'lsp-deferred))
 (after! lsp-pyright
   (setq lsp-pyright-langserver-command "basedpyright-langserver"
         lsp-pyright-type-checking-mode "off"
@@ -106,28 +107,21 @@
         lsp-pyright-venv-path "."
         lsp-pyright-venv-directory ".venv"))
 (after! lsp-mode
-  ;; (add-hook 'lsp-mode-hook (lambda () (lsp-browser-mode -1)))
-  (add-hook 'lsp-mode-hook (lambda () (lsp-ui-mode 1)))
+  (add-hook 'lsp-mode-hook #'lsp-ui-mode))
   (setq lsp-completion-provider :capf
         lsp-diagnostics-provider :flycheck
         lsp-headerline-breadcrumb-enable t
         lsp-headerline-breadcrumb-icons-enable t
-        lsp-headerline-breadcrumb-enable-symbol-numbers t
         lsp-headerline-breadcrumb-enable-diagnostics nil
         lsp-icons-provider 'nerd-icons))
 
-(after! lsp-ui
+(use-package! lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :config
   (setq lsp-ui-doc-enable t
-        lsp-ui-doc-use-childframe f
-        lsp-ui-doc-show-with-cursor t
-        lsp-ui-doc-show-with-mouse t
         lsp-ui-doc-delay 0.2
-        lsp-ui-sideline-enable t
-        lsp-ui-sideline-show-code-actions t
-        lsp-ui-sideline-show-diagnostics t
-        lsp-ui-sideline-update-mode 'point
-        lsp-ui-sideline-delay 0.2
-        lsp-ui-peek-enable t))
+        lsp-ui-doc-show-with-cursor t
+        lsp-ui-sideline-enable t))
 (after! dape
   (setq dape-buffer-window-arrangement 'right
         dape-info-hide-mode-line t)
