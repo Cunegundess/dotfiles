@@ -91,11 +91,7 @@
         lsp-headerline-breadcrumb-enable-diagnostics nil
         lsp-icons-provider 'nerd-icons))
 
-(use-package lsp-ui
-  :commands lsp-ui-mode
-  :after lsp-mode
-  :hook (lsp-mode . lsp-ui-mode)
-  :config
+(after! lsp-ui
   (setq lsp-ui-doc-enable t
         lsp-ui-doc-use-childframe t
         lsp-ui-doc-show-with-cursor t
@@ -107,6 +103,10 @@
         lsp-ui-sideline-update-mode 'point
         lsp-ui-sideline-delay 0.2
         lsp-ui-peek-enable t))
+
+(after! lsp-mode
+  (require 'lsp-ui)
+  (add-hook 'lsp-mode-hook #'lsp-ui-mode))
 (after! dape
   (setq dape-buffer-window-arrangement 'right
         dape-info-hide-mode-line t)
