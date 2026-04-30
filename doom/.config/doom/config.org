@@ -3,7 +3,7 @@
 #+EMAIL: lucascsantana6@gmail.com
 #+DESCRIPTION: Configuração do Doom Emacs
 #+STARTUP: fold
-#+PROPERTY: header-args:emacs-lisp :tangle config.el :cache yes :results silent :padline no
+#+PROPERTY: header-args:emacs-lisp :tangle config.el :results silent :padline no
 
 * Informações Pessoais
 #+begin_src emacs-lisp
@@ -23,16 +23,15 @@
 
 (add-hook 'after-save-hook #'my/org-babel-tangle-config)
 
-(setq browse-url-browser-function 'browse-url-generic)
-(setq browse-url-generic-program "brave-browser")
-(setq which-key-idle-delay 0.2)
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "brave-browser"
+      which-key-idle-delay 0.2)
 #+end_src
 
 * Aparência
 #+begin_src emacs-lisp
 (use-package! nerd-icons)
 
-;; (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 12 :weight 'bold))
 (setq doom-font (font-spec :family "GeistMono Nerd Font" :size 14 :weight 'regular)
       doom-unicode-font (font-spec :family "Noto Color Emoji")
       doom-emoji-font (font-spec :family "Noto Color Emoji"))
@@ -42,12 +41,13 @@
  '(bold :weight bold)
  '(bold-italic :weight bold :slant italic))
 
-(setq doom-theme 'doom-monokai-spectrum display-line-numbers-type 'relative)
+(setq doom-theme 'doom-monokai-spectrum
+      display-line-numbers-type 'relative)
 
 (beacon-mode 1)
 #+end_src
 
-* Org
+* Org Mode
 #+begin_src emacs-lisp
 (after! org
   (setq org-directory "~/Documentos/notes"
@@ -62,7 +62,7 @@
   (setq devdocs-data-dir "~/.local/share/devdocs"))
 #+end_src
 
-* my/functions
+* Funções Personalizadas
 #+begin_src emacs-lisp
 ;; Detectar root corretamente (suporte apps/backend)
 (defun my/project-root ()
@@ -93,20 +93,9 @@
             (when (and key (string-match "^[A-Za-z_]+$" key))
               (setenv key val))))))))
 #+end_src
-* Python + LSP
+
+* AutoComplete
 #+begin_src emacs-lisp
-(after! python
-  (add-hook 'python-mode-hook #'my/auto-activate-venv)
-  (add-hook 'python-mode-hook #'my/load-project-env)
-  (add-hook 'python-mode-local-vars-hook #'lsp-deferred))
-
-(after! lsp-pyright
-  (setq lsp-pyright-langserver-command "basedpyright-langserver"
-        lsp-pyright-type-checking-mode "off"
-        lsp-pyright-diagnostic-mode "openFilesOnly"
-        lsp-pyright-venv-path "."
-        lsp-pyright-venv-directory ".venv"))
-
 (after! company
   (global-company-mode -1))
 
@@ -114,8 +103,7 @@
       company-minimum-prefix-length nil)
 
 (use-package! corfu
-  :init
-  (global-corfu-mode)
+  :init (global-corfu-mode)
   :custom
   (corfu-auto t)
   (corfu-auto-delay 0.1)
@@ -140,7 +128,29 @@
                            #'kind-icon-margin-formatter)))
   :custom
   (kind-icon-default-face 'corfu-default))
+#+end_src
 
+* LSP
+** Python
+#+begin_src emacs-lisp
+(after! python
+  (add-hook 'python-mode-hook #'my/auto-activate-venv)
+  (add-hook 'python-mode-hook #'my/load-project-env)
+  (add-hook 'python-mode-local-vars-hook #'lsp-deferred))
+#+end_src
+
+** Pyright
+#+begin_src emacs-lisp
+(after! lsp-pyright
+  (setq lsp-pyright-langserver-command "basedpyright-langserver"
+        lsp-pyright-type-checking-mode "off"
+        lsp-pyright-diagnostic-mode "openFilesOnly"
+        lsp-pyright-venv-path "."
+        lsp-pyright-venv-directory ".venv"))
+#+end_src
+
+** LSP Mode
+#+begin_src emacs-lisp
 (after! lsp-mode
   (add-hook 'lsp-mode-hook (lambda () (lsp-browser-mode -1)))
   (setq lsp-completion-provider :capf
@@ -150,14 +160,12 @@
         lsp-headerline-breadcrumb-enable-symbol-numbers t
         lsp-headerline-breadcrumb-enable-diagnostics nil
         lsp-icons-provider 'nerd-icons))
+#+end_src
 
+** LSP UI
+#+begin_src emacs-lisp
 (use-package! lsp-ui
-  :defer t
   :hook (lsp-mode . lsp-ui-mode)
-  :init
-  (add-hook 'lsp-mode-hook
-            (lambda ()
-              (require 'lsp-ui)))
   :config
   (setq lsp-ui-doc-enable t
         lsp-ui-doc-use-childframe t
@@ -172,7 +180,7 @@
         lsp-ui-peek-enable t))
 #+end_src
 
-* Debug
+* Depuração
 #+begin_src emacs-lisp
 (after! dape
   (setq dape-buffer-window-arrangement 'right
@@ -218,7 +226,7 @@
                user password dbname host port)))))
 #+end_src
 
-* Keybindings
+* Atalhos de Teclado
 #+begin_src emacs-lisp
 (map! :leader
       (:prefix ("c" . "code")

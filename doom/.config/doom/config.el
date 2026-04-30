@@ -10,12 +10,11 @@
 
 (add-hook 'after-save-hook #'my/org-babel-tangle-config)
 
-(setq browse-url-browser-function 'browse-url-generic)
-(setq browse-url-generic-program "brave-browser")
-(setq which-key-idle-delay 0.2)
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "brave-browser"
+      which-key-idle-delay 0.2)
 (use-package! nerd-icons)
 
-;; (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 12 :weight 'bold))
 (setq doom-font (font-spec :family "GeistMono Nerd Font" :size 14 :weight 'regular)
       doom-unicode-font (font-spec :family "Noto Color Emoji")
       doom-emoji-font (font-spec :family "Noto Color Emoji"))
@@ -25,7 +24,8 @@
  '(bold :weight bold)
  '(bold-italic :weight bold :slant italic))
 
-(setq doom-theme 'doom-monokai-spectrum display-line-numbers-type 'relative)
+(setq doom-theme 'doom-monokai-spectrum
+      display-line-numbers-type 'relative)
 
 (beacon-mode 1)
 (after! org
@@ -63,18 +63,6 @@
                 (val (match-string 2)))
             (when (and key (string-match "^[A-Za-z_]+$" key))
               (setenv key val))))))))
-(after! python
-  (add-hook 'python-mode-hook #'my/auto-activate-venv)
-  (add-hook 'python-mode-hook #'my/load-project-env)
-  (add-hook 'python-mode-local-vars-hook #'lsp-deferred))
-
-(after! lsp-pyright
-  (setq lsp-pyright-langserver-command "basedpyright-langserver"
-        lsp-pyright-type-checking-mode "off"
-        lsp-pyright-diagnostic-mode "openFilesOnly"
-        lsp-pyright-venv-path "."
-        lsp-pyright-venv-directory ".venv"))
-
 (after! company
   (global-company-mode -1))
 
@@ -82,8 +70,7 @@
       company-minimum-prefix-length nil)
 
 (use-package! corfu
-  :init
-  (global-corfu-mode)
+  :init (global-corfu-mode)
   :custom
   (corfu-auto t)
   (corfu-auto-delay 0.1)
@@ -108,7 +95,16 @@
                            #'kind-icon-margin-formatter)))
   :custom
   (kind-icon-default-face 'corfu-default))
-
+(after! python
+  (add-hook 'python-mode-hook #'my/auto-activate-venv)
+  (add-hook 'python-mode-hook #'my/load-project-env)
+  (add-hook 'python-mode-local-vars-hook #'lsp-deferred))
+(after! lsp-pyright
+  (setq lsp-pyright-langserver-command "basedpyright-langserver"
+        lsp-pyright-type-checking-mode "off"
+        lsp-pyright-diagnostic-mode "openFilesOnly"
+        lsp-pyright-venv-path "."
+        lsp-pyright-venv-directory ".venv"))
 (after! lsp-mode
   (add-hook 'lsp-mode-hook (lambda () (lsp-browser-mode -1)))
   (setq lsp-completion-provider :capf
@@ -118,14 +114,8 @@
         lsp-headerline-breadcrumb-enable-symbol-numbers t
         lsp-headerline-breadcrumb-enable-diagnostics nil
         lsp-icons-provider 'nerd-icons))
-
 (use-package! lsp-ui
-  :defer t
   :hook (lsp-mode . lsp-ui-mode)
-  :init
-  (add-hook 'lsp-mode-hook
-            (lambda ()
-              (require 'lsp-ui)))
   :config
   (setq lsp-ui-doc-enable t
         lsp-ui-doc-use-childframe t
