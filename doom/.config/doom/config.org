@@ -132,10 +132,14 @@
 
 (use-package! kind-icon
   :after corfu
+  :init
+  (add-hook 'corfu-mode-hook
+            (lambda ()
+              (require 'kind-icon)
+              (add-to-list 'corfu-margin-formatters
+                           #'kind-icon-margin-formatter)))
   :custom
-  (kind-icon-default-face 'corfu-default)
-  :config
-  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+  (kind-icon-default-face 'corfu-default))
 
 (after! lsp-mode
   (add-hook 'lsp-mode-hook (lambda () (lsp-browser-mode -1)))

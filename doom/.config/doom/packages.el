@@ -26,7 +26,7 @@
 (package! org-auto-tangle)
 (package! restclient)
 (package! devdocs)
-(package! kind-icons)
+(package! kind-icon)
 
 (package! pg
   :recipe (:host github :repo "emarsden/pg-el"))
