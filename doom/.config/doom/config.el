@@ -106,10 +106,8 @@
         lsp-pyright-venv-path "."
         lsp-pyright-venv-directory ".venv"))
 (after! lsp-mode
-  (add-hook 'lsp-mode-hook (lambda ()
-                             (unless (bound-and-true-p lsp-ui-mode)
-                               (lsp-ui-mode 1))))
-  (add-hook 'lsp-mode-hook (lambda () (lsp-browser-mode -1)))
+  ;; (add-hook 'lsp-mode-hook (lambda () (lsp-browser-mode -1)))
+  (add-hook 'lsp-mode-hook (lambda () (lsp-ui-mode 1)))
   (setq lsp-completion-provider :capf
         lsp-diagnostics-provider :flycheck
         lsp-headerline-breadcrumb-enable t
@@ -117,9 +115,10 @@
         lsp-headerline-breadcrumb-enable-symbol-numbers t
         lsp-headerline-breadcrumb-enable-diagnostics nil
         lsp-icons-provider 'nerd-icons))
+
 (after! lsp-ui
   (setq lsp-ui-doc-enable t
-        lsp-ui-doc-use-childframe t
+        lsp-ui-doc-use-childframe f
         lsp-ui-doc-show-with-cursor t
         lsp-ui-doc-show-with-mouse t
         lsp-ui-doc-delay 0.2

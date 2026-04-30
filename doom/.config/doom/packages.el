@@ -15,6 +15,7 @@
 (package! github-dark-vscode-theme)
 (package! hybrid-reverse-theme)
 (package! iceberg-theme)
+(package! lsp-ui)
 
 (package! org-bullets)
 (package! projectile)
