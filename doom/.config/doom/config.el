@@ -66,7 +66,7 @@
 (after! python
   (add-hook 'python-mode-hook #'my/auto-activate-venv)
   (add-hook 'python-mode-hook #'my/load-project-env)
-  (add-hook 'python-mode-hook #'lsp-deferred))
+  (add-hook 'python-mode-local-vars-hook #'lsp-deferred))
 
 (after! lsp-pyright
   (setq lsp-pyright-langserver-command "basedpyright-langserver"
@@ -76,22 +76,53 @@
         lsp-pyright-venv-directory ".venv"))
 
 (after! company
-  (setq company-idle-delay 0.1
-        company-minimum-prefix-length 1))
+  (global-company-mode -1))
 
-(after! corfu
-  (global-corfu-mode 0))
+(setq company-idle-delay nil
+      company-minimum-prefix-length nil)
+
+(use-package! corfu
+  :init
+  (global-corfu-mode)
+  :custom
+  (corfu-auto t)
+  (corfu-auto-delay 0.1)
+  (corfu-auto-prefix 1)
+  (corfu-cycle t)
+  (corfu-preview-current nil))
+
+(use-package! cape
+  :after corfu
+  :init
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-keyword))
+
+(use-package! kind-icon
+  :after corfu
+  :custom
+  (kind-icon-default-face 'corfu-default)
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 (after! lsp-mode
   (add-hook 'lsp-mode-hook (lambda () (lsp-browser-mode -1)))
-  (setq lsp-diagnostics-provider :flycheck
+  (setq lsp-completion-provider :capf
+        lsp-diagnostics-provider :flycheck
         lsp-headerline-breadcrumb-enable t
         lsp-headerline-breadcrumb-icons-enable t
         lsp-headerline-breadcrumb-enable-symbol-numbers t
         lsp-headerline-breadcrumb-enable-diagnostics nil
         lsp-icons-provider 'nerd-icons))
 
-(after! lsp-ui
+(use-package! lsp-ui
+  :defer t
+  :hook (lsp-mode . lsp-ui-mode)
+  :init
+  (add-hook 'lsp-mode-hook
+            (lambda ()
+              (require 'lsp-ui)))
+  :config
   (setq lsp-ui-doc-enable t
         lsp-ui-doc-use-childframe t
         lsp-ui-doc-show-with-cursor t
@@ -103,10 +134,6 @@
         lsp-ui-sideline-update-mode 'point
         lsp-ui-sideline-delay 0.2
         lsp-ui-peek-enable t))
-
-(after! lsp-mode
-  (require 'lsp-ui)
-  (add-hook 'lsp-mode-hook #'lsp-ui-mode))
 (after! dape
   (setq dape-buffer-window-arrangement 'right
         dape-info-hide-mode-line t)
