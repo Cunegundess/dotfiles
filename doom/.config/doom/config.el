@@ -91,8 +91,11 @@
         lsp-headerline-breadcrumb-enable-diagnostics nil
         lsp-icons-provider 'nerd-icons))
 
-(after! lsp-ui
-  (add-hook 'lsp-mode-hook #'lsp-ui-mode)
+(use-package lsp-ui
+  :commands lsp-ui-mode
+  :after lsp-mode
+  :hook (lsp-mode . lsp-ui-mode)
+  :config
   (setq lsp-ui-doc-enable t
         lsp-ui-doc-use-childframe t
         lsp-ui-doc-show-with-cursor t
