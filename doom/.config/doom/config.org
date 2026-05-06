@@ -41,7 +41,7 @@
  '(bold :weight bold)
  '(bold-italic :weight bold :slant italic))
 
-(setq doom-theme 'doom-monokai-spectrum
+(setq doom-theme 'catppuccin
       display-line-numbers-type 'relative)
 
 (beacon-mode 1)
