@@ -32,14 +32,17 @@
 
 (after! org
   (setq org-directory "~/Documentos/notes"
-        org-agenda-files '("~/Documentos/notes/agenda.org")
-        org-log-done 'time
-        org-gcal-client-id my/org-gcal-client-id
-        org-gcal-client-secret my/org-gcal-client-id
-        org-gcal-fetch-file-alist
-        '(("lucascsantana6@gmail.com" . "~/Documentos/notes/gcal.org")))
+        org-agenda-files '("~/Documentos/notes/agenda.org" "~/Documentos/notes/gcal.org")
+        org-log-done 'time)
 
   (add-hook 'org-mode-hook #'org-bullets-mode))
+
+(after! org-gcal
+  (setq org-gcal-client-id my/org-gcal-client-id
+        org-gcal-client-secret my/org-gcal-client-secret
+        org-gcal-fetch-file-alist
+        '(("lucascsantana6@gmail.com"
+           . "~/Documentos/notes/gcal.org"))))
 (after! devdocs
   (setq devdocs-data-dir "~/.local/share/devdocs"))
 ;; Detectar root corretamente (suporte apps/backend)
