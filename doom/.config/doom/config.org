@@ -49,14 +49,16 @@
 
 * Org Mode
 #+begin_src emacs-lisp
+(load! "secrets")
+
 (after! org
   (setq org-directory "~/Documentos/notes"
         org-agenda-files '("~/Documentos/notes/agenda.org")
         org-log-done 'time
-        org-gcal-client-id "SEU_CLIENT_ID"
-        org-gcal-client-secret "SEU_CLIENT_SECRET"
+        org-gcal-client-id my/org-gcal-client-id
+        org-gcal-client-secret my/org-gcal-client-id
         org-gcal-fetch-file-alist
-        '(("seuemail@gmail.com" . "~/Documentos/notes/gcal.org")))
+        '(("lucascsantana6@gmail.com" . "~/Documentos/notes/gcal.org")))
 
   (add-hook 'org-mode-hook #'org-bullets-mode))
 #+end_src
