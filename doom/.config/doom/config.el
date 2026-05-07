@@ -31,7 +31,12 @@
 (after! org
   (setq org-directory "~/Documentos/notes"
         org-agenda-files '("~/Documentos/notes/agenda.org")
-        org-log-done 'time)
+        org-log-done 'time
+        org-gcal-client-id "SEU_CLIENT_ID"
+        org-gcal-client-secret "SEU_CLIENT_SECRET"
+        org-gcal-fetch-file-alist
+        '(("seuemail@gmail.com" . "~/Documentos/notes/gcal.org")))
+
   (add-hook 'org-mode-hook #'org-bullets-mode))
 (after! devdocs
   (setq devdocs-data-dir "~/.local/share/devdocs"))

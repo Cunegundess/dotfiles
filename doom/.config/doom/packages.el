@@ -28,6 +28,7 @@
 (package! restclient)
 (package! devdocs)
 (package! kind-icon)
+(package! org-gcal)
 
 (package! pg
   :recipe (:host github :repo "emarsden/pg-el"))
