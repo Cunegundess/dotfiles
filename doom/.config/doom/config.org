@@ -41,8 +41,21 @@
  '(bold :weight bold)
  '(bold-italic :weight bold :slant italic))
 
-(setq doom-theme 'catppuccin
-      display-line-numbers-type 'relative)
+(setq doom-theme 'modus-vivendi)
+
+(setq display-line-numbers-type 'relative)
+
+;: accented borderless padded
+(setq modus-themes-mode-line '(borderless)) 
+(setq modus-themes-region '(accented))
+;(setq modus-themes-region '(bg-only))
+;(setq modus-themes-region '(bg-only no-extend))
+(setq modus-themes-bold-constructs t)
+;(setq modus-themes-italic-constructs t)
+;(setq modus-themes-paren-match '(bold intense underline))
+;(setq modus-themes-syntax '(faint))
+;(setq modus-themes-syntax '(alt-syntax))
+;(setq modus-themes-syntax '(green-strings yellow-comments))
 
 (beacon-mode 1)
 #+end_src
