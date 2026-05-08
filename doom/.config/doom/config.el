@@ -107,7 +107,7 @@
   (kind-icon-default-face 'corfu-default))
 (after! python
   (add-hook 'python-mode-hook #'my/auto-activate-venv)
-  (add-hook 'python-mode-hook #'my/load-project-env)
+  (add-hook 'python-mode-hook #'my/load-project-env))
   ;; (add-hook 'python-mode-hook #'lsp-deferred)
   ;; (add-hook 'python-mode-local-vars-hook #'lsp-deferred))
 (after! lsp-pyright
@@ -117,12 +117,13 @@
         lsp-pyright-venv-path "."
         lsp-pyright-venv-directory ".venv"))
 (after! lsp-mode
-  (add-hook 'lsp-mode-hook #'lsp-ui-mode))
+  (add-hook 'lsp-mode-hook #'lsp-ui-mode)
   (setq lsp-completion-provider :capf
         lsp-diagnostics-provider :flycheck
         lsp-headerline-breadcrumb-enable t
         lsp-headerline-breadcrumb-icons-enable t
         lsp-headerline-breadcrumb-enable-diagnostics nil
+        lsp-enable-file-watchers nil
         lsp-icons-provider 'nerd-icons))
 
 (use-package! lsp-ui
