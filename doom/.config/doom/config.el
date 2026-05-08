@@ -24,26 +24,13 @@
  '(bold :weight bold)
  '(bold-italic :weight bold :slant italic))
 
-(setq doom-theme 'modus-vivendi)
+(setq doom-theme 'doom-badger)
 
 (setq display-line-numbers-type 'relative)
-
-;: accented borderless padded
-(setq modus-themes-mode-line '(borderless)) 
-(setq modus-themes-region '(accented))
-;(setq modus-themes-region '(bg-only))
-;(setq modus-themes-region '(bg-only no-extend))
-(setq modus-themes-bold-constructs t)
-;(setq modus-themes-italic-constructs t)
-;(setq modus-themes-paren-match '(bold intense underline))
-;(setq modus-themes-syntax '(faint))
-;(setq modus-themes-syntax '(alt-syntax))
-;(setq modus-themes-syntax '(green-strings yellow-comments))
-
-(beacon-mode 1)
 (load! "secrets")
 
 (after! org
+  (setq org-fontify-done-headline t)
   (setq org-directory "~/Documentos/notes"
         org-agenda-files '("~/Documentos/notes/agenda.org" "~/Documentos/notes/gcal.org")
         org-log-done 'time)
@@ -121,8 +108,6 @@
 (after! python
   (add-hook 'python-mode-hook #'my/auto-activate-venv)
   (add-hook 'python-mode-hook #'my/load-project-env))
-  ;; (add-hook 'python-mode-hook #'lsp-deferred)
-  ;; (add-hook 'python-mode-local-vars-hook #'lsp-deferred))
 (after! lsp-pyright
   (setq lsp-pyright-langserver-command "basedpyright-langserver"
         lsp-pyright-type-checking-mode "off"
