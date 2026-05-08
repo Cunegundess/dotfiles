@@ -15,7 +15,7 @@
       which-key-idle-delay 0.2)
 (use-package! nerd-icons)
 
-(setq doom-font (font-spec :family "GeistMono Nerd Font" :size 14 :weight 'regular)
+(setq doom-font (font-spec :family "JetBrains Mono Nerd Font" :size 13 :weight 'bold)
       doom-unicode-font (font-spec :family "Noto Color Emoji")
       doom-emoji-font (font-spec :family "Noto Color Emoji"))
 
