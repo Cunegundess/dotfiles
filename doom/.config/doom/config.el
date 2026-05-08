@@ -124,6 +124,11 @@
         lsp-enable-file-watchers nil
         lsp-icons-provider 'nerd-icons))
 
+(after! flycheck
+  (set-face-attribute 'flycheck-error nil :underline nil)
+  (set-face-attribute 'flycheck-warning nil :underline nil)
+  (set-face-attribute 'flycheck-info nil :underline nil))
+
 (use-package! lsp-ui
   :hook (lsp-mode . lsp-ui-mode)
   :config
@@ -175,11 +180,7 @@
        :desc "Rename" "r" #'lsp-rename
        :desc "Format" "f" #'apheleia-format-buffer
        :desc "Imports" "o" #'lsp-organize-imports
-       :desc "Hover" "k" #'lsp-describe-thing-at-point)
-
-      (:prefix ("g" . "goto")
-       :desc "Definition" "d" #'lsp-find-definition
-       :desc "Refs" "r" #'lsp-find-references))
+       :desc "Hover" "k" #'lsp-describe-thing-at-point))
 (after! vterm
   (setq vterm-shell "/bin/zsh"))
 (after! projectile
