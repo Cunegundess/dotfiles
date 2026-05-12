@@ -39,6 +39,11 @@
 (package! copilot
  :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el" "dist")))
 
+(package! org-roam-ui)
+(package! org-download)
+(package! org-pdftools)
+(package! org-noter)
+
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
