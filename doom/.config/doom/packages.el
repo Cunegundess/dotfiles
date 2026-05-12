@@ -9,7 +9,7 @@
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 (package! soria-theme)
 (package! uwu-theme)
-(package! base16-theme)
+;; (package! base16-theme)
 (package! catppuccin-theme)
 (package! doric-themes)
 (package! github-dark-vscode-theme)
