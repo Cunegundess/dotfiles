@@ -191,6 +191,3 @@
 (after! projectile
   (setq projectile-project-search-path
         '("~/Code/" "~/Projects/" "~/Projects/work/")))
-(after! multiple-cursors
-  (define-key global-map (kbd "C->") #'mc/mark-next-like-this)
-  (define-key global-map (kbd "C-<") #'mc/mark-previous-like-this))
