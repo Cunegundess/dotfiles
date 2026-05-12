@@ -29,6 +29,7 @@
 (package! devdocs)
 (package! kind-icon)
 (package! org-gcal)
+(package! multiple-cursors)
 
 (package! pg
   :recipe (:host github :repo "emarsden/pg-el"))
