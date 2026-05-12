@@ -92,8 +92,7 @@
   (setq org-startup-indented t
         org-hide-emphasis-markers t
         org-fontify-whole-heading-line t
-        org-pretty-entities t
-        org-ellipsis " ▼"))
+        org-pretty-entities t))
 
 (after! org-gcal
   (setq org-gcal-client-id my/org-gcal-client-id
@@ -101,12 +100,6 @@
         org-gcal-fetch-file-alist
         '(("lucascsantana6@gmail.com"
            . "~/Documentos/notes/gcal.org"))))
-
-(use-package! org-download
-  :after org
-  :config
-  (setq org-download-image-dir "images")
-  (org-download-enable))
 (after! devdocs
   (setq devdocs-data-dir "~/.local/share/devdocs"))
 ;; Detectar root corretamente (suporte apps/backend)
