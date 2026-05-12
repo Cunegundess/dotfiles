@@ -24,7 +24,8 @@
  '(bold :weight bold)
  '(bold-italic :weight bold :slant italic))
 
-(setq doom-theme 'doom-badger)
+;; (setq doom-theme 'doom-badger)
+(setq doom-theme 'doom-monokai-classic)
 
 (setq display-line-numbers-type 'relative)
 (load! "secrets")

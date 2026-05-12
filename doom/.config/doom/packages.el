@@ -7,14 +7,14 @@
 
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
-(package! soria-theme)
-(package! uwu-theme)
+;; (package! soria-theme)
+;; (package! uwu-theme)
 ;; (package! base16-theme)
 (package! catppuccin-theme)
-(package! doric-themes)
+;; (package! doric-themes)
 (package! github-dark-vscode-theme)
-(package! hybrid-reverse-theme)
-(package! iceberg-theme)
+;; (package! hybrid-reverse-theme)
+;; (package! iceberg-theme)
 (package! lsp-ui)
 
 (package! org-bullets)
