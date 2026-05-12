@@ -14,8 +14,8 @@
       browse-url-generic-program "brave-browser"
       which-key-idle-delay 0.2)
 (use-package! nerd-icons)
-:
-(setq doom-font (font-spec :family "JetBrains Mono Nerd Font" :size 13 :weight 'bold)
+
+(setq doom-font (font-spec :family "GeistMono Nerd Font" :size 15 :weight 'regular)
       doom-unicode-font (font-spec :family "Noto Color Emoji")
       doom-emoji-font (font-spec :family "Noto Color Emoji"))
 
@@ -24,9 +24,8 @@
  '(bold :weight bold)
  '(bold-italic :weight bold :slant italic))
 
-(load! "themes/lauds-theme")
+;; (load! "themes/lauds-theme")
 (load! "themes/compline-theme")
-;; (setq doom-theme 'lauds)
 (setq doom-theme 'compline)
 
 ;; (setq doom-theme 'doom-badger)
