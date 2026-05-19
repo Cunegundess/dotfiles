@@ -35,68 +35,91 @@
 (load! "secrets")
 
 (after! org
+  (global-org-modern-mode 1)
+
   (setq org-directory "~/Documentos/notes"
-        org-agenda-files '("~/Documentos/notes/agenda.org"
-                           "~/Documentos/notes/gcal.org"
-                           "~/Documentos/notes/tasks.org")
-        org-log-done 'time))
+        org-agenda-files
+        '("~/Documentos/notes/agenda.org"
+          "~/Documentos/notes/gcal.org"
+          "~/Documentos/notes/tasks.org")
+
+        org-log-done 'time
+
+        org-capture-templates
+        '(("f" "Fleeting note" entry
+           (file+head "inbox/%<%Y%m%d%H%M%S>-${slug}.org"
+                       "#+title: %?\n#+date: %U\n#+filetags: :fleeting:\n")
+           "* %?\n%i")
+
+          ("l" "Literature note" entry
+           (file+head "study/%<%Y%m%d%H%M%S>-${slug}.org"
+                       "#+title: %?\n#+date: %U\n#+filetags: :literature:\n#+source: %a\n")
+           "* %?\n%i")
+
+          ("w" "Work note" entry
+           (file+head "work/%<%Y%m%d%H%M%S>-${slug}.org"
+                       "#+title: %?\n#+date: %U\n#+filetags: :work:\n")
+           "* %?\n%i")
+
+          ("t" "Task" entry
+           (file "tasks.org")
+           "* TODO %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n%i")
+
+          ("d" "Daily journal" entry
+           (file+olp+datetree "dailies/%<%Y>.org")
+           "* %U %?"
+           :tree-type week))
+
+        org-refile-targets
+        '((org-agenda-files :maxlevel . 3)
+          ("study/*.org" :maxlevel . 2)
+          ("work/*.org" :maxlevel . 2))
+
+        org-refile-use-outline-path t
+        org-outline-path-complete-in-steps nil
+
+        org-startup-indented t
+        org-hide-emphasis-markers t
+        org-fontify-whole-heading-line t
+        org-pretty-entities t))
 
 (after! org-roam
   (setq org-roam-directory "~/Documentos/notes"
         org-roam-db-location "~/.local/share/org-roam/org-roam.db"
         org-roam-completion-everywhere t
+
         org-roam-capture-templates
         '(("f" "Fleeting" plain "%?"
-           :target (file+head "inbox/${slug}.org"
-                   "#+title: ${title}\n#+date: %U\n#+filetags: :fleeting:\n")
+           :target
+           (file+head "inbox/${slug}.org"
+                      "#+title: ${title}\n#+date: %U\n#+filetags: :fleeting:\n")
            :unnarrowed t)
+
           ("l" "Literature (estudo)" plain "%?"
-           :target (file+head "study/${slug}.org"
-                   "#+title: ${title}\n#+date: %U\n#+filetags: :literature:\n#+source:\n")
+           :target
+           (file+head "study/${slug}.org"
+                      "#+title: ${title}\n#+date: %U\n#+filetags: :literature:\n#+source:\n")
            :unnarrowed t)
+
           ("w" "Work" plain "%?"
-           :target (file+head "work/${slug}.org"
-                   "#+title: ${title}\n#+date: %U\n#+filetags: :work:\n")
+           :target
+           (file+head "work/${slug}.org"
+                      "#+title: ${title}\n#+date: %U\n#+filetags: :work:\n")
            :unnarrowed t))
+
         org-roam-dailies-capture-templates
         '(("d" "Default" entry "* %?"
-           :target (file+head+olp "%<%Y-%m-%d>.org"
-                    "#+title: %<%Y-%m-%d>\n" ("Journal")))))
-  (org-roam-db-autosync-mode +1))
+           :target
+           (file+head+olp "%<%Y-%m-%d>.org"
+                           "#+title: %<%Y-%m-%d>\n"
+                           ("Journal")))))
 
-(after! org
-  (setq org-capture-templates
-        '(("f" "Fleeting note" entry
-           (file+head "inbox/%<%Y%m%d%H%M%S>-${slug}.org"
-            "#+title: %?\n#+date: %U\n#+filetags: :fleeting:\n")
-           "* %?\n%i")
-          ("l" "Literature note" entry
-           (file+head "study/%<%Y%m%d%H%M%S>-${slug}.org"
-            "#+title: %?\n#+date: %U\n#+filetags: :literature:\n#+source: %a\n")
-           "* %?\n%i")
-          ("w" "Work note" entry
-           (file+head "work/%<%Y%m%d%H%M%S>-${slug}.org"
-            "#+title: %?\n#+date: %U\n#+filetags: :work:\n")
-           "* %?\n%i")
-          ("t" "Task" entry
-           (file "tasks.org")
-           "* TODO %?\n  :PROPERTIES:\n  :CREATED: %U\n  :END:%i")
-          ("d" "Daily journal" entry
-           (file+olp+datetree "dailies/%<%Y>.org")
-           "* %U %?" :tree-type week))
-        org-refile-targets '((org-agenda-files :maxlevel . 3)
-                             ("study/*.org" :maxlevel . 2)
-                             ("work/*.org" :maxlevel . 2))
-        org-refile-use-outline-path t
-        org-outline-path-complete-in-steps nil)
-  (setq org-startup-indented t
-        org-hide-emphasis-markers t
-        org-fontify-whole-heading-line t
-        org-pretty-entities t))
+  (org-roam-db-autosync-mode +1))
 
 (after! org-gcal
   (setq org-gcal-client-id my/org-gcal-client-id
         org-gcal-client-secret my/org-gcal-client-secret
+
         org-gcal-fetch-file-alist
         '(("lucascsantana6@gmail.com"
            . "~/Documentos/notes/gcal.org"))))
@@ -214,7 +237,6 @@
        :desc "Imports" "o" #'lsp-organize-imports
        :desc "Hover" "k" #'lsp-describe-thing-at-point))
 (after! vterm
-  :config
   (setq vterm-max-scrollback 100000)
 
   ;; Scroll sem entrar em copy mode
@@ -225,26 +247,7 @@
         :n "C-<next>" #'vterm-scroll-down-page
         :n "C-<end>" #'vterm-scroll-end
         :n "q" #'vterm-scroll-end)
-
-  (defun my/vterm-project ()
-    (interactive)
-    (let ((default-directory (or (projectile-project-root)
-                                 default-directory)))
-      (call-interactively #'vterm)))
-
-  (defun my/vterm-project-other-window ()
-    (interactive)
-    (let ((default-directory (or (projectile-project-root)
-                                 default-directory)))
-      (call-interactively #'vterm-other-window))))
-
-(map! :leader
-      (:prefix ("o" . "open")
-       :desc "Vterm" "t" #'vterm
-       :desc "Vterm other window" "T" #'vterm-other-window)
-      (:prefix ("p" . "project")
-       :desc "Vterm project" "t" #'my/vterm-project
-       :desc "Vterm project other window" "T" #'my/vterm-project-other-window))
+  )
 (after! projectile
   (setq projectile-project-search-path
         '("~/Code/" "~/Documentos/" "~/dotfiles/" "~/.config/")))

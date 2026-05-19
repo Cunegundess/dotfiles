@@ -29,6 +29,7 @@
 (package! devdocs)
 (package! kind-icon)
 (package! org-gcal)
+(package! org-modern)
 
 (package! pg
   :recipe (:host github :repo "emarsden/pg-el"))
