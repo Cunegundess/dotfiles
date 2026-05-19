@@ -108,28 +108,6 @@
     (if (and root (file-directory-p (expand-file-name "apps/backend" root)))
         (expand-file-name "apps/backend" root)
       root)))
-
-;; Auto ativar .venv
-(defun my/auto-activate-venv ()
-  (let* ((root (or (my/project-root) default-directory))
-         (venv (expand-file-name ".venv" root)))
-    (when (file-directory-p venv)
-      (pyvenv-activate venv)
-      (message "Activated venv: %s" venv))))
-
-;; Carregar .env corretamente
-(defun my/load-project-env ()
-  (let* ((root (my/project-root))
-         (env-file (expand-file-name ".env" root)))
-    (when (file-exists-p env-file)
-      (with-temp-buffer
-        (insert-file-contents env-file)
-        (goto-char (point-min))
-        (while (re-search-forward "^\\([^=]+\\)=\\\"?\\([^\"\n]*\\)\\\"?$" nil t)
-          (let ((key (match-string 1))
-                (val (match-string 2)))
-            (when (and key (string-match "^[A-Za-z_]+$" key))
-              (setenv key val))))))))
 (after! company
   (global-company-mode -1))
 
@@ -162,9 +140,6 @@
                            #'kind-icon-margin-formatter)))
   :custom
   (kind-icon-default-face 'corfu-default))
-(after! python
-  (add-hook 'python-mode-hook #'my/auto-activate-venv)
-  (add-hook 'python-mode-hook #'my/load-project-env))
 (after! lsp-pyright
   (setq lsp-pyright-langserver-command "basedpyright-langserver"
         lsp-pyright-type-checking-mode "off"
@@ -222,7 +197,7 @@
 
   (defun pgmacs-connect-current-project ()
     (interactive)
-    (my/load-project-env)
+    ;; direnv já carrega .env ao entrar no projeto
     (let* ((user (or (getenv "POSTGRES_USER") "postgres"))
            (password (or (getenv "POSTGRES_PASSWORD") ""))
            (dbname (or (getenv "POSTGRES_NAME") "postgres"))
@@ -238,8 +213,14 @@
        :desc "Format" "f" #'apheleia-format-buffer
        :desc "Imports" "o" #'lsp-organize-imports
        :desc "Hover" "k" #'lsp-describe-thing-at-point))
-(after! vterm
-  (setq vterm-shell "/bin/zsh"))
+(use-package! eat
+  :config
+  (setq eat-term-name "xterm-256color"
+        eat-kill-buffer-on-exit t))
+
+(map! :leader
+      (:prefix ("o" . "open")
+       :desc "Eat terminal" "t" #'eat))
 (after! projectile
   (setq projectile-project-search-path
-        '("~/Code/" "~/Projects/" "~/Projects/work/")))
+        '("~/Code/" "~/Documentos/" "~/dotfiles/" "~/.config/")))

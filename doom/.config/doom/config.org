@@ -136,9 +136,6 @@
     (if (and root (file-directory-p (expand-file-name "apps/backend" root)))
         (expand-file-name "apps/backend" root)
       root)))
-
-;; Direnv gerencia .env e vars de ambiente por diretório
-;; Use .envrc nos projetos com: dotenv, source .venv/bin/activate, etc
 #+end_src
 
 * AutoComplete
@@ -178,13 +175,6 @@
 #+end_src
 
 * LSP
-** Python
-#+begin_src emacs-lisp
-;; +pyvenv no init.el já ativa .venv automaticamente por buffer via pyvenv-track-virtualenv
-;; Diretórios de projetos com .venv são detectados automaticamente
-;; Para shell/REPL/compile: use direnv com .envrc (direnv module já está ativo no init.el)
-#+end_src
-
 ** Pyright
 #+begin_src emacs-lisp
 (after! lsp-pyright
@@ -256,7 +246,7 @@
 
   (defun pgmacs-connect-current-project ()
     (interactive)
-    (my/load-project-env)
+    ;; direnv já carrega .env ao entrar no projeto
     (let* ((user (or (getenv "POSTGRES_USER") "postgres"))
            (password (or (getenv "POSTGRES_PASSWORD") ""))
            (dbname (or (getenv "POSTGRES_NAME") "postgres"))
@@ -278,16 +268,21 @@
        :desc "Hover" "k" #'lsp-describe-thing-at-point))
 #+end_src
 
-* VTerm
+* Eat
 #+begin_src emacs-lisp
-(after! vterm
-  (setq vterm-shell "/bin/zsh"
-        vterm-environment '("TERM=xterm-256color")))
+(use-package! eat
+  :config
+  (setq eat-term-name "xterm-256color"
+        eat-kill-buffer-on-exit t))
+
+(map! :leader
+      (:prefix ("o" . "open")
+       :desc "Eat terminal" "t" #'eat))
 #+end_src
 
 * Projectile
 #+begin_src emacs-lisp
 (after! projectile
   (setq projectile-project-search-path
-        '("~/Code/" "~/Projects/" "~/Projects/work/")))
+        '("~/Code/" "~/Documentos/" "~/dotfiles/" "~/.config/")))
 #+end_src
