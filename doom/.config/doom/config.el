@@ -34,9 +34,18 @@
 (setq display-line-numbers-type 'relative)
 (load! "secrets")
 
-(after! org
-  (global-org-modern-mode 1)
+(use-package! org-modern
+  :after org
+  :custom
+  (org-modern-fold-stars
+   '(("◉" . "◯")
+     ("│" . "└")
+     (" │" . " └")
+     (" │" . " └")))
+  :init
+  (setq org-modern-hide-stars "  "))
 
+(after! org
   (setq org-directory "~/Documentos/notes"
         org-agenda-files
         '("~/Documentos/notes/agenda.org"
