@@ -270,7 +270,7 @@
 
 * Vterm
 #+begin_src emacs-lisp
-(use-package! vterm
+(after! vterm
   :config
   (setq vterm-max-scrollback 100000)
 

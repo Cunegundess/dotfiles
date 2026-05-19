@@ -213,14 +213,38 @@
        :desc "Format" "f" #'apheleia-format-buffer
        :desc "Imports" "o" #'lsp-organize-imports
        :desc "Hover" "k" #'lsp-describe-thing-at-point))
-(use-package! eat
+(after! vterm
   :config
-  (setq eat-term-name "xterm-256color"
-        eat-kill-buffer-on-exit t))
+  (setq vterm-max-scrollback 100000)
+
+  ;; Scroll sem entrar em copy mode
+  (map! :map vterm-mode-map
+        :n "C-<up>" #'vterm-scroll-up
+        :n "C-<down>" #'vterm-scroll-down
+        :n "C-<prior>" #'vterm-scroll-up-page
+        :n "C-<next>" #'vterm-scroll-down-page
+        :n "C-<end>" #'vterm-scroll-end
+        :n "q" #'vterm-scroll-end)
+
+  (defun my/vterm-project ()
+    (interactive)
+    (let ((default-directory (or (projectile-project-root)
+                                 default-directory)))
+      (call-interactively #'vterm)))
+
+  (defun my/vterm-project-other-window ()
+    (interactive)
+    (let ((default-directory (or (projectile-project-root)
+                                 default-directory)))
+      (call-interactively #'vterm-other-window))))
 
 (map! :leader
       (:prefix ("o" . "open")
-       :desc "Eat terminal" "t" #'eat))
+       :desc "Vterm" "t" #'vterm
+       :desc "Vterm other window" "T" #'vterm-other-window)
+      (:prefix ("p" . "project")
+       :desc "Vterm project" "t" #'my/vterm-project
+       :desc "Vterm project other window" "T" #'my/vterm-project-other-window))
 (after! projectile
   (setq projectile-project-search-path
         '("~/Code/" "~/Documentos/" "~/dotfiles/" "~/.config/")))
