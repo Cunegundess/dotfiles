@@ -137,27 +137,8 @@
         (expand-file-name "apps/backend" root)
       root)))
 
-;; Auto ativar .venv
-(defun my/auto-activate-venv ()
-  (let* ((root (or (my/project-root) default-directory))
-         (venv (expand-file-name ".venv" root)))
-    (when (file-directory-p venv)
-      (pyvenv-activate venv)
-      (message "Activated venv: %s" venv))))
-
-;; Carregar .env corretamente
-(defun my/load-project-env ()
-  (let* ((root (my/project-root))
-         (env-file (expand-file-name ".env" root)))
-    (when (file-exists-p env-file)
-      (with-temp-buffer
-        (insert-file-contents env-file)
-        (goto-char (point-min))
-        (while (re-search-forward "^\\([^=]+\\)=\\\"?\\([^\"\n]*\\)\\\"?$" nil t)
-          (let ((key (match-string 1))
-                (val (match-string 2)))
-            (when (and key (string-match "^[A-Za-z_]+$" key))
-              (setenv key val))))))))
+;; Direnv gerencia .env e vars de ambiente por diretório
+;; Use .envrc nos projetos com: dotenv, source .venv/bin/activate, etc
 #+end_src
 
 * AutoComplete
@@ -199,9 +180,9 @@
 * LSP
 ** Python
 #+begin_src emacs-lisp
-(after! python
-  (add-hook 'python-mode-hook #'my/auto-activate-venv)
-  (add-hook 'python-mode-hook #'my/load-project-env))
+;; +pyvenv no init.el já ativa .venv automaticamente por buffer via pyvenv-track-virtualenv
+;; Diretórios de projetos com .venv são detectados automaticamente
+;; Para shell/REPL/compile: use direnv com .envrc (direnv module já está ativo no init.el)
 #+end_src
 
 ** Pyright
@@ -300,7 +281,8 @@
 * VTerm
 #+begin_src emacs-lisp
 (after! vterm
-  (setq vterm-shell "/bin/zsh"))
+  (setq vterm-shell "/bin/zsh"
+        vterm-environment '("TERM=xterm-256color")))
 #+end_src
 
 * Projectile

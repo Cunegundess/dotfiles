@@ -166,3 +166,8 @@ export PATH="$HOME/flutter/bin:$PATH"
 
 # opencode
 export PATH=/home/lucas/.opencode/bin:$PATH
+
+# Vterm integration (melhora scroll, clear, directory tracking no Emacs)
+if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
+    source "$HOME/.config/emacs/.local/straight/repos/emacs-libvterm/etc/emacs-vterm-zsh.sh"
+fi
