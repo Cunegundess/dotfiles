@@ -27,10 +27,11 @@
 
 ;; (load! "themes/lauds-theme")
 (load! "themes/compline-theme")
-(setq doom-theme 'compline)
+;; (setq doom-theme 'compline)
 
 ;; (setq doom-theme 'doom-badger)
 ;; (setq doom-theme 'doom-monokai-classic)
+(setq doom-theme 'doom-monokai-spectrum)
 
 (setq display-line-numbers-type 'relative)
 (load! "secrets")
