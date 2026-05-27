@@ -325,3 +325,41 @@
   (setq projectile-project-search-path
         '("~/Code/" "~/Documentos/" "~/dotfiles/" "~/.config/")))
 #+end_src
+
+* Android
+** SDK Paths
+#+begin_src emacs-lisp
+(add-to-list 'exec-path (expand-file-name "~/.local/bin"))
+(setenv "ANDROID_HOME" (expand-file-name "~/Android/Sdk"))
+(setenv "ANDROID_SDK_ROOT" (expand-file-name "~/Android/Sdk"))
+(add-to-list 'exec-path (expand-file-name "~/Android/Sdk/platform-tools"))
+(add-to-list 'exec-path (expand-file-name "~/Android/Sdk/emulator"))
+#+end_src
+
+** Android Mode (para Kotlin também)
+#+begin_src emacs-lisp
+(add-hook 'kotlin-mode-hook #'+java-android-mode-maybe-h)
+(add-hook 'kotlin-ts-mode-hook #'+java-android-mode-maybe-h)
+#+end_src
+
+* Kotlin
+** LSP
+#+begin_src emacs-lisp
+(after! lsp-kotlin
+  (setq lsp-kotlin-linting-debounce-time 300
+        lsp-kotlin-compiler-jvm-target "21"
+        lsp-kotlin-inlayhints-enable-typehints t
+        lsp-kotlin-inlayhints-enable-parameterhints t
+        lsp-kotlin-inlayhints-enable-chainedhints t
+        lsp-kotlin-debug-adapter-enabled t)
+
+  (add-hook 'kotlin-mode-hook #'lsp-inlay-hints-mode)
+  (add-hook 'kotlin-ts-mode-hook #'lsp-inlay-hints-mode))
+#+end_src
+
+** Lint (ktlint)
+#+begin_src emacs-lisp
+(use-package! flycheck-kotlin
+  :when (modulep! :checkers syntax -flymake)
+  :hook (kotlin-mode . flycheck-kotlin-setup))
+#+end_src
