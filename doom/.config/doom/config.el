@@ -262,3 +262,34 @@
 (after! projectile
   (setq projectile-project-search-path
         '("~/Code/" "~/Documentos/" "~/dotfiles/" "~/.config/")))
+
+;; ─── Paths para o Emacs GUI ──────────────────────────────────
+(add-to-list 'exec-path (expand-file-name "~/.local/bin"))
+
+;; ─── Android SDK ──────────────────────────────────────────────
+(setenv "ANDROID_HOME" (expand-file-name "~/Android/Sdk"))
+(setenv "ANDROID_SDK_ROOT" (expand-file-name "~/Android/Sdk"))
+(add-to-list 'exec-path (expand-file-name "~/Android/Sdk/platform-tools"))
+(add-to-list 'exec-path (expand-file-name "~/Android/Sdk/emulator"))
+
+;; ─── Kotlin LSP ──────────────────────────────────────────────
+(after! lsp-kotlin
+  (setq lsp-kotlin-linting-debounce-time 300
+        lsp-kotlin-compiler-jvm-target "21"
+        lsp-kotlin-inlayhints-enable-typehints t
+        lsp-kotlin-inlayhints-enable-parameterhints t
+        lsp-kotlin-inlayhints-enable-chainedhints t
+        lsp-kotlin-debug-adapter-enabled t)
+
+  ;; Habilita inlay hints
+  (add-hook 'kotlin-mode-hook #'lsp-inlay-hints-mode)
+  (add-hook 'kotlin-ts-mode-hook #'lsp-inlay-hints-mode))
+
+;; ─── Ktlint (formatação/lint para Kotlin) ────────────────────
+(use-package! flycheck-kotlin
+  :when (modulep! :checkers syntax -flymake)
+  :hook (kotlin-mode . flycheck-kotlin-setup))
+
+;; Android mode para arquivos Kotlin também
+(add-hook 'kotlin-mode-hook #'+java-android-mode-maybe-h)
+(add-hook 'kotlin-ts-mode-hook #'+java-android-mode-maybe-h)

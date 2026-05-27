@@ -206,5 +206,10 @@ export NVM_DIR="$HOME/.nvm"
 # . "$HOME/.local/bin/env"
 export PATH="$HOME/flutter/bin:$PATH"
 
+# Android SDK
+export ANDROID_HOME="$HOME/Android/Sdk"
+export ANDROID_SDK_ROOT="$ANDROID_HOME"
+export PATH="$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH"
+
 # opencode
 export PATH=/home/lucas/.opencode/bin:$PATH
