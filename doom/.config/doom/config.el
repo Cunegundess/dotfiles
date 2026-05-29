@@ -262,8 +262,9 @@
        :desc "Imports" "o" #'lsp-organize-imports
        :desc "Hover" "k" #'lsp-describe-thing-at-point))
 (after! vterm
-  (setq vterm-max-scrollback 100000)
-  (setq shell-default-term-shell "screen /usr/bin/zsh")
+  (setq vterm-max-scrollback 100000
+        vterm-term-environment-variable "xterm"
+        shell-default-term-shell "screen /usr/bin/zsh")
 
   ;; Scroll sem entrar em copy mode
   (map! :map vterm-mode-map
