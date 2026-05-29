@@ -210,6 +210,23 @@
 #+end_src
 
 * LSP
+** Kotlin
+#+begin_src emacs-lisp
+(after! lsp-kotlin
+  (setq lsp-kotlin-linting-debounce-time 300
+        lsp-kotlin-compiler-jvm-target "21"
+        lsp-kotlin-inlayhints-enable-typehints t
+        lsp-kotlin-inlayhints-enable-parameterhints t
+        lsp-kotlin-inlayhints-enable-chainedhints t
+        lsp-kotlin-debug-adapter-enabled t)
+
+  (add-hook 'kotlin-mode-hook #'lsp-inlay-hints-mode)
+  (add-hook 'kotlin-ts-mode-hook #'lsp-inlay-hints-mode))
+
+(use-package! flycheck-kotlin
+  :when (modulep! :checkers syntax -flymake)
+  :hook (kotlin-mode . flycheck-kotlin-setup))
+#+end_src
 ** Pyright
 #+begin_src emacs-lisp
 (after! lsp-pyright
@@ -342,24 +359,12 @@
 (add-hook 'kotlin-ts-mode-hook #'+java-android-mode-maybe-h)
 #+end_src
 
-* Kotlin
-** LSP
+* OpenCode
 #+begin_src emacs-lisp
-(after! lsp-kotlin
-  (setq lsp-kotlin-linting-debounce-time 300
-        lsp-kotlin-compiler-jvm-target "21"
-        lsp-kotlin-inlayhints-enable-typehints t
-        lsp-kotlin-inlayhints-enable-parameterhints t
-        lsp-kotlin-inlayhints-enable-chainedhints t
-        lsp-kotlin-debug-adapter-enabled t)
-
-  (add-hook 'kotlin-mode-hook #'lsp-inlay-hints-mode)
-  (add-hook 'kotlin-ts-mode-hook #'lsp-inlay-hints-mode))
-#+end_src
-
-** Lint (ktlint)
-#+begin_src emacs-lisp
-(use-package! flycheck-kotlin
-  :when (modulep! :checkers syntax -flymake)
-  :hook (kotlin-mode . flycheck-kotlin-setup))
+(after! opencode
+  (setq opencode-terminal-type 'vterm
+        opencode-split-direction 'vertical)
+  (map! :leader
+        (:prefix ("o" . "o")
+         :desc "OpenCode menu" "o" #'opencode-menu)))
 #+end_src

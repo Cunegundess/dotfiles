@@ -174,6 +174,20 @@
                            #'kind-icon-margin-formatter)))
   :custom
   (kind-icon-default-face 'corfu-default))
+(after! lsp-kotlin
+  (setq lsp-kotlin-linting-debounce-time 300
+        lsp-kotlin-compiler-jvm-target "21"
+        lsp-kotlin-inlayhints-enable-typehints t
+        lsp-kotlin-inlayhints-enable-parameterhints t
+        lsp-kotlin-inlayhints-enable-chainedhints t
+        lsp-kotlin-debug-adapter-enabled t)
+
+  (add-hook 'kotlin-mode-hook #'lsp-inlay-hints-mode)
+  (add-hook 'kotlin-ts-mode-hook #'lsp-inlay-hints-mode))
+
+(use-package! flycheck-kotlin
+  :when (modulep! :checkers syntax -flymake)
+  :hook (kotlin-mode . flycheck-kotlin-setup))
 (after! lsp-pyright
   (setq lsp-pyright-langserver-command "basedpyright-langserver"
         lsp-pyright-type-checking-mode "off"
@@ -269,16 +283,9 @@
 (add-to-list 'exec-path (expand-file-name "~/Android/Sdk/emulator"))
 (add-hook 'kotlin-mode-hook #'+java-android-mode-maybe-h)
 (add-hook 'kotlin-ts-mode-hook #'+java-android-mode-maybe-h)
-(after! lsp-kotlin
-  (setq lsp-kotlin-linting-debounce-time 300
-        lsp-kotlin-compiler-jvm-target "21"
-        lsp-kotlin-inlayhints-enable-typehints t
-        lsp-kotlin-inlayhints-enable-parameterhints t
-        lsp-kotlin-inlayhints-enable-chainedhints t
-        lsp-kotlin-debug-adapter-enabled t)
-
-  (add-hook 'kotlin-mode-hook #'lsp-inlay-hints-mode)
-  (add-hook 'kotlin-ts-mode-hook #'lsp-inlay-hints-mode))
-(use-package! flycheck-kotlin
-  :when (modulep! :checkers syntax -flymake)
-  :hook (kotlin-mode . flycheck-kotlin-setup))
+(after! opencode
+  (setq opencode-terminal-type 'vterm
+        opencode-split-direction 'vertical)
+  (map! :leader
+        (:prefix ("o" . "o")
+         :desc "OpenCode menu" "o" #'opencode-menu)))
