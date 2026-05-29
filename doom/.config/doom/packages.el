@@ -31,9 +31,6 @@
 (package! org-gcal)
 (package! org-modern)
 
-(package! opencode
-  :recipe (:host gitlab :repo "rogs/opencode.el"))
-
 (package! pg
   :recipe (:host github :repo "emarsden/pg-el"))
 (package! pgmacs

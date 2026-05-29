@@ -263,6 +263,7 @@
        :desc "Hover" "k" #'lsp-describe-thing-at-point))
 (after! vterm
   (setq vterm-max-scrollback 100000)
+  (setq shell-default-term-shell "screen /usr/bin/zsh")
 
   ;; Scroll sem entrar em copy mode
   (map! :map vterm-mode-map
@@ -271,8 +272,7 @@
         :n "C-<prior>" #'vterm-scroll-up-page
         :n "C-<next>" #'vterm-scroll-down-page
         :n "C-<end>" #'vterm-scroll-end
-        :n "q" #'vterm-scroll-end)
-  )
+        :n "q" #'vterm-scroll-end))
 (after! projectile
   (setq projectile-project-search-path
         '("~/Code/" "~/Documentos/" "~/dotfiles/" "~/.config/")))
@@ -283,9 +283,3 @@
 (add-to-list 'exec-path (expand-file-name "~/Android/Sdk/emulator"))
 (add-hook 'kotlin-mode-hook #'+java-android-mode-maybe-h)
 (add-hook 'kotlin-ts-mode-hook #'+java-android-mode-maybe-h)
-(after! opencode
-  (setq opencode-terminal-type 'vterm
-        opencode-split-direction 'vertical)
-  (map! :leader
-        (:prefix ("o" . "o")
-         :desc "OpenCode menu" "o" #'opencode-menu)))
