@@ -15,7 +15,7 @@ config.default_cursor_style = "BlinkingBlock"
 -- config.text_background_opacity = 0.0
 
 -- Janela e Layout
-config.window_decorations = "RESIZE"
+config.window_decorations = "TITLE"
 config.window_background_opacity = 0.9
 config.window_padding = { left = 20, right = 20, top = 20, bottom = 20 }
 config.window_frame = { font = wezterm.font("GeistMono NF", { weight = "Bold" }), font_size = 10 }
