@@ -4,7 +4,9 @@ local config = wezterm.config_builder()
 -- Tema e Fontes
 -- config.color_scheme = "Vesper"
 -- config.color_scheme = "Vacuous 2 (terminal.sexy)"
--- config.font = wezterm.font("JetBrains Mono Nerd Font", { weight = "Bold" })
+-- config.color_scheme = "3024 (dark) (terminal.sexy)"
+config.color_scheme = "GitHub Dark"
+-- conig.font = wezterm.font("JetBrains Mono Nerd Font", { weight = "Bold" })
 -- config.font = wezterm.font("Cascadia Code NF", { weight = "Regular" })
 config.font = wezterm.font("GeistMono NF", { weight = "Regular" })
 config.font_size = 10
@@ -16,7 +18,7 @@ config.default_cursor_style = "BlinkingBlock"
 config.window_decorations = "RESIZE"
 config.window_background_opacity = 0.9
 config.window_padding = { left = 20, right = 20, top = 20, bottom = 20 }
-config.window_frame = { font = wezterm.font("GeistMono NF", { weight = "Bold" }), font_size = 11 }
+config.window_frame = { font = wezterm.font("GeistMono NF", { weight = "Bold" }), font_size = 10 }
 config.initial_cols = 180
 config.initial_rows = 37
 
