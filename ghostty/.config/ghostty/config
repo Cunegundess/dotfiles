@@ -1,12 +1,12 @@
-font-family = JetBrains Mono Nerd Font
-# font-family = GeistMono NF
+# font-family = JetBrains Mono Nerd Font
+font-family = GeistMono NF
 # font-family = DankMono Nerd Font
 # font-family = SF Mono
 # font-family = Cascadia Code NF
 # font-family = Iosevka Nerd Font
 
-font-size = 10
-font-style = Bold
+font-size = 11
+font-style = Regular
 # font-thicken = true
 
 # theme = Atom
@@ -21,14 +21,14 @@ theme = GitHub Dark High Contrast
 # theme = vague
 # theme = detuned
 
-background-opacity = 1.0
-# window-decoration = client
-window-decoration = server
+background-opacity = 0.9
+window-decoration = client
+# window-decoration = server
 window-padding-x = 20
-window-padding-y = 20
+# window-padding-y = 20
 window-colorspace = "display-p3"
 
-adjust-cell-height = "5%"
+adjust-cell-height = "10%"
 copy-on-select = clipboard
 shell-integration-features = true
 auto-update = check
