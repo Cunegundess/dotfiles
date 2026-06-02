@@ -22,7 +22,6 @@ config.initial_cols = 180
 config.initial_rows = 37
 config.enable_wayland = true
 
--- KDE Plasma: NONE deixa o KDE gerenciar as decorações (SSD)
 config.window_decorations = "NONE"
 
 config.enable_tab_bar = true
@@ -160,43 +159,13 @@ local mode_keys = {
 -- Keybindings: Launcher fuzzy (navega entre abas, workspaces, domínios)
 -- =============================================================================
 local launcher_keys = {
-	{ key = "Space", mods = "ALT", action = act.ShowLauncher },
+	{ key = "S", mods = "ALT|SHIFT", action = act.ShowLauncher },
 }
 
 -- =============================================================================
 -- Keybindings: Panes flutuantes (display-popup style)
 -- =============================================================================
 local floating_keys = {
-	{
-		key = "S",
-		mods = "ALT",
-		action = act.SplitPane({
-			direction = "Right",
-			size = { Percent = 50 },
-			top_level = true,
-			command = { args = { "/home/lucas/.config/tmux/scripts/tmux-sessionizer" } },
-		}),
-	},
-	{
-		key = "g",
-		mods = "ALT",
-		action = act.SplitPane({
-			direction = "Right",
-			size = { Percent = 50 },
-			top_level = true,
-			command = { args = { "lazygit" } },
-		}),
-	},
-	{
-		key = "q",
-		mods = "ALT",
-		action = act.SplitPane({
-			direction = "Right",
-			size = { Percent = 50 },
-			top_level = true,
-			command = { args = { "htop" } },
-		}),
-	},
 	{
 		key = "N",
 		mods = "ALT",
