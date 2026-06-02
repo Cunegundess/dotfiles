@@ -43,6 +43,9 @@ vim.pack.add({
 	"https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
 	"https://github.com/nvim-treesitter/nvim-treesitter-context",
 
+	-- Django
+	"https://github.com/mizisu/django.nvim",
+
 	-- Debug
 	"https://github.com/mfussenegger/nvim-dap",
 	"https://github.com/rcarriga/nvim-dap-ui",
@@ -71,6 +74,7 @@ vim.defer_fn(function()
 	pcall(require, "plugins.fzf")
 	pcall(require, "plugins.oil")
 	pcall(require, "plugins.devdocs")
+	pcall(require, "plugins.django")
 	pcall(require, "plugins.render-markdown")
 
 	local ok_dap, dap_config = pcall(require, "plugins.dap")

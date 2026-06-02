@@ -8,14 +8,15 @@ vim.lsp.config("lua_ls", {
 	},
 })
 
-vim.lsp.config("ty", {})
-
 vim.lsp.config("ruff", {})
+vim.lsp.config("basedpyright", require("lsp.basedpyright"))
+vim.lsp.config("djls", require("lsp.djls"))
 
 vim.lsp.enable({
-	"ty",
+	"basedpyright",
 	"ruff",
 	"lua_ls",
+	"djls",
 })
 
 vim.diagnostic.config({

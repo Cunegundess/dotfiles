@@ -20,6 +20,7 @@ require("nvim-treesitter.configs").setup({
 		"markdown",
 		"markdown_inline",
 		"python",
+		"htmldjango",
 		"java",
 	},
 	sync_install = false,

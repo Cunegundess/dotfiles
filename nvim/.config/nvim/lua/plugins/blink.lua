@@ -45,6 +45,13 @@ blink.setup({
 		preset = "default",
 	},
 	sources = {
-		default = { "lsp", "path", "snippets", "buffer" },
+		default = { "lsp", "path", "snippets", "buffer", "django" },
+		providers = {
+			django = {
+				name = "Django",
+				module = "django.completions.blink",
+				async = true,
+			},
+		},
 	},
 })

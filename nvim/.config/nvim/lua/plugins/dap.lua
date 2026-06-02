@@ -9,6 +9,14 @@ return function()
 		return
 	end
 
+	local pythonPath = function()
+		local cwd = vim.fn.getcwd()
+		if vim.fn.executable(cwd .. "/.venv/bin/python") == 1 then
+			return cwd .. "/.venv/bin/python"
+		end
+		return "python3"
+	end
+
 	vim.keymap.set("n", "<leader>?", function()
 		dapui.eval(nil, { enter = true })
 	end, { desc = "Debug: Eval" })
@@ -33,6 +41,59 @@ return function()
 	if ok_dap_python then
 		require("dap-python").setup("python3")
 	end
+
+	dap.configurations.python = {
+		{
+			type = "python",
+			request = "launch",
+			name = "Django RunServer",
+			program = vim.fn.getcwd() .. "/manage.py",
+			args = { "runserver", "--noreload" },
+			django = true,
+			justMyCode = true,
+			pythonPath = pythonPath,
+		},
+		{
+			type = "python",
+			request = "launch",
+			name = "Launch file",
+			program = "${file}",
+			pythonPath = pythonPath,
+			console = "integratedTerminal",
+		},
+		{
+			type = "python",
+			request = "launch",
+			name = "Launch file with args",
+			program = "${file}",
+			args = function()
+				local args_string = vim.fn.input("Arguments: ")
+				return vim.split(args_string, "%s+")
+			end,
+			pythonPath = pythonPath,
+			console = "integratedTerminal",
+		},
+		{
+			type = "python",
+			request = "attach",
+			name = "Attach remote",
+			connect = function()
+				return { host = "127.0.0.1", port = 5678 }
+			end,
+		},
+	}
+
+	vim.api.nvim_create_autocmd("DirChanged", {
+		callback = function()
+			pythonPath = function()
+				local cwd = vim.fn.getcwd()
+				if vim.fn.executable(cwd .. "/.venv/bin/python") == 1 then
+					return cwd .. "/.venv/bin/python"
+				end
+				return "python3"
+			end
+		end,
+	})
 
 	dap.listeners.after.event_initialized["dapui_config"] = dapui.open
 	dap.listeners.before.event_terminated["dapui_config"] = dapui.close

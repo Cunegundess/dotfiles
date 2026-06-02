@@ -79,6 +79,15 @@ vim.api.nvim_create_autocmd("CursorMovedI", {
 	end,
 })
 
+-- Django template filetype detection
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+	group = vim.api.nvim_create_augroup("django_templates", { clear = true }),
+	pattern = { "*/templates/*.html", "*/templates/*.txt", "*/templates/*.xml" },
+	callback = function()
+		vim.bo.filetype = "htmldjango"
+	end,
+})
+
 local function make_transparent()
 	local groups = {
 		"Normal",

@@ -40,6 +40,10 @@
       "rev": "5d3690ea29179ede67ae661669f0434bc8b80339",
       "src": "https://github.com/maskudo/devdocs.nvim"
     },
+    "django.nvim": {
+      "rev": "2615ca95f16ee74a86e9680f6b81a032f6e69b19",
+      "src": "https://github.com/mizisu/django.nvim"
+    },
     "fzf-lua": {
       "rev": "c9e7b7bfbd01f949164988ee1684035468e1995c",
       "src": "https://github.com/ibhagwan/fzf-lua"
