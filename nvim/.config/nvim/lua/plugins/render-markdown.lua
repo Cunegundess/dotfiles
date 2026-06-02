@@ -16,7 +16,7 @@ require("render-markdown").setup({
 			},
 		},
 		latex = {
-			render = false,
+			render = true,
 		},
 	},
 })
@@ -27,3 +27,4 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 		vim.opt_local.conceallevel = 0
 	end,
 })
+

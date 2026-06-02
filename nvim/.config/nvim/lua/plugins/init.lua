@@ -60,7 +60,7 @@ vim.pack.add({
 	"https://github.com/m00qek/baleia.nvim",
 	"https://github.com/christoomey/vim-tmux-navigator",
 	"https://github.com/folke/snacks.nvim",
-	-- "https://github.com/MeanderingProgrammer/render-markdown.nvim",
+	"https://github.com/MeanderingProgrammer/render-markdown.nvim",
 })
 
 vim.defer_fn(function()
