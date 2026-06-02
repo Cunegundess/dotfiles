@@ -28,7 +28,13 @@ function M.open_in_tab(cmd)
 	if type(cmd) == "string" then
 		cmd = { cmd }
 	end
-	vim.fn.system(string.format('wezterm cli spawn --cwd "%s" %s 2>/dev/null', vim.fn.getcwd(), table.concat(vim.tbl_map(vim.fn.shellescape, cmd), " ")))
+	vim.fn.system(
+		string.format(
+			'wezterm cli spawn --cwd "%s" %s 2>/dev/null',
+			vim.fn.getcwd(),
+			table.concat(vim.tbl_map(vim.fn.shellescape, cmd), " ")
+		)
+	)
 end
 
 function M.open_in_pane(direction)
@@ -40,9 +46,11 @@ function M.open_in_pane(direction)
 		return
 	end
 	local flag = direction == "horizontal" and "--horizontal" or "--right"
-	vim.fn.system(string.format('wezterm cli split-pane --pane-id %s %s --cwd "%s" 2>/dev/null', pane_id, flag, vim.fn.getcwd()))
+	vim.fn.system(
+		string.format('wezterm cli split-pane --pane-id %s %s --cwd "%s" 2>/dev/null', pane_id, flag, vim.fn.getcwd())
+	)
 	-- Muda pro novo pane
-	vim.fn.system(string.format('wezterm cli activate-pane-direction --pane-id %s Right 2>/dev/null', pane_id))
+	vim.fn.system(string.format("wezterm cli activate-pane-direction --pane-id %s Right 2>/dev/null", pane_id))
 end
 
 function M.rename_workspace()
@@ -68,9 +76,6 @@ if M.is_wezterm() then
 	vim.keymap.set("n", "<leader>wh", function()
 		M.open_in_pane("horizontal")
 	end, { desc = "Wezterm: New pane (horizontal)" })
-	vim.keymap.set("n", "<leader>ws", function()
-		M.open_in_tab({ "lazygit" })
-	end, { desc = "Wezterm: Open lazygit in new tab" })
 end
 
 -- Autocmd: atualiza título da aba ao entrar em projeto

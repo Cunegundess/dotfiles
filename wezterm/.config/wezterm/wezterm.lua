@@ -166,30 +166,36 @@ local launcher_keys = {
 -- =============================================================================
 -- Keybindings: Panes flutuantes (display-popup style)
 -- =============================================================================
-local function floating(cmd_args)
-	return act.SplitPane({
-		direction = "Right",
-		size = { Percent = 50 },
-		top_level = true,
-		args = cmd_args,
-	})
-end
-
 local floating_keys = {
 	{
 		key = "S",
 		mods = "ALT",
-		action = floating({ "/home/lucas/.config/tmux/scripts/tmux-sessionizer" }),
+		action = act.SplitPane({
+			direction = "Right",
+			size = { Percent = 50 },
+			top_level = true,
+			command = { args = { "/home/lucas/.config/tmux/scripts/tmux-sessionizer" } },
+		}),
 	},
 	{
 		key = "g",
 		mods = "ALT",
-		action = floating({ "lazygit" }),
+		action = act.SplitPane({
+			direction = "Right",
+			size = { Percent = 50 },
+			top_level = true,
+			command = { args = { "lazygit" } },
+		}),
 	},
 	{
 		key = "q",
 		mods = "ALT",
-		action = floating({ "htop" }),
+		action = act.SplitPane({
+			direction = "Right",
+			size = { Percent = 50 },
+			top_level = true,
+			command = { args = { "htop" } },
+		}),
 	},
 	{
 		key = "N",
@@ -198,11 +204,13 @@ local floating_keys = {
 			direction = "Right",
 			size = { Percent = 50 },
 			top_level = true,
-			args = {
-				"nvim",
-				"-c",
-				"cd ~/Documentos/notes",
-				"/home/lucas/Documentos/notes/0-inbox/" .. os.date("%Y-%m-%d") .. ".md",
+			command = {
+				args = {
+					"nvim",
+					"-c",
+					"cd ~/Documentos/notes",
+					"/home/lucas/Documentos/notes/0-inbox/" .. os.date("%Y-%m-%d") .. ".md",
+				},
 			},
 		}),
 	},
