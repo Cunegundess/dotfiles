@@ -2,12 +2,16 @@ vim.lsp.config("ruff", {})
 vim.lsp.config("lua-ls", require("lsp.lua-ls"))
 vim.lsp.config("basedpyright", require("lsp.basedpyright"))
 vim.lsp.config("djls", require("lsp.djls"))
+vim.lsp.config("kotlin_lsp", require("lsp.kotlin"))
+vim.lsp.config("jdtls", require("lsp.jdtls"))
 
 vim.lsp.enable({
 	"basedpyright",
 	"ruff",
 	"lua_ls",
 	"djls",
+	"kotlin_lsp",
+	"jdtls",
 })
 
 vim.diagnostic.config({

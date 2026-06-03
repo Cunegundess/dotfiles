@@ -206,6 +206,9 @@ export NVM_DIR="$HOME/.nvm"
 # . "$HOME/.local/bin/env"
 export PATH="$HOME/flutter/bin:$PATH"
 
+# Cargo (Rust)
+export PATH="$HOME/.cargo/bin:$PATH"
+
 # Android SDK
 export ANDROID_HOME="$HOME/Android/Sdk"
 export ANDROID_SDK_ROOT="$ANDROID_HOME"
