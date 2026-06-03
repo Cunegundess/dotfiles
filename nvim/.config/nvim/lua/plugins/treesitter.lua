@@ -22,6 +22,8 @@ require("nvim-treesitter.configs").setup({
 		"python",
 		"htmldjango",
 		"java",
+		"kotlin",
+		"groovy",
 	},
 	sync_install = false,
 	auto_install = true,

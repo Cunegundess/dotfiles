@@ -4,6 +4,10 @@
       "rev": "642b0c595e11608b4c18219e93b88d7637af27bc",
       "src": "https://github.com/L3MON4D3/LuaSnip"
     },
+    "android-nvim-plugin": {
+      "rev": "1b13adb5c0c85027498c068efa05466aa93ea374",
+      "src": "https://github.com/iamironz/android-nvim-plugin"
+    },
     "baleia.nvim": {
       "rev": "32617940adb2eea56e85a64883a19961ceac9641",
       "src": "https://github.com/m00qek/baleia.nvim"

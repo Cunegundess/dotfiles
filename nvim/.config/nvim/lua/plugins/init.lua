@@ -55,6 +55,9 @@ vim.pack.add({
 	-- IA
 	"https://github.com/github/copilot.vim",
 
+	-- Android
+	"https://github.com/iamironz/android-nvim-plugin",
+
 	-- Utils
 	"https://github.com/esmuellert/codediff.nvim",
 	"https://github.com/m00qek/baleia.nvim",
@@ -76,6 +79,7 @@ vim.defer_fn(function()
 	pcall(require, "plugins.devdocs")
 	pcall(require, "plugins.django")
 	pcall(require, "plugins.render-markdown")
+	pcall(require, "plugins.android")
 
 	local ok_dap, dap_config = pcall(require, "plugins.dap")
 	if ok_dap and type(dap_config) == "function" then
