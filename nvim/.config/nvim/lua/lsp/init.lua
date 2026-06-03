@@ -1,14 +1,5 @@
-vim.lsp.config("lua_ls", {
-	settings = {
-		Lua = {
-			diagnostics = {
-				globals = { "vim" },
-			},
-		},
-	},
-})
-
 vim.lsp.config("ruff", {})
+vim.lsp.config("lua-ls", require("lsp.lua-ls"))
 vim.lsp.config("basedpyright", require("lsp.basedpyright"))
 vim.lsp.config("djls", require("lsp.djls"))
 
