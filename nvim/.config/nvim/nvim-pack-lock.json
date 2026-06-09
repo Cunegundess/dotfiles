@@ -4,6 +4,10 @@
       "rev": "642b0c595e11608b4c18219e93b88d7637af27bc",
       "src": "https://github.com/L3MON4D3/LuaSnip"
     },
+    "Otree.nvim": {
+      "rev": "1540ea0a300916f1c43063fda185463b3e8f2f40",
+      "src": "https://github.com/Eutrius/Otree.nvim"
+    },
     "android-nvim-plugin": {
       "rev": "1b13adb5c0c85027498c068efa05466aa93ea374",
       "src": "https://github.com/iamironz/android-nvim-plugin"
@@ -67,10 +71,6 @@
     "kanagawa.nvim": {
       "rev": "aef7f5cec0a40dbe7f3304214850c472e2264b10",
       "src": "https://github.com/rebelot/kanagawa.nvim"
-    },
-    "kotlin.nvim": {
-      "rev": "24849d044f94d8a55ca3c56d4fcbb6ab7fd2b9da",
-      "src": "https://github.com/AlexandrosAlexiou/kotlin.nvim"
     },
     "lualine.nvim": {
       "rev": "47f91c416daef12db467145e16bed5bbfe00add8",

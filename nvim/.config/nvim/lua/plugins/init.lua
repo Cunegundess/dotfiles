@@ -26,6 +26,7 @@ vim.pack.add({
 
 	-- File navigation
 	"https://github.com/stevearc/oil.nvim",
+	"https://github.com/Eutrius/Otree.nvim",
 	"https://github.com/nvim-lua/plenary.nvim",
 	"https://github.com/ibhagwan/fzf-lua",
 
@@ -82,6 +83,7 @@ vim.defer_fn(function()
 	pcall(require, "plugins.gitsigns")
 	pcall(require, "plugins.fzf")
 	pcall(require, "plugins.oil")
+	pcall(require, "plugins.otree")
 	pcall(require, "plugins.devdocs")
 	pcall(require, "plugins.django")
 	pcall(require, "plugins.render-markdown")

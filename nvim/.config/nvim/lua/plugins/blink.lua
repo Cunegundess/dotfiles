@@ -28,7 +28,7 @@ blink.setup({
 			Value = "󰎠",
 			Enum = "󰒡",
 			Keyword = "󰌋",
-			Snippet = "�RD ",
+			Snippet = "  ",
 			Color = "󰏘",
 			File = "󰈙",
 			Reference = "󰂡",
