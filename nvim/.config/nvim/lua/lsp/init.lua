@@ -3,6 +3,7 @@ vim.lsp.config("lua-ls", require("lsp.lua-ls"))
 vim.lsp.config("basedpyright", require("lsp.basedpyright"))
 vim.lsp.config("djls", require("lsp.djls"))
 vim.lsp.config("jdtls", require("lsp.jdtls"))
+vim.lsp.config("kotlin_ls", require("lsp.kotlin"))
 
 vim.lsp.enable({
 	"basedpyright",
@@ -10,6 +11,7 @@ vim.lsp.enable({
 	"lua-ls",
 	"djls",
 	"jdtls",
+	"kotlin_ls",
 	"groovy_language_server",
 })
 

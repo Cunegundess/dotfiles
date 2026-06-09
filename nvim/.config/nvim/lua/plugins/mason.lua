@@ -17,7 +17,6 @@ tool_installer.setup({
 		"lua-language-server",
 		"typescript-language-server",
 		"jdtls",
-		"kotlin-lsp",
 		"groovy-language-server",
 		"stylua",
 		"ruff",

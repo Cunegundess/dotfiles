@@ -22,6 +22,7 @@ vim.pack.add({
 	"https://github.com/echasnovski/mini.nvim",
 	"https://github.com/echasnovski/mini.icons",
 	"https://github.com/folke/which-key.nvim",
+	"https://github.com/folke/trouble.nvim",
 
 	-- File navigation
 	"https://github.com/stevearc/oil.nvim",
