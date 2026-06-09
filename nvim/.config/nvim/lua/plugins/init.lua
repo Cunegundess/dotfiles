@@ -66,9 +66,9 @@ vim.pack.add({
 	"https://github.com/MeanderingProgrammer/render-markdown.nvim",
 
 	-- Dadbod UI
-	"tpope/vim-dadbod",
-	"kristijanhusak/vim-dadbod-ui",
-	"kristijanhusak/vim-dadbod-completion",
+	"https://github.com/tpope/vim-dadbod",
+	"https://github.com/kristijanhusak/vim-dadbod-ui",
+	"https://github.com/kristijanhusak/vim-dadbod-completion",
 })
 
 vim.defer_fn(function()
@@ -85,6 +85,7 @@ vim.defer_fn(function()
 	pcall(require, "plugins.django")
 	pcall(require, "plugins.render-markdown")
 	pcall(require, "plugins.android")
+	pcall(require, "plugins.dadbod")
 
 	local ok_dap, dap_config = pcall(require, "plugins.dap")
 	if ok_dap and type(dap_config) == "function" then
