@@ -11,17 +11,17 @@ font-style = Regular
 
 # theme = Atom
 # theme = carbonfox
-theme = GitHub Dark High Contrast
+# theme = GitHub Dark High Contrast
 # theme = GitHub-Dark-Default
 # theme = GitHub Dark
-# theme = vesper
+theme = vesper
 # theme = tokyonight_night
 # theme = kanagawa dragon
 # theme = dark:GruvboxDarkHard,light:GruvboxLightHard
 # theme = vague
 # theme = detuned
 
-background-opacity = 0.9
+background-opacity = 1
 window-decoration = client
 # window-decoration = server
 window-padding-x = 20
