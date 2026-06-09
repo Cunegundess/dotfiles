@@ -11,6 +11,13 @@ blink.setup({
 				treesitter = { "lsp" },
 			},
 		},
+		documentation = {
+			window = { border = "rounded" },
+		},
+	},
+	signature = {
+		enabled = true,
+		window = { border = "rounded" },
 	},
 	appearance = {
 		kind_icons = {

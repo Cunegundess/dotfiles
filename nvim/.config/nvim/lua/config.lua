@@ -13,6 +13,7 @@ vim.opt.showcmd = true
 vim.opt.cmdheight = 1
 vim.opt.pumheight = 10
 vim.opt.pumblend = 10
+vim.o.winborder = "rounded"
 
 vim.o.shiftwidth = 2
 vim.o.tabstop = 2
