@@ -55,10 +55,6 @@ vim.pack.add({
 	-- IA
 	"https://github.com/github/copilot.vim",
 
-	-- Kotlin
-	"https://github.com/AlexandrosAlexiou/kotlin.nvim",
-	"https://github.com/folke/trouble.nvim",
-
 	-- Android
 	"https://github.com/iamironz/android-nvim-plugin",
 
@@ -89,7 +85,6 @@ vim.defer_fn(function()
 	pcall(require, "plugins.django")
 	pcall(require, "plugins.render-markdown")
 	pcall(require, "plugins.android")
-	pcall(require, "plugins.kotlin")
 	pcall(require, "plugins.dadbod")
 
 	local ok_dap, dap_config = pcall(require, "plugins.dap")
