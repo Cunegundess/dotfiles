@@ -10,5 +10,9 @@ require("org-bullets").setup({
 	},
 })
 
+require("org-roam").setup({
+	directory = "~/Documentos/notes",
+})
+
 -- Experimental LSP support
 vim.lsp.enable("org")

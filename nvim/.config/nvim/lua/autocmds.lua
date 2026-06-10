@@ -88,27 +88,27 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
 	end,
 })
 
-local function make_transparent()
-	local groups = {
-		"Normal",
-		"NormalNC",
-		"NormalFloat",
-		"SignColumn",
-		"StatusLine",
-		"StatusLineNC",
-		"EndOfBuffer",
-	}
-	for _, group in ipairs(groups) do
-		vim.api.nvim_set_hl(0, group, { bg = "NONE", ctermbg = "NONE" })
-	end
-	vim.api.nvim_set_hl(0, "StatusLine", { reverse = false })
-	vim.api.nvim_set_hl(0, "StatusLineNC", { reverse = false })
-end
-
-vim.schedule(function()
-	make_transparent()
-end)
-
-vim.api.nvim_create_autocmd("ColorScheme", {
-	callback = make_transparent,
-})
+-- local function make_transparent()
+-- 	local groups = {
+-- 		"Normal",
+-- 		"NormalNC",
+-- 		"NormalFloat",
+-- 		"SignColumn",
+-- 		"StatusLine",
+-- 		"StatusLineNC",
+-- 		"EndOfBuffer",
+-- 	}
+-- 	for _, group in ipairs(groups) do
+-- 		vim.api.nvim_set_hl(0, group, { bg = "NONE", ctermbg = "NONE" })
+-- 	end
+-- 	vim.api.nvim_set_hl(0, "StatusLine", { reverse = false })
+-- 	vim.api.nvim_set_hl(0, "StatusLineNC", { reverse = false })
+-- end
+--
+-- vim.schedule(function()
+-- 	make_transparent()
+-- end)
+--
+-- vim.api.nvim_create_autocmd("ColorScheme", {
+-- 	callback = make_transparent,
+-- })

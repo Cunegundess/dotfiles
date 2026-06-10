@@ -68,6 +68,7 @@ vim.pack.add({
 	"https://github.com/MeanderingProgrammer/render-markdown.nvim",
 	"https://github.com/nvim-orgmode/orgmode",
 	"https://github.com/akinsho/org-bullets.nvim",
+	"https://github.com/chipsenkbeil/org-roam.nvim",
 
 	-- Dadbod UI
 	"https://github.com/tpope/vim-dadbod",
