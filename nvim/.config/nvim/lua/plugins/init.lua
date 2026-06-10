@@ -5,9 +5,6 @@ vim.pack.add({
 	"https://github.com/rose-pine/neovim",
 	"https://github.com/rebelot/kanagawa.nvim",
 	"https://github.com/shaunsingh/nord.nvim",
-	"https://github.com/folke/twilight.nvim",
-	"https://github.com/folke/zen-mode.nvim",
-	"https://github.com/y9san9/y9nika.nvim",
 	"https://github.com/datsfilipe/vesper.nvim",
 	"https://github.com/vague-theme/vague.nvim",
 	"https://github.com/projekt0n/github-nvim-theme",
@@ -53,9 +50,6 @@ vim.pack.add({
 	"https://github.com/rcarriga/nvim-dap-ui",
 	"https://github.com/nvim-neotest/nvim-nio",
 	"https://github.com/mfussenegger/nvim-dap-python",
-
-	-- IA
-	"https://github.com/github/copilot.vim",
 
 	-- Android
 	"https://github.com/iamironz/android-nvim-plugin",

@@ -17,7 +17,7 @@ require("fzf-lua").setup({
 require("fzf-lua").register_ui_select()
 
 vim.defer_fn(function()
-	require("plugins.theme").apply()
+	require("theme").apply()
 end, 0)
 
 vim.keymap.set("n", "<leader>ff", require("fzf-lua").files, { desc = "[S]earch [F]iles" })
