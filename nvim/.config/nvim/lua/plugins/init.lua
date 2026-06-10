@@ -66,6 +66,8 @@ vim.pack.add({
 	"https://github.com/christoomey/vim-tmux-navigator",
 	"https://github.com/folke/snacks.nvim",
 	"https://github.com/MeanderingProgrammer/render-markdown.nvim",
+	"https://github.com/nvim-orgmode/orgmode",
+	"https://github.com/akinsho/org-bullets.nvim",
 
 	-- Dadbod UI
 	"https://github.com/tpope/vim-dadbod",
@@ -89,6 +91,7 @@ vim.defer_fn(function()
 	pcall(require, "plugins.render-markdown")
 	pcall(require, "plugins.android")
 	pcall(require, "plugins.dadbod")
+	pcall(require, "plugins.org")
 
 	local ok_dap, dap_config = pcall(require, "plugins.dap")
 	if ok_dap and type(dap_config) == "function" then
