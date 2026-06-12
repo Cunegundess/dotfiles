@@ -38,7 +38,8 @@
   "agent_servers": {
     "opencode": {
       "default_config_options": {
-        "mode": "plan"
+        "model": "opencode/big-pickle",
+        "mode": "build"
       },
       "type": "registry"
     }
