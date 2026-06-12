@@ -1,41 +1,113 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
 {
-  "git_panel": {
-    "sort_by_path": false
-  },
-  "inlay_hints": {
-    "enabled": true
-  },
-  "format_on_save": "off",
-  "buffer_font_family": "Cascadia Code NF",
-  "buffer_line_height": {
-    "custom": 1.7
-  },
-  "terminal": {
-    "font_size": 7,
-    "line_height": {
-      "custom": 1.7
+  "context_servers": {
+    "azure-context-server": {
+      "enabled": true,
+      "remote": false,
+      "settings": {
+        "enable_production_credentials": false
+      }
+    },
+    "mcp-server-context7": {
+      "enabled": true,
+      "remote": false,
+      "settings": {
+        "context7_api_key": "ctx7sk-3441a3d9-1bf6-41e6-98ab-329caea0a2c1"
+      }
     }
   },
+  "agent": {
+    "dock": "right",
+    "favorite_models": [],
+    "model_parameters": []
+  },
+  "agent_servers": {
+    "opencode": {
+      "default_config_options": {
+        "mode": "build"
+      },
+      "type": "registry"
+    }
+  },
+  "when_closing_with_no_tabs": "keep_window_open",
   "telemetry": {
     "diagnostics": false,
-    "metrics": false
+    "metrics": false,
+    "anthropic_retention": false,
   },
-  "vim_mode": true,
-  "relative_line_numbers": true,
-  "cursor_blink": false,
+  "session": {
+    "trust_all_worktrees": true,
+  },
+  "terminal": {
+    "env": {},
+    "font_family": "GeistMono Nerd Font",
+    "font_size": 13,
+    "line_height": {
+      "custom": 1.5,
+    },
+    "blinking": "on",
+  },
+  "base_keymap": "VSCode",
+  "tab_bar": {
+    "show": true,
+  },
+  "relative_line_numbers": "enabled",
+  "gutter": {
+    "line_numbers": true,
+  },
+  "minimap": {
+    "show": "never",
+  },
   "scrollbar": {
-    "show": "never"
+    "axes": {
+      "horizontal": false,
+      "vertical": false,
+    },
   },
-  "ui_font_size": 9.0,
-  "buffer_font_size": 8.0,
+  "current_line_highlight": "all",
+  "cursor_shape": "bar",
+  "cursor_blink": true,
+  "autosave": null,
+  "colorize_brackets": false,
+  "auto_indent_on_paste": true,
+  "linked_edits": true,
+  "show_whitespaces": "all",
+  "show_edit_predictions": true,
+  "semantic_tokens": "full",
+  "soft_wrap": "editor_width",
+  "project_panel": {
+    "sort_mode": "directories_first",
+    "auto_fold_dirs": false,
+    "dock": "left",
+  },
+  "buffer_line_height": "comfortable",
+  "buffer_font_weight": 300.0,
+  "buffer_font_size": 15,
+  "buffer_font_family": "GeistMono Nerd Font",
+  "vim_mode": true,
+  "vim": {
+    "toggle_relative_line_numbers": true,
+    "use_smartcase_find": true,
+    "use_regex_search": true,
+    "highlight_on_yank_duration": 200,
+  },
+  "icon_theme": {
+    "mode": "light",
+    "light": "Zed (Default)",
+    "dark": "Zed (Default)"
+  },
+  "cli_default_open_behavior": "existing_window",
+  "ui_font_size": 15,
   "theme": {
     "mode": "system",
     "light": "One Light",
-    "dark": "VSCode Dark Modern"
+    "dark": "Vesper"
   },
-  "languages": {
-    "Python": {
-      "language_servers": ["pyright"]
-    }
-  }
 }

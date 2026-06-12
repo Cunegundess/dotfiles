@@ -1,122 +1,48 @@
 [
+  // Navegacao de panes como vim-tmux-navigator
+  // Neovim: <C-h/j/k/l> no modo normal e visual
   {
-    "context": "Workspace",
+    "context": "VimControl && !menu",
     "bindings": {
-      // File and search operations (Telescope equivalents)
-      "leader s f": "file_finder::Toggle",
-      "leader s g": "workspace::NewSearch",
-      "leader s h": "assistant::ToggleFocus",
-      "leader s o": "recent_projects::OpenRecent",
-      "leader s k": "zed::OpenKeymap",
-      "leader s w": "workspace::NewSearch",
-      "leader s d": "diagnostics::Deploy",
-      "leader s r": "search::ToggleReplace",
-      "leader leader": "tab_switcher::Toggle",
-      "leader s .": "recent_projects::OpenRecent",
-
-      // Git operations
-      "leader g s": "git::OpenRepository",
-      "leader g c": "git::OpenRepository",
-      "leader g b": "branches::OpenRecent",
-
-      // Window/Pane navigation
-      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
-      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
-      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
-      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
-
-      // Pane resizing with Alt+hjkl
-      "alt-h": ["workspace::ResizePaneInDirection", "Left"],
-      "alt-l": ["workspace::ResizePaneInDirection", "Right"],
-      "alt-j": ["workspace::ResizePaneInDirection", "Down"],
-      "alt-k": ["workspace::ResizePaneInDirection", "Up"],
-
-      // Project tree toggle
-      "leader e": "project_panel::ToggleFocus",
-
-      // Terminal
-      "leader t t": "terminal_panel::ToggleFocus"
-    }
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      // File finder (Neovim: <leader>ff -> fzf-lua.files)
+      "space f": "file_finder::Toggle",
+      // Live grep project search (Neovim: <leader>fw -> fzf-lua.live_grep)
+      "space f w": ["pane::DeploySearch", { "replace_enabled": true }],
+      // Buffer/tab switcher (Neovim: <leader><leader> -> fzf-lua.buffers)
+      "space space": "tab_switcher::Toggle",
+      // Project panel toggle (Neovim: <leader>e -> Otree)
+      "space e": "project_panel::ToggleFocus",
+      // Fechar buffer/aba (Neovim: <leader>bd -> mini.bufremove.delete)
+      "space w": ["pane::CloseActiveItem", { "close_pinned": false }],
+      // Terminal toggle
+      "ctrl-enter": "terminal_panel::Toggle",
+      // Git panel (Neovim: <leader>gs -> fzf-lua.git_status)
+      "space g s": "git_panel::ToggleFocus",
+      "space g S": "git::Diff",
+      // Diagnostic panel (Neovim: <leader>q -> diagnostics setloclist)
+      "space f d": "diagnostics::Deploy",
+      // Theme switcher (Neovim: <leader>ft -> fzf-lua.colorschemes)
+      "space f t": "theme_selector::Toggle",
+      // Outline panel - simbolos do arquivo (Neovim: <leader>fs -> fzf-lua.document_symbols)
+      "space f s": "outline::Toggle",
+      // Go to line
+      "space g g": "go_to_line::Toggle",
+      // Project symbols (Neovim: <leader>fw para simbolos)
+      "space p": "project_symbols::Toggle",
+    },
   },
+  // Navegacao a partir de docks (project panel, terminal, etc.)
   {
-    "context": "Editor && vim_mode == normal",
+    "context": "Dock",
     "bindings": {
-      // Clear search highlights
-      "escape": "editor::Cancel",
-
-      // Diagnostics
-      "g l": "editor::Hover",
-      "leader q": "diagnostics::Deploy",
-
-      // LSP navigation
-      "g d": "editor::GoToDefinition",
-      "g r": "editor::FindAllReferences",
-      "g i": "editor::GoToImplementation",
-      "leader D": "editor::GoToTypeDefinition",
-
-      // Replace word under cursor
-      "leader r": "search::ToggleReplace",
-
-      // Window navigation (same as workspace)
-      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
-      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
-      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
-      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
-
-      // Pane resizing
-      "alt-h": ["workspace::ResizePaneInDirection", "Left"],
-      "alt-l": ["workspace::ResizePaneInDirection", "Right"],
-      "alt-j": ["workspace::ResizePaneInDirection", "Down"],
-      "alt-k": ["workspace::ResizePaneInDirection", "Up"],
-
-      // Disable arrow keys in normal mode
-      "left": "zed::NoOp",
-      "right": "zed::NoOp",
-      "up": "zed::NoOp",
-      "down": "zed::NoOp"
-    }
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+    },
   },
-  {
-    "context": "Editor && vim_mode == visual",
-    "bindings": {
-      // Move selected lines up/down (using J/K like in Neovim)
-      "shift-j": "editor::MoveLineDown",
-      "shift-k": "editor::MoveLineUp"
-    }
-  },
-  {
-    "context": "Terminal",
-    "bindings": {
-      // Terminal escape (double escape like Neovim)
-      "escape escape": "workspace::ToggleBottomDock",
-
-      // Allow tmux prefix keys to pass through
-      "alt-p": null,
-      "ctrl-space": null,
-      "ctrl-b": null,
-
-      // Window navigation from terminal
-      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
-      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
-      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
-      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"]
-    }
-  },
-  {
-    "context": "Editor && vim_mode == insert",
-    "bindings": {
-      // Window navigation even in insert mode
-      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
-      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
-      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
-      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"]
-    }
-  },
-  {
-    "context": "ProjectPanel",
-    "bindings": {
-      // Easy escape from project panel
-      "escape": "project_panel::ToggleFocus"
-    }
-  }
 ]
