@@ -7,6 +7,18 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "languages": {
+    "Tree-sitter Query": {
+      "inlay_hints": {
+        "enabled": true
+      },
+      "indent_guides": {
+        "background_coloring": "disabled"
+      }
+    }
+  },
+  "document_symbols": "off",
+  "agent_buffer_font_size": 12.0,
   "collaboration_panel": {
     "button": false,
   },
@@ -88,7 +100,7 @@
   "linked_edits": true,
   "show_whitespaces": "all",
   "show_edit_predictions": true,
-  "semantic_tokens": "full",
+  "semantic_tokens": "combined",
   "soft_wrap": "editor_width",
   "project_panel": {
     "sort_mode": "directories_first",
@@ -98,7 +110,7 @@
   "buffer_line_height": {
     "custom": 1.5,
   },
-  "buffer_font_weight": 200.0,
+  "buffer_font_weight": 300.0,
   "buffer_font_size": 12.0,
   "buffer_font_family": "GeistMono Nerd Font",
   "vim_mode": true,
@@ -110,6 +122,6 @@
   },
   "icon_theme": "Zed (Default)",
   "cli_default_open_behavior": "existing_window",
-  "ui_font_size": 15,
-  "theme": "Vesper",
+  "ui_font_size": 14.0,
+  "theme": "JetBrains Islands Dark",
 }
