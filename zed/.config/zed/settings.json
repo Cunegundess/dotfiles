@@ -48,6 +48,9 @@
     "model_parameters": [],
   },
   "agent_servers": {
+    "gemini": {
+      "type": "registry"
+    },
     "opencode": {
       "default_config_options": {
         "model": "opencode/big-pickle",
