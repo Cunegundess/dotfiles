@@ -35,7 +35,7 @@ function M.refresh()
 end
 
 vim.api.nvim_create_user_command("ThemeRefresh", function()
-	require("plugins.theme").refresh()
+	require("lua.theme").refresh()
 end, {})
 
 return M

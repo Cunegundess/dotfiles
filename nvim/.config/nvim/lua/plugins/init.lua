@@ -87,6 +87,7 @@ vim.defer_fn(function()
 	pcall(require, "plugins.android")
 	pcall(require, "plugins.dadbod")
 	pcall(require, "plugins.org")
+	pcall(require, "plugins.colorschemes.vesper")
 
 	local ok_dap, dap_config = pcall(require, "plugins.dap")
 	if ok_dap and type(dap_config) == "function" then
