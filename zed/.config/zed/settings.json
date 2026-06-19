@@ -25,6 +25,7 @@
     "button": false,
   },
   "git_panel": {
+    "sort_by_path": false,
     "tree_view": false,
     "dock": "left",
   },
