@@ -1,0 +1,64 @@
+# Vesper Light Theme for Ghostty
+
+# Terminal Colors
+background = #f8f5f2
+foreground = #2c2926
+
+# Cursor
+cursor-color = #c76b29
+
+# Selection
+selection-background = #e7ddd3
+selection-foreground = #2c2926
+
+# ANSI Colors (Standard)
+
+# Black
+palette = 0=#f8f5f2
+
+# Red (Error, Invalid)
+palette = 1=#d85c5c
+
+# Aqua/Turquoise (Strings, Symbols)
+palette = 2=#008f7a
+
+# Orange (Keywords, Numbers, Constants)
+palette = 3=#c76b29
+
+# Gray (Operators, Brackets)
+palette = 4=#7a7a7a
+
+# Orange (Functions, Methods, Variables)
+palette = 5=#c76b29
+
+# Aqua/Turquoise (Attributes, JSON keys)
+palette = 6=#008f7a
+
+# Foreground
+palette = 7=#2c2926
+
+# Bright Colors
+
+# Dark Gray
+palette = 8=#9a9a9a
+
+# Bright Red
+palette = 9=#e57373
+
+# Bright Aqua
+palette = 10=#00a991
+
+# Soft Orange
+palette = 11=#dd8a45
+
+# Light Gray
+palette = 12=#8d8d8d
+
+# Warm Orange Accent
+palette = 13=#c76b29
+
+# Bright Aqua Alternative
+palette = 14=#00b8a0
+
+# Bright Foreground
+palette = 15=#000000
