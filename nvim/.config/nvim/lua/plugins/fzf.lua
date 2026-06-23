@@ -32,7 +32,7 @@ vim.keymap.set("n", "<leader>ft", function()
 		actions = {
 			["default"] = function(selected)
 				local theme = selected[1]:gsub("%.vim$", "")
-				require("plugins.theme").apply(theme)
+				require("theme").apply(theme)
 			end,
 		},
 	})

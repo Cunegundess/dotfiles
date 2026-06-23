@@ -1,7 +1,8 @@
 # Vesper Light Theme for Ghostty
 
 # Terminal Colors
-background = #f8f5f2
+# background = #f8f5f2
+background = #ffffff
 foreground = #2c2926
 
 # Cursor
