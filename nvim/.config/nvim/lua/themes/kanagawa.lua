@@ -9,4 +9,9 @@ require("kanagawa").setup({
 	transparent = false,
 	dimInactive = true,
 	terminalColors = true,
+	overrides = function(colors)
+		return {
+			String = { italic = true },
+		}
+	end,
 })
