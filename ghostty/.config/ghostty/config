@@ -6,7 +6,7 @@ font-family = GeistMono NF
 # font-family = Iosevka Nerd Font
 
 font-size = 12
-font-style = Regular
+font-style = Light
 # font-thicken = true
 
 # theme = Atom
@@ -14,8 +14,8 @@ font-style = Regular
 # theme = GitHub Dark High Contrast
 # theme = GitHub-Dark-Default
 # theme = GitHub Light Colorblind
-# theme = vesper
-theme = vesper-light
+theme = vesper
+# theme = vesper-light
 # theme = tokyonight_night
 # theme = kanagawa dragon
 # theme = dark:GruvboxDarkHard,light:GruvboxLightHard
@@ -25,7 +25,7 @@ theme = vesper-light
 background-opacity = 1
 # window-decoration = client
 window-decoration = server
-window-padding-x = 20
+# window-padding-x = 20
 # window-padding-y = 20
 window-colorspace = "display-p3"
 
