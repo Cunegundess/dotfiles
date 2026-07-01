@@ -42,11 +42,11 @@
  '(bold :weight bold)
  '(bold-italic :weight bold :slant italic))
 
-;; (load! "themes/lauds-theme")
-;; (load! "themes/compline-theme")
+(load! "themes/lauds-theme")
+(load! "themes/compline-theme")
 (load! "themes/kanagawa")
-(setq doom-theme 'kanagawa)
 
+(setq doom-theme 'kanagawa)
 ;; (setq doom-theme 'doom-badger)
 ;; (setq doom-theme 'doom-monokai-classic)
 ;; (setq doom-theme 'doom-monokai-spectrum)
