@@ -26,12 +26,13 @@
  '(bold-italic :weight bold :slant italic))
 
 ;; (load! "themes/lauds-theme")
-(load! "themes/compline-theme")
-;; (setq doom-theme 'compline)
+;; (load! "themes/compline-theme")
+(load! "themes/kanagawa")
+(setq doom-theme 'kanagawa)
 
 ;; (setq doom-theme 'doom-badger)
 ;; (setq doom-theme 'doom-monokai-classic)
-(setq doom-theme 'doom-monokai-spectrum)
+;; (setq doom-theme 'doom-monokai-spectrum)
 
 (setq display-line-numbers-type 'relative)
 (load! "secrets")

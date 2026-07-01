@@ -31,6 +31,8 @@
 (package! org-gcal)
 (package! org-modern)
 
+(package! autothemer)
+
 (package! pg
   :recipe (:host github :repo "emarsden/pg-el"))
 (package! pgmacs
