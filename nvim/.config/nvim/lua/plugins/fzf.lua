@@ -1,15 +1,14 @@
 require("fzf-lua").setup({
+	hls = { border = "FloatBorder" },
+	fzf_colors = true,
 	winopts = {
 		height = 0.9,
 		width = 0.9,
-		border = "rounded",
 		backdrop = 60,
-	},
-	preview = {
-		border = "rounded",
-		wrap = true,
-		layout = "vertical",
-		vertical = "up:60%",
+		preview = {
+			layout = "vertical",
+			vertical = "down:70%",
+		},
 	},
 	previewers = {
 		cat = {
@@ -20,31 +19,31 @@ require("fzf-lua").setup({
 			cmd = "bat",
 			args = "--color=always --style=numbers,changes",
 		},
-		builtin = {},
 	},
 	files = {
-		fd_opts = [[--color=never --type f --hidden --follow
-      --exclude .git
-      --exclude node_modules
-      --exclude venv
-      --exclude .venv
-      --exclude __pycache__
-      --exclude media
-      --exclude data
-      --exclude staticfiles]],
+		fd_opts = "--color=never --type f --hidden --follow "
+			.. "--exclude .git "
+			.. "--exclude node_modules "
+			.. "--exclude venv "
+			.. "--exclude .venv "
+			.. "--exclude __pycache__ "
+			.. "--exclude media "
+			.. "--exclude data "
+			.. "--exclude staticfiles",
 	},
+
 	grep = {
-		rg_opts = [[--column --line-number --no-heading --color=always
-      --smart-case
-      --hidden
-      --glob '!.git'
-      --glob '!node_modules'
-      --glob '!venv'
-      --glob '!.venv'
-      --glob '!__pycache__'
-      --glob '!media'
-      --glob '!data'
-      --glob '!staticfiles']],
+		rg_opts = "--column --line-number --no-heading --color=always "
+			.. "--smart-case "
+			.. "--hidden "
+			.. "--glob '!.git' "
+			.. "--glob '!node_modules' "
+			.. "--glob '!venv' "
+			.. "--glob '!.venv' "
+			.. "--glob '!__pycache__' "
+			.. "--glob '!media' "
+			.. "--glob '!data' "
+			.. "--glob '!staticfiles'",
 	},
 })
 
@@ -84,3 +83,14 @@ vim.keymap.set("n", "<leader>gs", require("fzf-lua").git_status, { desc = "[G]it
 vim.keymap.set("n", "<leader>gc", require("fzf-lua").git_commits, { desc = "[G]it [C]ommits" })
 vim.keymap.set("n", "<leader>gb", require("fzf-lua").git_branches, { desc = "[G]it [B]ranches" })
 vim.keymap.set("n", "<leader>gB", require("fzf-lua").git_blame, { desc = "[G]it [B]lame" })
+
+vim.keymap.set({ "n", "v", "i" }, "<C-x><C-f>", function()
+	FzfLua.complete_path()
+end, { silent = true, desc = "Fuzzy complete path" })
+
+vim.keymap.set({ "i" }, "<C-x><C-f>", function()
+	FzfLua.complete_file({
+		cmd = "rg --files",
+		winopts = { preview = { hidden = true } },
+	})
+end, { silent = true, desc = "Fuzzy complete file" })
