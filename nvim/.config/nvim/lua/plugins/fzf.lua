@@ -12,6 +12,30 @@ require("fzf-lua").setup({
 		wrap = false,
 		vertical = "up:40%",
 	},
+	files = {
+		fd_opts = [[--color=never --type f --hidden --follow
+      --exclude .git
+      --exclude node_modules
+      --exclude venv
+      --exclude .venv
+      --exclude __pycache__
+      --exclude media
+      --exclude data
+      --exclude staticfiles]],
+	},
+	grep = {
+		rg_opts = [[--column --line-number --no-heading --color=always
+      --smart-case
+      --hidden
+      --glob '!.git'
+      --glob '!node_modules'
+      --glob '!venv'
+      --glob '!.venv'
+      --glob '!__pycache__'
+      --glob '!media'
+      --glob '!data'
+      --glob '!staticfiles']],
+	},
 })
 
 require("fzf-lua").register_ui_select()
