@@ -1,16 +1,26 @@
 require("fzf-lua").setup({
 	winopts = {
-		height = 0.90,
-		width = 0.90,
-		row = 0.35,
-		col = 0.50,
+		height = 0.9,
+		width = 0.9,
 		border = "rounded",
-		backdrop = 100,
+		backdrop = 60,
 	},
 	preview = {
 		border = "rounded",
-		wrap = false,
-		vertical = "up:40%",
+		wrap = true,
+		layout = "vertical",
+		vertical = "up:60%",
+	},
+	previewers = {
+		cat = {
+			cmd = "cat",
+			args = "-n",
+		},
+		bat = {
+			cmd = "bat",
+			args = "--color=always --style=numbers,changes",
+		},
+		builtin = {},
 	},
 	files = {
 		fd_opts = [[--color=never --type f --hidden --follow
