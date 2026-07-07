@@ -55,10 +55,6 @@ map('n', '<leader>D', fzf.lsp_typedefs, { desc = 'Type [D]efinition' })
 map('n', '<leader>fd', fzf.lsp_document_diagnostics, { desc = '[S]earch [D]iagnostics' })
 map('n', '<leader>fs', fzf.lsp_document_symbols, { desc = '[S]earch [S]ymbols' })
 
-map('n', '<leader>gs', fzf.git_status, { desc = '[G]it [S]tatus' })
-map('n', '<leader>gc', fzf.git_commits, { desc = '[G]it [C]ommits' })
-map('n', '<leader>gb', fzf.git_branches, { desc = '[G]it [B]ranches' })
-map('n', '<leader>gB', fzf.git_blame, { desc = '[G]it [B]lame' })
 
 map({ 'n', 'v', 'i' }, '<C-x><C-f>', function()
   pcall(fzf.complete_path)

@@ -1,6 +1,5 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-vim.g['mark_no_default_keymappings'] = 1
 
 vim.pack.add({
   -- Core
@@ -52,8 +51,6 @@ vim.pack.add({
   'https://github.com/tommcdo/vim-lion',
   'https://github.com/tommcdo/vim-exchange',
   'https://github.com/haya14busa/vim-edgemotion',
-  'https://github.com/inkarkat/vim-ingo-library',
-  'https://github.com/inkarkat/vim-mark',
   'https://github.com/mfussenegger/nvim-treehopper',
   'https://github.com/AndrewRadev/linediff.vim',
 
