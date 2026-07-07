@@ -33,13 +33,13 @@ local now, now_if_args, later = Config.now, Config.now_if_args, Config.later
 -- - `:h mini.nvim-color-schemes` - list of other color schemes
 -- - `:h MiniHues-examples` - how to define highlighting with 'mini.hues'
 -- - 'plugin/40_plugins.lua' honorable mentions - other good color schemes
-now(function() vim.cmd('colorscheme miniwinter') end)
+-- now(function() vim.cmd('colorscheme miniwinter') end)
 
 -- You can try these other 'mini.hues'-based color schemes (uncomment with `gcc`):
 -- now(function() vim.cmd('colorscheme minispring') end)
 -- now(function() vim.cmd('colorscheme minisummer') end)
 -- now(function() vim.cmd('colorscheme miniautumn') end)
--- now(function() vim.cmd('colorscheme randomhue') end)
+now(function() vim.cmd('colorscheme randomhue') end)
 
 -- Common configuration presets. Example usage:
 -- - `<C-s>` in Insert mode - save and go to Normal mode
@@ -405,6 +405,10 @@ later(function()
       { mode = { 'n', 'x' }, keys = 's' },        -- `s` key (mini.surround, etc.)
       { mode = { 'n', 'x' }, keys = 'z' },        -- `z` key
     },
+
+    window = {
+      delay = 500
+    }
   })
 end)
 
@@ -535,7 +539,7 @@ later(function() require('mini.indentscope').setup() end)
 -- - `:h MiniInput.gen_view` - bundled view customizations (adjust how floating
 --   window is shown or use statusline/tabline/winbar/virtual text)
 -- - `:h MiniInput-lifecycle` - details about how a custom mode emulation works
-later(function() require('mini.input').setup() end)
+-- later(function() require('mini.input').setup() end)
 
 -- Jump to next/previous single character. It implements "smarter `fFtT` keys"
 -- (see `:h f`) that work across multiple lines, start "jumping mode", and
