@@ -35,7 +35,12 @@ require("mini.indentscope").setup({
 	symbol = "│",
 	draw = { animation = require("mini.indentscope").gen_animation.none() },
 })
-require("mini.bracketed").setup()
+require("mini.bracketed").setup({
+	comment = { suffix = "" },
+	file = { suffix = "" },
+	indent = { suffix = "" },
+	location = { suffix = "" },
+})
 require("mini.move").setup({
 	lines = true,
 	indent = true,
