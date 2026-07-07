@@ -15,6 +15,7 @@ load_mini("mini.jump")
 load_mini("mini.jump2d")
 load_mini("mini.tabline")
 load_mini("mini.trailspace")
+load_mini("mini.icons")
 
 require("mini.ai").setup({
 	n_lines = 500,
@@ -27,27 +28,20 @@ require("mini.ai").setup({
 })
 
 require("mini.surround").setup()
-
+require("mini.icons").setup()
 require("mini.pairs").setup()
-
 require("mini.comment").setup()
-
 require("mini.indentscope").setup({
 	symbol = "│",
 	draw = { animation = require("mini.indentscope").gen_animation.none() },
 })
-
 require("mini.bracketed").setup()
-
 require("mini.move").setup({
 	lines = true,
 	indent = true,
 })
-
 require("mini.splitjoin").setup()
-
 require("mini.tabline").setup()
-
 require("mini.trailspace").setup()
 
 vim.keymap.set("n", "<leader>bd", function()

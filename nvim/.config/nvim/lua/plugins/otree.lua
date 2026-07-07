@@ -11,7 +11,7 @@ otree.setup({
 	focus_on_enter = true,
 	hijack_netrw = true,
 	show_hidden = true,
-	show_ignore = false,
+	show_ignore = true,
 	cursorline = true,
 	git_signs = true,
 	lsp_signs = true,
