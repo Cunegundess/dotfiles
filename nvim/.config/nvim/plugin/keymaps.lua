@@ -10,7 +10,7 @@ keymap('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 keymap('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 keymap('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
-keymap('n', '<leader>e', '<cmd>Otree<CR>', { desc = 'Toggle file tree' })
+keymap('n', '<leader>e', '<cmd>Oil<CR>', { desc = 'Toggle file tree' })
 keymap('n', '<leader>E', '<cmd>Explore!<CR>', { desc = 'Open Netrw' })
 
 keymap('n', '<leader>r', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = 'Replace word under cursor' })

@@ -60,21 +60,6 @@ map('n', '<leader>gc', fzf.git_commits, { desc = '[G]it [C]ommits' })
 map('n', '<leader>gb', fzf.git_branches, { desc = '[G]it [B]ranches' })
 map('n', '<leader>gB', fzf.git_blame, { desc = '[G]it [B]lame' })
 
-map('n', '<M-/>', function()
-  if vim.v.count == 0 then
-    vim.cmd('FzfLua files')
-    return
-  end
-  fzf.live_grep({ cmd = 'git grep --line-number --column --color=always -v "^[[:space:]]*$"' })
-end)
-vim.cmd([[
-  nnoremap <silent>       <M-\> :FzfLua oldfiles<cr>
-  nnoremap <silent><expr> <C-\> v:count ? 'mS:<C-U>FzfLua lines<CR>' : ':<C-U>FzfLua buffers<CR>'
-  nnoremap <silent> g/    :FzfLua lines<cr>
-  nnoremap <silent> gO    :FzfLua btags<cr>
-  nnoremap <silent> gr/   :FzfLua tags<cr>
-]])
-
 map({ 'n', 'v', 'i' }, '<C-x><C-f>', function()
   pcall(fzf.complete_path)
 end, { silent = true, desc = 'Fuzzy complete path' })

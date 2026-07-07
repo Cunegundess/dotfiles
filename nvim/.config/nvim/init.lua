@@ -1,3 +1,7 @@
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+vim.g['mark_no_default_keymappings'] = 1
+
 vim.pack.add({
   -- Core
   'https://github.com/echasnovski/mini.nvim',

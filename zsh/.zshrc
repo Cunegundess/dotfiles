@@ -2,6 +2,13 @@
 ### │            Inicialização do Zsh              │
 ### └───────────────────────────────────────────────┘
 
+# Desliga integração WezTerm dentro do :term do Neovim
+if [ -n "$NVIM" ]; then
+  export WEZTERM_SHELL_SKIP_ALL=1
+  precmd_functions=(${precmd_functions:#__wezterm_*})
+  preexec_functions=(${preexec_functions:#__wezterm_*})
+fi
+
 # auto tmux no Ghostty
 # if [ -z "$TMUX" ] || [ -z "$GHOSTTY" ] || [ -z "$KITTY" ]; then
 #     SESSION_NAME="main"
