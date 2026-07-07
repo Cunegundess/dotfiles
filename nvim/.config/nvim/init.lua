@@ -76,3 +76,5 @@ vim.pack.add({
 }, {
   load = function() end,
 })
+
+require('theme')
