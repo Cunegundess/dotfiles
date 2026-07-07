@@ -1,5 +1,15 @@
 local keymap = vim.keymap.set
 
+keymap('n', '<C-w>s', '<C-w>v', { desc = 'Split vertical (lado a lado)' })
+keymap('n', '<C-w>v', '<C-w>s', { desc = 'Split horizontal (cima/baixo)' })
+
+vim.cmd([[cabbrev split vsplit]])
+vim.cmd([[cabbrev new vnew]])
+vim.cmd([[cabbrev h vert h]])
+vim.cmd([[cabbrev he vert he]])
+vim.cmd([[cabbrev hel vert hel]])
+vim.cmd([[cabbrev help vert help]])
+
 keymap('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear search highlights' })
 keymap('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic quickfix' })
 keymap('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
