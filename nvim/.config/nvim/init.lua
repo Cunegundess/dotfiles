@@ -29,9 +29,7 @@ vim.pack.add({
 
   -- Git
   'https://github.com/tpope/vim-fugitive',
-  'https://github.com/tpope/vim-rhubarb',
   'https://github.com/lewis6991/gitsigns.nvim',
-  'https://github.com/justinmk/guh.nvim',
 
   -- tpope essentials
   'https://github.com/tpope/vim-repeat',
@@ -40,12 +38,10 @@ vim.pack.add({
   'https://github.com/tpope/vim-unimpaired',
   'https://github.com/tpope/vim-dispatch',
 
-  -- Justin's utils
   'https://github.com/justinmk/vim-sneak.git',
   'https://github.com/justinmk/vim-ipmotion.git',
   'https://github.com/justinmk/vim-gtfo.git',
   'https://github.com/justinmk/nvim-repl',
-  'https://github.com/justinmk/vim-ug',
 
   -- Text objects & editing
   'https://github.com/tommcdo/vim-lion',
