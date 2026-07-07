@@ -1,5 +1,8 @@
 local map = vim.keymap.set
 
+map('n', '<leader>gs', '<cmd>G<CR>', { desc = 'Git status' })
+map('n', '<leader>gc', '<cmd>G commit<CR>', { desc = 'Git commit' })
+map('n', '<leader>gb', '<cmd>G branch<CR>', { desc = 'Git branches' })
 map('n', '<leader>gd', '<cmd>G diff<CR>', { desc = 'Git diff' })
 map('n', '<leader>gD', '<cmd>G diff -- %<CR>', { desc = 'Git diff buffer' })
 map('n', '<leader>gl', '<cmd>G log<CR>', { desc = 'Git log' })

@@ -76,25 +76,3 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
-local ok_blink, blink = pcall(require, 'blink.cmp')
-if ok_blink then
-  blink.setup({
-    completion = {
-      menu = { border = 'rounded', draw = { treesitter = { 'lsp' } } },
-      documentation = { window = { border = 'rounded' } },
-    },
-    signature = { enabled = true, window = { border = 'rounded' } },
-    appearance = {
-      kind_icons = {
-        Text = '󰉿', Method = '󰆧', Function = '󰆧', Constructor = '󰆧',
-        Field = '󰜢', Variable = '󰀫', Class = '󰠱', Interface = '󰒗',
-        Module = '󰏗', Property = '󰜢', Unit = '󰑭', Value = '󰎠',
-        Enum = '󰒡', Keyword = '󰌋', Snippet = '', Color = '󰏘',
-        File = '󰈙', Reference = '󰂡', Folder = '󰉋', EnumMember = '󰒡',
-        Constant = '󰏿', Struct = '󰙅', Event = '󰉿', Operator = '󰆕',
-        TypeParameter = '󰅲',
-      },
-    },
-    sources = { default = { 'lsp', 'path', 'snippets', 'buffer' } },
-  })
-end
