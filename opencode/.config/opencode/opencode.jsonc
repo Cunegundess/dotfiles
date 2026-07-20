@@ -1,0 +1,177 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "disabled_providers": [],
+  "provider": {
+    "omniroute": {
+      "name": "omniroute",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "http://localhost:20128/v1"
+      },
+      "models": {
+        "oc/big-pickle": {
+          "name": "oc/big-pickle"
+        },
+        "mcode/mimo-auto": {
+          "name": "mcode/mimo-auto"
+        },
+        "oc/deepseek-v4-flash-free": {
+          "name": "oc/deepseek-v4-flash-free"
+        },
+        "oc/minimax-m3-free": {
+          "name": "oc/minimax-m3-free"
+        },
+        "oc/minimax-m2.5-free": {
+          "name": "oc/minimax-m2.5-free"
+        },
+        "oc/ling-2.6-1t-free": {
+          "name": "oc/ling-2.6-1t-free"
+        },
+        "oc/trinity-large-preview-free": {
+          "name": "oc/trinity-large-preview-free"
+        },
+        "oc/nemotron-3-super-free": {
+          "name": "oc/nemotron-3-super-free"
+        },
+        "oc/qwen3.6-plus-free": {
+          "name": "oc/qwen3.6-plus-free"
+        },
+        "ddgw/gpt-4o-mini": {
+          "name": "ddgw/gpt-4o-mini"
+        },
+        "ddgw/gpt-5-mini": {
+          "name": "ddgw/gpt-5-mini"
+        },
+        "ddgw/claude-3-5-haiku-20241022": {
+          "name": "ddgw/claude-3-5-haiku-20241022"
+        },
+        "ddgw/llama-4-scout": {
+          "name": "ddgw/llama-4-scout"
+        },
+        "ddgw/mistral-small-2501": {
+          "name": "ddgw/mistral-small-2501"
+        },
+        "ddgw/o3-mini": {
+          "name": "ddgw/o3-mini"
+        },
+        "aug/claude-sonnet-4.6": {
+          "name": "aug/claude-sonnet-4.6"
+        },
+        "aug/claude-sonnet-4.6-thinking": {
+          "name": "aug/claude-sonnet-4.6-thinking"
+        },
+        "aug/claude-opus-4.6": {
+          "name": "aug/claude-opus-4.6"
+        },
+        "aug/claude-haiku-4.5": {
+          "name": "aug/claude-haiku-4.5"
+        },
+        "aug/gemini-3.1-pro": {
+          "name": "aug/gemini-3.1-pro"
+        },
+        "aug/gemini-3.0-flash": {
+          "name": "aug/gemini-3.0-flash"
+        },
+        "aug/gpt-5.5-high": {
+          "name": "aug/gpt-5.5-high"
+        },
+        "aug/gpt-5.5-medium": {
+          "name": "aug/gpt-5.5-medium"
+        },
+        "aug/gpt-5.4-high": {
+          "name": "aug/gpt-5.4-high"
+        },
+        "aug/gpt-5.4-medium": {
+          "name": "aug/gpt-5.4-medium"
+        },
+        "aug/kimi-k2.6": {
+          "name": "aug/kimi-k2.6"
+        },
+        "aug/prism": {
+          "name": "aug/prism"
+        },
+        "pepper/pepper-1": {
+          "name": "pepper/pepper-1"
+        },
+        "tllm/GPT_5_4": {
+          "name": "tllm/GPT_5_4"
+        },
+        "tllm/GPT_5_3": {
+          "name": "tllm/GPT_5_3"
+        },
+        "tllm/GPT_5_2": {
+          "name": "tllm/GPT_5_2"
+        },
+        "tllm/GPT_5_1": {
+          "name": "tllm/GPT_5_1"
+        },
+        "tllm/GPT_5": {
+          "name": "tllm/GPT_5"
+        },
+        "tllm/GPT_o4_mini": {
+          "name": "tllm/GPT_o4_mini"
+        },
+        "tllm/GPT_o3_mini": {
+          "name": "tllm/GPT_o3_mini"
+        },
+        "tllm/gemini_3_pro": {
+          "name": "tllm/gemini_3_pro"
+        },
+        "tllm/gemini_2_5_pro": {
+          "name": "tllm/gemini_2_5_pro"
+        },
+        "tllm/gemini_2_0_flash": {
+          "name": "tllm/gemini_2_0_flash"
+        },
+        "tllm/gemini_1_5_flash": {
+          "name": "tllm/gemini_1_5_flash"
+        },
+        "tllm/CLAUDE_4_6_OPUS": {
+          "name": "tllm/CLAUDE_4_6_OPUS"
+        },
+        "tllm/CLAUDE_4_6_SONNET": {
+          "name": "tllm/CLAUDE_4_6_SONNET"
+        },
+        "tllm/CLAUDE_4_5_HAIKU": {
+          "name": "tllm/CLAUDE_4_5_HAIKU"
+        },
+        "tllm/openrouter_gpt_4_o": {
+          "name": "tllm/openrouter_gpt_4_o"
+        },
+        "tllm/openrouter_gpt_4_o_mini": {
+          "name": "tllm/openrouter_gpt_4_o_mini"
+        },
+        "tllm/openrouter_grok_4": {
+          "name": "tllm/openrouter_grok_4"
+        },
+        "tllm/together_deepseek_v3": {
+          "name": "tllm/together_deepseek_v3"
+        },
+        "tllm/openrouter_deepseek_r1": {
+          "name": "tllm/openrouter_deepseek_r1"
+        },
+        "tllm/sonar-pro": {
+          "name": "tllm/sonar-pro"
+        },
+        "tllm/GPT_4o": {
+          "name": "tllm/GPT_4o"
+        },
+        "tllm/claude_opus_4": {
+          "name": "tllm/claude_opus_4"
+        },
+        "tllm/claude_sonnet_4": {
+          "name": "tllm/claude_sonnet_4"
+        },
+        "tllm/claude_haiku_3_5": {
+          "name": "tllm/claude_haiku_3_5"
+        },
+        "tllm/deepseek_v4": {
+          "name": "tllm/deepseek_v4"
+        },
+        "tllm/gemini_3_flash": {
+          "name": "tllm/gemini_3_flash"
+        }
+      }
+    }
+  }
+}
