@@ -1,11 +1,11 @@
-font-family = JetBrains Mono Nerd Font
+# font-family = JetBrains Mono Nerd Font
 # font-family = GeistMono NF
 # font-family = DankMono Nerd Font
 # font-family = SF Mono
 # font-family = Cascadia Code NF
-# font-family = Iosevka Nerd Font
+font-family = Iosevka Nerd Font
 
-font-size = 10
+font-size = 9
 font-style = Regular
 font-style-bold = Bold
 font-style-italic = Italic
