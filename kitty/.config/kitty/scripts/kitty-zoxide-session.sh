@@ -100,7 +100,7 @@ find_session_by_path() {
   done < <(
     $KITTY ls 2>/dev/null | jq -r '
       .[]?.tabs[]?.windows[]?
-      | [(.title // ""), (.env.PWD // .cwd // "")]
+      | [(.title // ""), (.cwd // "")]
       | @tsv
     '
   )
@@ -183,8 +183,6 @@ focus_or_launch_dir() {
 layout tall
 cd ${selected_real}
 launch --title "${base}"
-focus
-focus_os_window
 EOF
 
   $KITTY action goto_session "$session_file"
@@ -204,8 +202,6 @@ focus_or_launch_ssh() {
 # Created: $(date -Iseconds)
 layout tall
 launch --title "ssh-${host}" ssh ${host}
-focus
-focus_os_window
 EOF
 
   $KITTY action goto_session "$session_file"

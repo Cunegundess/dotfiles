@@ -24,7 +24,7 @@ build_menu_lines() {
         | $os.tabs[] as $tab
         | $tab.windows[]?
         | {
-            cwd: (.env.PWD // .cwd),
+            cwd: .cwd,
             title: .title,
             os_focused: ($os.is_focused // false),
             tab_focused: ($tab.is_focused // false),
