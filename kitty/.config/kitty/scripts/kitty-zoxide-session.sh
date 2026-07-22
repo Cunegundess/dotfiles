@@ -5,12 +5,40 @@
 # or create it if it doesn't exist.
 # Also supports SSH host entries from ~/.ssh/config.
 
-set -euo pipefail
+set -uo pipefail
 
 KITTY_SOCKET="/tmp/kitty-${KITTY_PID}"
 KITTY="kitten @ --to $KITTY_SOCKET"
 SESSIONS_DIR="${HOME}/.config/kitty/sessions"
 SCRIPT_PATH="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/$(basename -- "${BASH_SOURCE[0]}")"
+
+# ─── Reload handler (called by fzf --reload) ──────────────
+# Must be before require_cmd checks so fzf reload works
+if [[ "${1:-}" == "--reload" ]]; then
+  zoxide query -l 2>/dev/null | awk -v OFS='\t' '{
+    path=$0; n=split(path, parts, "/"); base=parts[n]
+    if (base == "") base=path
+    printf "%s\t%s  %s\n", path, base, path
+  }'
+  # SSH entries
+  if [[ -f "$HOME/.ssh/config" ]]; then
+    awk '{
+      sub(/[ \t]*#.*/, "")
+      if (tolower($1) == "host") {
+        for (i = 2; i <= NF; i++) {
+          h = $i
+          if (h ~ /^[!]/) continue
+          if (h ~ /[\\*?]/) continue
+          print h
+        }
+      }
+    }' "$HOME/.ssh/config" 2>/dev/null | sort -u | while IFS= read -r host; do
+      [[ -z "$host" ]] && continue
+      printf "%s\tssh-%s\n" "ssh:${host}" "$host"
+    done
+  fi
+  exit 0
+fi
 
 require_cmd() {
   local cmd="$1" hint="$2"

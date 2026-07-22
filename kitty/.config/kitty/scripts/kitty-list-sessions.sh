@@ -1,41 +1,19 @@
 #!/usr/bin/env bash
 
-# Adapted from linkarzu's kitty-list-sessions.sh
 # Shows open kitty windows in fzf and switches between them
 # Groups by CWD (each directory = a "session")
 # Vim-like modes:
 # - Normal mode: j/k move, d close, enter open, i insert, esc quit
 # - Insert mode: type to filter, enter open, esc normal
 
-set -euo pipefail
-
-default_mode="insert"
+set -uo pipefail
 
 KITTY_SOCKET="/tmp/kitty-${KITTY_PID}"
 KITTY="kitten @ --to $KITTY_SOCKET"
 
-set_cursor_block() {
-  printf '\e[2 q' >/dev/tty
-}
-
-set_cursor_bar() {
-  printf '\e[6 q' >/dev/tty
-}
-
-trap 'set_cursor_bar' EXIT
-
-if ! command -v fzf >/dev/null 2>&1; then
-  echo "fzf is not installed." >&2; exit 1
-fi
-
-if ! command -v jq >/dev/null 2>&1; then
-  echo "jq is not installed." >&2; exit 1
-fi
-
-if [[ ! -S "$KITTY_SOCKET" ]]; then
-  echo "No kitty socket. Ensure kitty is running with remote control." >&2
-  exit 1
-fi
+if ! command -v fzf >/dev/null 2>&1; then echo "fzf not found." >&2; exit 1; fi
+if ! command -v jq >/dev/null 2>&1; then echo "jq not found." >&2; exit 1; fi
+if [[ ! -S "$KITTY_SOCKET" ]]; then echo "No kitty socket." >&2; exit 1; fi
 
 build_menu_lines() {
   local sessions_tsv=""
@@ -74,9 +52,7 @@ build_menu_lines() {
     '
   )"
 
-  if [[ -z "${sessions_tsv:-}" ]]; then
-    return 1
-  fi
+  [[ -z "${sessions_tsv:-}" ]] && return 1
 
   printf "%s\n" "$sessions_tsv" | awk -F'\t' -v home="${HOME}" '{
     cwd=$1; title=$2; os_focused=$3; tab_focused=$4; win_id=$5
@@ -94,6 +70,7 @@ build_menu_lines() {
   }'
 }
 
+default_mode="insert"
 mode="$default_mode"
 fzf_start_pos=""
 
@@ -106,7 +83,7 @@ while true; do
   fzf_out=""; fzf_rc=0
 
   if [[ "$mode" == "normal" ]]; then
-    set_cursor_block; set +e
+    set +e
     fzf_start_pos_opt=()
     if [[ -n "${fzf_start_pos:-}" && "$fzf_start_pos" -gt 1 ]]; then
       fzf_start_action="down"
@@ -128,7 +105,7 @@ while true; do
     )"
     fzf_rc=$?; fzf_start_pos=""; set -e
   else
-    set_cursor_bar; set +e
+    set +e
     fzf_out="$(
       printf "%s\n" "$menu_lines" |
         fzf --ansi --height=100% --reverse \
