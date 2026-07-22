@@ -82,31 +82,6 @@ hash_path() {
   fi
 }
 
-session_exists() {
-  local name="$1"
-  $KITTY ls 2>/dev/null | jq -e --arg name "$name" '
-    any(.[]?.tabs[]?.windows[]?; .title == $name)
-  ' >/dev/null 2>&1
-}
-
-find_session_by_path() {
-  local target="$1"
-  local name="" pwd="" real=""
-  while IFS=$'\t' read -r name pwd; do
-    [[ -z "$name" || -z "$pwd" ]] && continue
-    [[ ! -d "$pwd" ]] && continue
-    real="$(normalize_path "$pwd")"
-    [[ "$real" == "$target" ]] && { printf "%s" "$name"; return 0; }
-  done < <(
-    $KITTY ls 2>/dev/null | jq -r '
-      .[]?.tabs[]?.windows[]?
-      | [(.title // ""), (.cwd // "")]
-      | @tsv
-    '
-  )
-  return 1
-}
-
 print_menu_lines() {
   zoxide query -l 2>/dev/null | awk -v OFS='\t' '{
     path=$0
@@ -140,10 +115,22 @@ print_ssh_menu_lines() {
   done
 }
 
+# ─── Directory sessions ─────────────────────────────────────
+#
+# NOTE: we deliberately do NOT try to detect "is this session already
+# open" by comparing kitty window cwd's. That approach is fragile:
+# it breaks the moment the user `cd`s inside the shell, and kitty
+# already solves this problem natively via `goto_session`, which
+# tracks sessions by their file path and switches to them if already
+# loaded, or loads them fresh if not.
+#
+# So: compute a deterministic session file name for the directory
+# (keyed off the FULL real path, not just basename, to avoid
+# collisions between differently-located dirs with the same name),
+# write it once if missing, and always hand off to goto_session.
 focus_or_launch_dir() {
   local selected_path="$1"
-  local selected_real="" base="" safe_base="" hash="" short_name="" session_name=""
-  local existing_session="" session_file=""
+  local selected_real="" base="" safe_base="" hash="" session_name="" session_file=""
 
   if [[ ! -d "$selected_path" ]]; then
     echo "Directory not found: $selected_path" >&2; exit 1
@@ -151,39 +138,22 @@ focus_or_launch_dir() {
 
   selected_real="$(normalize_path "$selected_path")"
 
-  # Check if already open
-  existing_session="$(find_session_by_path "$selected_real" 2>/dev/null || true)"
-  if [[ -n "$existing_session" ]]; then
-    $KITTY ls 2>/dev/null | jq -r --arg cwd "$selected_real" '
-      .[].tabs[].windows[] | select(.cwd == $cwd) | .id
-    ' 2>/dev/null | head -1 | while read -r win_id; do
-      $KITTY focus-window --match "id:$win_id" 2>/dev/null
-    done
-    zoxide add -- "$selected_real" >/dev/null 2>&1 || true
-    return 0
-  fi
-
-  # Create new session
   base="$(basename "$selected_path")"
   safe_base="$(printf "%s" "$base" | tr -cs 'A-Za-z0-9._-' '_')"
   hash="$(hash_path "$selected_real")"
-  hash="${hash:0:4}"
-  short_name="z-${safe_base}"
-  session_name="$short_name"
-
-  if session_exists "$short_name"; then
-    session_name="${short_name}-${hash}"
-  fi
-
+  hash="${hash:0:8}"
+  session_name="z-${safe_base}-${hash}"
   session_file="${SESSIONS_DIR}/${session_name}.kitty-session"
 
-  cat >"$session_file" <<EOF
+  if [[ ! -f "$session_file" ]]; then
+    cat >"$session_file" <<EOF
 # Session: ${session_name}
 # Created: $(date -Iseconds)
 layout tall
 cd ${selected_real}
 launch --title "${base}"
 EOF
+  fi
 
   $KITTY action goto_session "$session_file"
   zoxide add -- "$selected_real" >/dev/null 2>&1 || true
@@ -196,13 +166,15 @@ focus_or_launch_ssh() {
   safe_host="$(printf "%s" "$host" | tr -cs 'A-Za-z0-9._-' '_')"
   session_file="${SESSIONS_DIR}/ssh-${safe_host}.kitty-session"
 
-  cat >"$session_file" <<EOF
+  if [[ ! -f "$session_file" ]]; then
+    cat >"$session_file" <<EOF
 # Session: ${host}
 # Type: ssh
 # Created: $(date -Iseconds)
 layout tall
 launch --title "ssh-${host}" ssh ${host}
 EOF
+  fi
 
   $KITTY action goto_session "$session_file"
 }
