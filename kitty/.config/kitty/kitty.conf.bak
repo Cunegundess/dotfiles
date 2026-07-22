@@ -19,19 +19,19 @@
 #: heavy. Setting them manually is useful for font families that have
 #: many weight variants like Book, Medium, Thick, etc. For example:
 
-font_family      JetBrainsMono NF
-bold_font        JetBrainsMono NF Bold
-italic_font      JetBrainsMono NF Italic
-bold_italic_font JetBrainsMono NF Bold Italic
+# font_family      JetBrainsMono NF
+# bold_font        auto
+# italic_font      auto
+# bold_italic_font auto
 
 # font_family      Cascadia Code NF
 # bold_font        Cascadia Code NF Bold
 # italic_font      Cascadia Code NF Italic
 # bold_italic_font Cascadia Code NF Bold Italic
 
-adjust_line_height 0
+adjust_line_height 5
 
-font_size 09.0
+font_size 11.0
 
 #: Font size (in pts)
 
@@ -81,7 +81,7 @@ font_size 09.0
 
 #:     narrow_symbols codepoints [optionally the number of cells]
 
-# disable_ligatures never
+disable_ligatures never
 
 #: Choose how you want to handle multi-character ligatures. The
 #: default is to always render them. You can tell kitty to not render
@@ -278,7 +278,7 @@ font_size 09.0
 #: so if you want to override it, place your value after the lines
 #: where the theme file is included.
 
-# cursor_shape block
+cursor_shape block
 
 #: The cursor shape can be one of block, beam, underline. Note that
 #: when reloading the config this will be changed only if the cursor
@@ -289,7 +289,7 @@ font_size 09.0
 #: the cursor shape to beam at shell prompts. You can avoid this by
 #: setting shell_integration to no-cursor.
 
-# cursor_beam_thickness 1.5
+cursor_beam_thickness 1.5
 
 #: The thickness of the beam cursor (in pts).
 
@@ -840,7 +840,7 @@ enable_audio_bell no
 #: set the vertical and horizontal sides. Three values set top,
 #: horizontal and bottom. Four values set top, right, bottom and left.
 
-window_padding_width 15
+window_padding_width 0
 
 #: The window padding (in pts) (blank area between the text and the
 #: window border). A single value sets all four sides. Two values set
@@ -2476,6 +2476,14 @@ map kitty_mod+, load_config_file
 
 
 # BEGIN_KITTY_THEME
-# Github
+# GitHub Dark
 include current-theme.conf
 # END_KITTY_THEME
+
+
+# BEGIN_KITTY_FONTS
+font_family      family="FiraCode Nerd Font"
+bold_font        auto
+italic_font      auto
+bold_italic_font auto
+# END_KITTY_FONTS
