@@ -7,7 +7,8 @@
 
 set -uo pipefail
 
-KITTY_SOCKET="/tmp/kitty-${KITTY_PID}"
+KITTY_SOCKET_PATH="/tmp/kitty-${KITTY_PID}"
+KITTY_SOCKET="unix:${KITTY_SOCKET_PATH}"
 KITTY="kitten @ --to $KITTY_SOCKET"
 SESSIONS_DIR="${HOME}/.config/kitty/sessions"
 SCRIPT_PATH="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/$(basename -- "${BASH_SOURCE[0]}")"
@@ -51,7 +52,7 @@ require_cmd fzf "Install: yay -S fzf or sudo dnf install fzf"
 require_cmd jq "Install: yay -S jq or sudo dnf install jq"
 require_cmd zoxide "Install: yay -S zoxide"
 
-if [[ ! -S "$KITTY_SOCKET" ]]; then
+if [[ ! -S "$KITTY_SOCKET_PATH" ]]; then
   echo "No kitty socket. Ensure kitty is running with remote control." >&2
   exit 1
 fi

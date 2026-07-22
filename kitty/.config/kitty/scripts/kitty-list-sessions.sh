@@ -8,12 +8,13 @@
 
 set -uo pipefail
 
-KITTY_SOCKET="/tmp/kitty-${KITTY_PID}"
+KITTY_SOCKET_PATH="/tmp/kitty-${KITTY_PID}"
+KITTY_SOCKET="unix:${KITTY_SOCKET_PATH}"
 KITTY="kitten @ --to $KITTY_SOCKET"
 
 if ! command -v fzf >/dev/null 2>&1; then echo "fzf not found." >&2; exit 1; fi
 if ! command -v jq >/dev/null 2>&1; then echo "jq not found." >&2; exit 1; fi
-if [[ ! -S "$KITTY_SOCKET" ]]; then echo "No kitty socket." >&2; exit 1; fi
+if [[ ! -S "$KITTY_SOCKET_PATH" ]]; then echo "No kitty socket." >&2; exit 1; fi
 
 build_menu_lines() {
   local sessions_tsv=""
