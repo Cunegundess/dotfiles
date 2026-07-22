@@ -5,6 +5,10 @@ keymap('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic qu
 keymap('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 keymap('t', '<C-[>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
+keymap('n', '<leader>tv', '<cmd>vsp term://zsh<CR>', { desc = 'Terminal vertical split' })
+keymap('n', '<leader>ts', '<cmd>sp term://zsh<CR>', { desc = 'Terminal horizontal split' })
+keymap('n', '<leader>tt', '<cmd>tabnew term://zsh<CR>', { desc = 'Terminal new tab' })
+
 keymap('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 keymap('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 keymap('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
