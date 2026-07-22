@@ -68,7 +68,7 @@ export VISUAL="nvim"
 export SUDO_EDITOR="nvim"
 
 ### ┌───────────────────────────────────────────────┐
-### │             Histórico do shell               │
+### │             Histórico do shell                │
 ### └───────────────────────────────────────────────┘
 
 setopt histignorealldups sharehistory
@@ -77,7 +77,7 @@ SAVEHIST=1000
 HISTFILE=~/.zsh_history
 
 ### ┌───────────────────────────────────────────────┐
-### │        Configurações de completação           │
+### │        Configurações de complete              │
 ### └───────────────────────────────────────────────┘
 
 zstyle ':completion:*' auto-description 'specify: %d'
@@ -95,7 +95,7 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 ### ┌───────────────────────────────────────────────┐
-### │              Alias e atalhos                 │
+### │              Alias e atalhos                  │
 ### └───────────────────────────────────────────────┘
 
 alias wifi="nmtui"
