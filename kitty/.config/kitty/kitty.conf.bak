@@ -29,9 +29,9 @@
 # italic_font      Cascadia Code NF Italic
 # bold_italic_font Cascadia Code NF Bold Italic
 
-adjust_line_height 5
+# adjust_line_height 5
 
-font_size 11.0
+# font_size 11.0
 
 #: Font size (in pts)
 
@@ -81,7 +81,7 @@ font_size 11.0
 
 #:     narrow_symbols codepoints [optionally the number of cells]
 
-disable_ligatures never
+# disable_ligatures never
 
 #: Choose how you want to handle multi-character ligatures. The
 #: default is to always render them. You can tell kitty to not render
@@ -278,7 +278,7 @@ disable_ligatures never
 #: so if you want to override it, place your value after the lines
 #: where the theme file is included.
 
-cursor_shape block
+# cursor_shape block
 
 #: The cursor shape can be one of block, beam, underline. Note that
 #: when reloading the config this will be changed only if the cursor
@@ -289,7 +289,7 @@ cursor_shape block
 #: the cursor shape to beam at shell prompts. You can avoid this by
 #: setting shell_integration to no-cursor.
 
-cursor_beam_thickness 1.5
+# cursor_beam_thickness 1.5
 
 #: The thickness of the beam cursor (in pts).
 
@@ -428,7 +428,7 @@ cursor_beam_thickness 1.5
 #: specified using backslash escapes, to specify a backslash use a
 #: double backslash.
 
-show_hyperlink_targets yes
+# show_hyperlink_targets yes
 
 #: When the mouse hovers over a terminal hyperlink, show the actual
 #: URL that will be activated when the hyperlink is clicked.
@@ -443,7 +443,7 @@ show_hyperlink_targets yes
 #: value to/from always will only affect text subsequently received by
 #: kitty.
 
-copy_on_select no
+# copy_on_select no
 
 #: Copy to clipboard or a private buffer on select. With this set to
 #: clipboard, selecting text with the mouse will cause the text to be
@@ -460,7 +460,7 @@ copy_on_select no
 #: programs, including websites open in your browser can read the
 #: contents of the system clipboard.
 
-paste_actions quote-urls-at-prompt,confirm
+# paste_actions quote-urls-at-prompt,confirm
 
 #: A comma separated list of actions to take when pasting text into
 #: the terminal. The supported paste actions are:
@@ -705,7 +705,7 @@ paste_actions quote-urls-at-prompt,confirm
 #: refresh rate. Also, to minimize latency when there is pending input
 #: to be processed, this option is ignored.
 
-input_delay 2
+# input_delay 2
 
 #: Delay before input from the program running in the terminal is
 #: processed (in milliseconds). Note that decreasing it will increase
@@ -726,7 +726,7 @@ input_delay 2
 
 #: Terminal bell {{{
 
-enable_audio_bell no
+# enable_audio_bell no
 
 #: The audio bell. Useful to disable it in environments that require
 #: silence.
@@ -840,7 +840,7 @@ enable_audio_bell no
 #: set the vertical and horizontal sides. Three values set top,
 #: horizontal and bottom. Four values set top, right, bottom and left.
 
-window_padding_width 0
+# window_padding_width 0
 
 #: The window padding (in pts) (blank area between the text and the
 #: window border). A single value sets all four sides. Two values set
@@ -946,7 +946,7 @@ window_padding_width 0
 #: insensitive, from the set 0-9A-Z\-=[];',./\\`. Specify your
 #: preference as a string of characters.
 
-confirm_os_window_close 0
+# confirm_os_window_close 0
 
 #: Ask for confirmation when closing an OS window or a tab with at
 #: least this number of kitty windows in it by window manager (e.g.
@@ -1133,7 +1133,7 @@ confirm_os_window_close 0
 
 #: The foreground and background colors.
 
-background_opacity 1
+# background_opacity 1
 
 #: The opacity of the background. A number between zero and one, where
 #: one is opaque and zero is fully transparent. This will only work if
@@ -1157,7 +1157,7 @@ background_opacity 1
 #: this option when reloading the config will only work if
 #: dynamic_background_opacity was enabled in the original config.
 
-background_blur 0
+# background_blur 0
 
 #: Set to a positive value to enable background blur (blurring of the
 #: visuals behind a transparent window) on platforms that support it.
@@ -1185,7 +1185,7 @@ background_blur 0
 #: When background image is scaled, whether linear interpolation
 #: should be used.
 
-dynamic_background_opacity yes
+# dynamic_background_opacity yes
 
 #: Allow changing of the background_opacity dynamically, using either
 #: keyboard shortcuts (increase_background_opacity and
@@ -1308,7 +1308,7 @@ dynamic_background_opacity yes
 #: interactive mode and reads its startup rc files. Environment
 #: variables are expanded in this setting.
 
-editor nvim
+# editor nvim
 
 #: The terminal based text editor (such as vim or nano) to use when
 #: editing the kitty config file or similar tasks.
@@ -1474,7 +1474,7 @@ editor nvim
 #: in the path are expanded. Changing this option by reloading the
 #: config is not supported.
 
-clipboard_control write-clipboard write-primary read-clipboard-ask read-primary-ask
+# clipboard_control write-clipboard write-primary read-clipboard-ask read-primary-ask
 
 #: Allow programs running in kitty to read and write from the
 #: clipboard. You can control exactly which actions are allowed. The
@@ -1487,7 +1487,7 @@ clipboard_control write-clipboard write-primary read-clipboard-ask read-primary-
 #: remote server via SSH can read your clipboard. See also
 #: clipboard_max_size.
 
-clipboard_max_size 512
+# clipboard_max_size 512
 
 #: The maximum size (in MB) of data from programs running in kitty
 #: that will be stored for writing to the system clipboard. A value of
@@ -1503,7 +1503,7 @@ clipboard_max_size 512
 #: remote machine to read/write to the local filesystem, without
 #: permission.
 
-allow_hyperlinks yes
+# allow_hyperlinks yes
 
 #: Process hyperlink escape sequences (OSC 8). If disabled OSC 8
 #: escape sequences are ignored. Otherwise they become clickable
@@ -1512,7 +1512,7 @@ allow_hyperlinks yes
 #: special value of ask means that kitty will ask before opening the
 #: link when clicked.
 
-shell_integration enabled
+# shell_integration enabled
 
 #: Enable shell integration on supported shells. This enables features
 #: such as jumping to previous prompts, browsing the output of the
@@ -1783,7 +1783,7 @@ shell_integration enabled
 #: The full list of actions that can be mapped to key presses is
 #: available here <https://sw.kovidgoyal.net/kitty/actions/>.
 
-kitty_mod ctrl+shift
+# kitty_mod ctrl+shift
 
 #: Special modifier key alias for default shortcuts. You can change
 #: the value of this option to alter all default shortcuts that use
@@ -2183,19 +2183,19 @@ kitty_mod ctrl+shift
 
 #: Increase font size
 
-map kitty_mod+equal  change_font_size all +1.0
-map kitty_mod+plus   change_font_size all +1.0
-map kitty_mod+kp_add change_font_size all +1.0
-map cmd+plus         change_font_size all +1.0
-map cmd+equal        change_font_size all +1.0
-map shift+cmd+equal  change_font_size all +1.0
+# map kitty_mod+equal  change_font_size all +1.0
+# map kitty_mod+plus   change_font_size all +1.0
+# map kitty_mod+kp_add change_font_size all +1.0
+# map cmd+plus         change_font_size all +1.0
+# map cmd+equal        change_font_size all +1.0
+# map shift+cmd+equal  change_font_size all +1.0
 
 #: Decrease font size
 
-map kitty_mod+minus       change_font_size all -1.0
-map kitty_mod+kp_subtract change_font_size all -1.0
-map cmd+minus             change_font_size all -1.0
-map shift+cmd+minus       change_font_size all -1.0
+# map kitty_mod+minus       change_font_size all -1.0
+# map kitty_mod+kp_subtract change_font_size all -1.0
+# map cmd+minus             change_font_size all -1.0
+# map shift+cmd+minus       change_font_size all -1.0
 
 #: Reset font size
 
@@ -2393,7 +2393,7 @@ map shift+cmd+minus       change_font_size all -1.0
 
 #: Reload kitty.conf
 
-map kitty_mod+, load_config_file
+# map kitty_mod+, load_config_file
 # map ctrl+cmd+,   load_config_file
 
 #::  Reload kitty.conf, applying any changes since the last time it
@@ -2480,9 +2480,8 @@ map kitty_mod+, load_config_file
 include current-theme.conf
 # END_KITTY_THEME
 
-
 # BEGIN_KITTY_FONTS
-font_family      family="FiraCode Nerd Font"
+font_family      family="JetBrainsMono Nerd Font"
 bold_font        auto
 italic_font      auto
 bold_italic_font auto
