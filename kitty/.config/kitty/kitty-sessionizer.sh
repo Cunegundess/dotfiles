@@ -74,7 +74,7 @@ main() {
   fi
 
   # Check if a kitty window is already open at this directory
-  local existing_window
+  local existing_window existing_tab
   existing_window=$($KITTY ls 2>/dev/null | python3 -c "
 import sys, json
 data = json.load(sys.stdin)
@@ -89,6 +89,21 @@ for os_win in data:
 " 2>/dev/null)
 
   if [[ -n "$existing_window" ]]; then
+    existing_tab=$($KITTY ls 2>/dev/null | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+target_id = $existing_window
+for os_win in data:
+    for tab in os_win['tabs']:
+        for win in tab['windows']:
+            if win['id'] == target_id:
+                print(tab['id'])
+                sys.exit(0)
+" 2>/dev/null)
+
+    if [[ -n "$existing_tab" ]]; then
+      $KITTY focus-tab --match "id:$existing_tab"
+    fi
     $KITTY focus-window --match "id:$existing_window"
     exit 0
   fi
