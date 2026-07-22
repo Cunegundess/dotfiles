@@ -6,16 +6,16 @@ local mux = wezterm.mux
 -- =============================================================================
 -- Aparência
 -- =============================================================================
-config.color_scheme = "GitHub Dark"
-config.font = wezterm.font("GeistMono NF", { weight = "Regular" })
+config.color_scheme = "Vesper"
+config.font = wezterm.font("JetBrainsMono Nerd Font", { weight = "Regular" })
 config.font_size = 10
 config.line_height = 1.5
 config.default_cursor_style = "BlinkingBlock"
 
-config.window_background_opacity = 0.9
-config.window_padding = { left = 20, right = 20, top = 20, bottom = 20 }
+config.window_background_opacity = 1
+-- config.window_padding = { left = 20, right = 20, top = 20, bottom = 20 }
 config.window_frame = {
-	font = wezterm.font("GeistMono NF", { weight = "Bold" }),
+	font = wezterm.font("JetBrainsMono Nerd Font", { weight = "Bold" }),
 	font_size = 10,
 }
 config.initial_cols = 180
@@ -115,8 +115,8 @@ local workspace_keys = {
 -- Keybindings: Panes (split, navegação, resize, zoom)
 -- =============================================================================
 local pane_keys = {
-	{ key = "v", mods = "ALT", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
-	{ key = "s", mods = "ALT", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+	{ key = "s", mods = "ALT", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
+	{ key = "v", mods = "ALT", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
 	{ key = "m", mods = "ALT", action = act.RotatePanes("Clockwise") },
 
 	{ key = "h", mods = "ALT", action = act.ActivatePaneDirection("Left") },
