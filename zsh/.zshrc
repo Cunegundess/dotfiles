@@ -54,7 +54,6 @@ zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light Aloxaf/fzf-tab
 zinit light MichaelAquilina/zsh-auto-notify
-bindkey -v
 
 ### ┌───────────────────────────────────────────────┐
 ### │           Comportamento e Estilo             │
@@ -131,23 +130,23 @@ export PATH="$HOME/.config/emacs/bin/doom:$PATH"
 # FZF (se instalado)
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# FZF
-if [[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
-  source /usr/share/doc/fzf/examples/key-bindings.zsh
-fi
-
-# Ctrl+R no modo de inserção do vi
-bindkey -M viins '^R' fzf-history-widget
-
 # FZF keybindings e completions
 # [[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]] && source /usr/share/doc/fzf/examples/key-bindings.zsh
-[[ -f /usr/share/doc/fzf/examples/completion.zsh ]] && source /usr/share/doc/fzf/examples/completion.zsh
+# [[ -f /usr/share/doc/fzf/examples/completion.zsh ]] && source /usr/share/doc/fzf/examples/completion.zsh
+
+if [[ -f /usr/share/fzf/shell/key-bindings.zsh ]]; then
+  source /usr/share/fzf/shell/key-bindings.zsh
+fi
+
+if [[ -f /usr/share/fzf/shell/completion.zsh ]]; then
+  source /usr/share/fzf/shell/completion.zsh
+fi
+
+bindkey -v
 
 # Zoxide
 eval "$(zoxide init zsh)"
 
-# Starship prompt
-eval "$(starship init zsh)"
 
 # Comando wrapper para yazi (alternativa ao ranger)
 function y() {
@@ -231,3 +230,7 @@ export PATH=/home/lucas/.opencode/bin:$PATH
 
 # NPM global bin (added by Qwen Code installer)
 export PATH="$HOME/.npm-global/bin:$PATH"
+
+# Starship prompt
+eval "$(starship init zsh)"
+
