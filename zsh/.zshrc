@@ -1,5 +1,5 @@
 ### ┌───────────────────────────────────────────────┐
-### │            Inicialização do Zsh              │
+### │            Inicialização do Zsh               │
 ### └───────────────────────────────────────────────┘
 
 # Desliga integração WezTerm dentro do :term do Neovim
@@ -131,8 +131,16 @@ export PATH="$HOME/.config/emacs/bin/doom:$PATH"
 # FZF (se instalado)
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# FZF
+if [[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
+  source /usr/share/doc/fzf/examples/key-bindings.zsh
+fi
+
+# Ctrl+R no modo de inserção do vi
+bindkey -M viins '^R' fzf-history-widget
+
 # FZF keybindings e completions
-[[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]] && source /usr/share/doc/fzf/examples/key-bindings.zsh
+# [[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]] && source /usr/share/doc/fzf/examples/key-bindings.zsh
 [[ -f /usr/share/doc/fzf/examples/completion.zsh ]] && source /usr/share/doc/fzf/examples/completion.zsh
 
 # Zoxide
@@ -197,7 +205,7 @@ if [[ "$INSIDE_EMACS" = 'vterm' ]] \
 fi
 
 ### ┌───────────────────────────────────────────────┐
-### │                  PATHs                       │
+### │                  PATHs                        │
 ### └───────────────────────────────────────────────┘
 
 export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
