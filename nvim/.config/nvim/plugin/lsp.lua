@@ -1,4 +1,5 @@
 vim.lsp.config('ruff', {})
+vim.lsp.config('jdtls', {})
 
 vim.lsp.config('lua-ls', {
   settings = {
@@ -38,6 +39,7 @@ vim.lsp.enable({
   'basedpyright',
   'ruff',
   'lua-ls',
+  'jdtls'
 })
 
 vim.diagnostic.config({
