@@ -1,7 +1,56 @@
-vim.lsp.config('ruff', {})
-vim.lsp.config('jdtls', {})
+local function jdtls_bundles()
+  local mason = vim.fn.stdpath('data') .. '/mason/packages'
+  local bundles = {}
+  for _, jar in ipairs(vim.fn.glob(mason .. '/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar', false, true)) do
+    table.insert(bundles, jar)
+  end
+  for _, jar in ipairs(vim.fn.glob(mason .. '/java-test/extension/server/com.microsoft.java.test.plugin-*.jar', false, true)) do
+    table.insert(bundles, jar)
+  end
+  return bundles
+end
+
+vim.lsp.config('ruff', {
+  filetypes = { 'python' },
+  root_markers = { 'pyproject.toml', 'setup.py', 'setup.cfg', 'requirements.txt', 'Pipfile', '.git' },
+})
+
+vim.lsp.config('jdtls', {
+  cmd = function(dispatchers, config)
+    local data = vim.fn.stdpath('cache') .. '/jdtls/workspace'
+    if config.root_dir then
+      data = data .. '/' .. vim.fn.fnamemodify(config.root_dir, ':p:h:t')
+    end
+    return vim.lsp.rpc.start({
+      'jdtls', '-data', data,
+      '--jvm-arg=-Xmx2G',
+      '--jvm-arg=-XX:+UseParallelGC',
+      '--jvm-arg=-XX:GCTimeRatio=4',
+    }, dispatchers, { cwd = config.cmd_cwd })
+  end,
+  filetypes = { 'java' },
+  root_markers = {
+    { 'gradlew', 'settings.gradle.kts', 'settings.gradle', '.git' },
+    { 'build.gradle.kts', 'build.gradle', 'pom.xml', 'build.xml' },
+  },
+  init_options = { bundles = jdtls_bundles() },
+  settings = {
+    java = {
+      completion = { engine = 'ecj', lazyResolveTextEdit = { enabled = true } },
+      import = { gradle = { enabled = true, wrapper = { enabled = true }, offline = { enabled = true }, annotationProcessing = { enabled = true } } },
+      eclipse = { downloadSources = true },
+      maven = { downloadSources = true },
+      implementationsCodeLens = { enabled = true },
+      referencesCodeLens = { enabled = true },
+      signatureHelp = { enabled = true },
+    },
+  },
+})
 
 vim.lsp.config('lua-ls', {
+  cmd = { 'lua-language-server' },
+  filetypes = { 'lua' },
+  root_markers = { '.luarc.json', '.luacheckrc', '.stylua.toml', '.git' },
   settings = {
     Lua = {
       diagnostics = { globals = { 'vim' } },
@@ -35,11 +84,18 @@ vim.lsp.config('basedpyright', {
   },
 })
 
+vim.lsp.config('bash-language-server', {
+  cmd = { 'bash-language-server', 'start' },
+  filetypes = { 'sh', 'bash', 'zsh' },
+  root_markers = { '.git' },
+})
+
 vim.lsp.enable({
   'basedpyright',
   'ruff',
   'lua-ls',
-  'jdtls'
+  'jdtls',
+  'bash-language-server',
 })
 
 vim.diagnostic.config({

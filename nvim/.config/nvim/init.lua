@@ -32,15 +32,34 @@ vim.pack.add({
   -- Diff
   'https://github.com/barrettruth/diffs.nvim',
 
-  -- Java
-  {
-    src = 'https://github.com/JavaHello/spring-boot.nvim',
-    version = '218c0c26c14d99feca778e4d13f5ec3e8b1b60f0',
-  },
+  -- Mason (LSP/DAP installer)
+  'https://github.com/williamboman/mason.nvim',
 
-  'https://github.com/MunifTanjim/nui.nvim',
-  'https://github.com/nvim-java/nvim-java',
+  -- Treesitter
+  'https://github.com/nvim-treesitter/nvim-treesitter',
 })
 
-require('java').setup()
+require('mason').setup()
+
+vim.schedule(function()
+  local ok, registry = pcall(require, 'mason-registry')
+  if not ok then return end
+  local packages = {
+    'jdtls', 'java-debug-adapter', 'java-test',
+    'basedpyright', 'ruff', 'lua-language-server',
+    'bash-language-server',
+  }
+  for _, name in ipairs(packages) do
+    local ok_pkg, pkg = pcall(registry.get_package, registry, name)
+    if ok_pkg and not pkg:is_installed() then
+      pkg:install()
+    end
+  end
+end)
+
+require('nvim-treesitter.config').setup({
+  ensure_installed = { 'java', 'kotlin' },
+  auto_install = true,
+  highlight = { enable = true },
+})
 require('theme')

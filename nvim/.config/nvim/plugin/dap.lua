@@ -44,6 +44,54 @@ dap.configurations.python = {
   },
 }
 
+-- Java DAP (via jdtls + java-debug-adapter)
+dap.adapters.java = function(callback, _config)
+  local client = vim.lsp.get_clients({ name = 'jdtls' })[1]
+  if not client then
+    vim.notify('jdtls not running', vim.log.levels.WARN)
+    return
+  end
+  client:exec_cmd({
+    command = 'vscode.java.startDebugSession',
+    callback = function(err, port)
+      if err or not port then return end
+      callback({ type = 'server', host = '127.0.0.1', port = tonumber(port) })
+    end,
+  })
+end
+
+dap.configurations.java = {
+  {
+    type = 'java',
+    request = 'launch',
+    name = 'Launch (enter main class)',
+    mainClass = function()
+      return vim.fn.input('Main class: ')
+    end,
+    projectName = 'Anytag',
+  },
+  {
+    type = 'java',
+    request = 'attach',
+    name = 'Android App (Anytag)',
+    hostName = 'localhost',
+    port = 5005,
+    projectName = 'Anytag',
+  },
+}
+
+vim.api.nvim_create_user_command('AdbForward', function()
+  local pkg = 'com.proxion.anytag'
+  vim.fn.system('adb forward --remove tcp:5005 2>/dev/null')
+  local pid = vim.fn.system("adb shell pidof " .. pkg):gsub('%s+', '')
+  if pid ~= '' then
+    vim.fn.system('adb forward tcp:5005 jdwp:' .. pid)
+    vim.notify('Forwarded tcp:5005 -> jdwp:' .. pid)
+  else
+    vim.notify('App not running. Start it first.', vim.log.levels.WARN)
+  end
+end, {})
+
 dap.listeners.after.event_initialized['dapui_config'] = dapui.open
 dap.listeners.before.event_terminated['dapui_config'] = dapui.close
 dap.listeners.before.event_exited['dapui_config'] = dapui.close
