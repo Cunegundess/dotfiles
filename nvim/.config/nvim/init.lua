@@ -4,6 +4,7 @@ vim.g.maplocalleader = ' '
 vim.pack.add({
   -- Theme
   'https://github.com/datsfilipe/vesper.nvim',
+  'https://github.com/folke/tokyonight.nvim',
 
   -- DAP
   'https://github.com/mfussenegger/nvim-dap',
