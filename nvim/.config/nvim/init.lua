@@ -46,6 +46,7 @@ vim.schedule(function()
   if not ok then return end
   local packages = {
     'jdtls', 'java-debug-adapter', 'java-test',
+    'kotlin-language-server', 'kotlin-debug-adapter',
     'basedpyright', 'ruff', 'lua-language-server',
     'bash-language-server',
   }

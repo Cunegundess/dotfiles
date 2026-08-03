@@ -47,6 +47,21 @@ vim.lsp.config('jdtls', {
   },
 })
 
+vim.lsp.config('kotlin_language_server', {
+  cmd = { 'kotlin-language-server' },
+  filetypes = { 'kotlin' },
+  root_markers = {
+    'settings.gradle.kts', 'settings.gradle', 'build.gradle.kts',
+    'build.gradle', 'pom.xml', '.git',
+  },
+  settings = {
+    kotlin = {
+      languageServer = { transport = 'stdio' },
+      diagnostics = { enabled = true },
+    },
+  },
+})
+
 vim.lsp.config('lua-ls', {
   cmd = { 'lua-language-server' },
   filetypes = { 'lua' },
@@ -95,6 +110,7 @@ vim.lsp.enable({
   'ruff',
   'lua-ls',
   'jdtls',
+  'kotlin_language_server',
   'bash-language-server',
 })
 
@@ -121,6 +137,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(ev)
     local map = function(mode, lhs, rhs, desc)
       vim.keymap.set(mode, lhs, rhs, { buffer = 0, desc = desc })
+    end
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    if client and client.server_capabilities.completionProvider then
+      vim.lsp.completion.enable(true, client.id)
     end
     map('n', '<bs>', function()
       vim.diagnostic.config({ virtual_lines = not vim.diagnostic.config().virtual_lines })
