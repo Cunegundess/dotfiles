@@ -4,7 +4,12 @@
     "metabase": {
       "type": "http",
       "url": "http://localhost:3000/api/mcp",
-      "enabled": true,
+      "enabled": true
     },
-  },
+    "azure-devops": {
+      "type": "local",
+      "command": ["npx", "-y", "@azure-devops/mcp", "proxionsolutions"],
+      "enabled": true
+    }
+  }
 }
