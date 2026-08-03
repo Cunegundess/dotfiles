@@ -80,6 +80,26 @@ dap.configurations.java = {
   },
 }
 
+-- Kotlin DAP (via kotlin-debug-adapter) for local Kotlin apps/tests
+dap.adapters.kotlin = {
+  type = 'executable',
+  command = vim.fn.stdpath('data') .. '/mason/bin/kotlin-debug-adapter',
+}
+
+dap.configurations.kotlin = {
+  {
+    type = 'kotlin',
+    request = 'launch',
+    name = 'Launch (enter main class)',
+    mainClass = function()
+      return vim.fn.input('Main class: ')
+    end,
+    projectRoot = function()
+      return vim.fn.getcwd()
+    end,
+  },
+}
+
 vim.api.nvim_create_user_command('AdbForward', function()
   local pkg = 'com.proxion.anytag'
   vim.fn.system('adb forward --remove tcp:5005 2>/dev/null')
