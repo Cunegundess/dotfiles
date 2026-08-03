@@ -4,9 +4,13 @@ local function jdtls_bundles()
   for _, jar in ipairs(vim.fn.glob(mason .. '/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar', false, true)) do
     table.insert(bundles, jar)
   end
-  for _, jar in ipairs(vim.fn.glob(mason .. '/java-test/extension/server/com.microsoft.java.test.plugin-*.jar', false, true)) do
-    table.insert(bundles, jar)
-  end
+  -- java-test 0.43.x is incompatible with jdtls 1.60.0 (Require-Bundle:
+  -- org.eclipse.jdt.junit4.runtime was renamed to org.eclipse.jdt.junit.runtime),
+  -- causing "Could not resolve module: com.microsoft.java.test.plugin". Re-enable
+  -- only when the Mason java-test version matches the installed jdtls.
+  -- for _, jar in ipairs(vim.fn.glob(mason .. '/java-test/extension/server/com.microsoft.java.test.plugin-*.jar', false, true)) do
+  --   table.insert(bundles, jar)
+  -- end
   return bundles
 end
 
@@ -37,7 +41,7 @@ vim.lsp.config('jdtls', {
   settings = {
     java = {
       completion = { engine = 'ecj', lazyResolveTextEdit = { enabled = true } },
-      import = { gradle = { enabled = true, wrapper = { enabled = true }, offline = { enabled = true }, annotationProcessing = { enabled = true } } },
+      import = { gradle = { enabled = true, wrapper = { enabled = true }, offline = { enabled = false }, annotationProcessing = { enabled = true } } },
       eclipse = { downloadSources = true },
       maven = { downloadSources = true },
       implementationsCodeLens = { enabled = true },
@@ -58,6 +62,7 @@ vim.lsp.config('kotlin_language_server', {
     kotlin = {
       languageServer = { transport = 'stdio' },
       diagnostics = { enabled = true },
+      compiler = { jvm = { target = '17' } },
     },
   },
 })
@@ -141,6 +146,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
     if client and client.server_capabilities.completionProvider then
       vim.lsp.completion.enable(true, client.id)
+    end
+    -- kotlin-language-server 1.3.x crashes on textDocument/documentHighlight
+    -- (KotlinLSException / NoTopLevelDescriptorProvider) whenever it re-analyzes
+    -- the buffer through a virtual file, flooding logs with error 500. Disable it.
+    if client and client.name == 'kotlin_language_server' then
+      client.server_capabilities.documentHighlightProvider = false
     end
     map('n', '<bs>', function()
       vim.diagnostic.config({ virtual_lines = not vim.diagnostic.config().virtual_lines })
