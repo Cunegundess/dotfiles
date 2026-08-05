@@ -37,6 +37,9 @@ vim.pack.add({
 
   -- Treesitter
   'https://github.com/nvim-treesitter/nvim-treesitter',
+
+  -- Render Markdown
+  'https://github.com/MeanderingProgrammer/render-markdown.nvim.git',
 })
 
 require('mason').setup()
