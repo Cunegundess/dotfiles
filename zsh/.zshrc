@@ -234,3 +234,6 @@ export PATH="$HOME/.npm-global/bin:$PATH"
 # Starship prompt
 eval "$(starship init zsh)"
 
+
+# mimocode
+export PATH=/home/lucas/.mimocode/bin:$PATH
